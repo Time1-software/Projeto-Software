@@ -1,0 +1,142 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #ffffff;
+    color: #333;
+    min-height: 100vh;     
+    display: flex;          
+    flex-direction: column; 
+}
+
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto; 
+    padding: 0 20px;
+}
+
+
+.site-header {
+    background-color: #fff;
+    padding: 15px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: 700; 
+    color: #0D6EFD; 
+}
+
+.main-nav ul {
+    list-style: none;
+    display: flex;
+    gap: 30px; 
+}
+
+.main-nav a {
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.search-bar, .user-profile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #0D6EFD; 
+    color: white;
+    cursor: pointer;
+}
+
+.search-bar {
+    width: 250px; 
+    height: 40px;
+    border-radius: 50px; 
+    justify-content: flex-start; 
+    padding-left: 15px;
+}
+
+.user-profile {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; 
+}
+
+
+.main-content {
+    padding: 60px 0;
+    text-align: center;
+
+    flex-grow: 1;
+}
+.welcome-title {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 50px;
+}
+
+.card-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px; 
+    flex-wrap: wrap; 
+}
+
+
+.card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 400px;
+    height: 300px;
+    padding: 30px;
+    text-align: left; 
+    display: flex;
+    flex-direction: column; 
+    justify-content: space-between; 
+}
+
+.card-title {
+    color: #0D6EFD; 
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.card p {
+    font-size: 16px;
+    color: #555;
+    flex-grow: 1; 
+}
+
+.card-link {
+    text-decoration: none;
+    color: #E67E22; 
+    font-weight: 600;
+    align-self: flex-end; 
+}
+
+
+.site-footer-bar {
+    height: 40px;
+    background-color: #FFCEA2; 
+}
