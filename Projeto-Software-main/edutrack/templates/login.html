@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>EduTrack — Login</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="login-container">
+    <form class="login-card" action="#" method="get">
+      <!-- Logo -->
+      <img src="EduTrack.png" alt="EduTrack" class="login-logo">
+
+      <!-- Título -->
+      <h2>Bem-vindo ao EduTrack</h2>
+      <p>Faça login para continuar</p>
+
+      <!-- Email -->
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="seu@exemplo.com"
+          required>
+      </div>
+
+      <!-- Senha -->
+      <div class="form-group">
+        <label for="senha">Senha</label>
+        <input
+          type="password"
+          id="senha"
+          name="senha"
+          placeholder="••••••••"
+          required>
+      </div>
+
+      <!-- Categoria -->
+      <div class="form-group">
+        <label>Categoria</label>
+        <div class="roles-group">
+          <input type="radio" id="role-aluno" name="role" value="aluno" required>
+          <label for="role-aluno" class="role-option">Aluno(a)</label>
+
+          <input type="radio" id="role-professor" name="role" value="professor">
+          <label for="role-professor" class="role-option">Professor(a)</label>
+
+          <input type="radio" id="role-responsavel" name="role" value="responsavel">
+          <label for="role-responsavel" class="role-option">Responsável</label>
+
+          <input type="radio" id="role-administrador" name="role" value="administrador">
+          <label for="role-administrador" class="role-option">Administrador(a)</label>
+        </div>
+      </div>
+
+      <!-- Botão de Entrar (aparece só após escolher categoria) -->
+      <div class="button-group">
+        <button type="submit" formaction="aluno.html"       data-role="aluno">Entrar</button>
+        <button type="submit" formaction="professor.html"   data-role="professor">Entrar</button>
+        <button type="submit" formaction="responsavel.html" data-role="responsavel">Entrar</button>
+        <button type="submit" formaction="administrador.html" data-role="administrador">Entrar</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

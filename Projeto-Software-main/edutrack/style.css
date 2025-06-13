@@ -1,0 +1,125 @@
+:root {
+  --orange:      #ffb74d;
+  --blue:        #2196f3;
+  --blue-dark:   #1976d2;
+  --green:       #4caf50;
+  --gray-light:  #f5f5f5;
+  --gray:        #ddd;
+  --dark:        #333;
+  --light:       #fff;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  color: var(--dark);
+}
+
+/* === Header comum, cards, form de login etc. (seu CSS pré-existente) === */
+/* ... (deixe aqui todo o resto do seu style.css atual) ... */
+
+/* ===========================================
+   ==== ESTILOS ESPECÍFICOS PARA RESPONSÁVEL
+   =========================================== */
+main {
+  padding: 2rem;
+}
+
+/* sr-only para labels ocultos */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Dashboard flexível */
+.dashboard {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+/* Linha de conexão atrás dos itens */
+.dashboard::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 5%;
+  right: 5%;
+  height: 2px;
+  background: var(--gray);
+  z-index: 0;
+}
+
+/* Cartões “Resumo” e “Chat” */
+.dashboard .card {
+  flex: 1;
+  background: var(--light);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  position: relative;
+  z-index: 1;
+}
+.dashboard .card h2 {
+  margin-bottom: 0.8rem;
+}
+.dashboard .card p {
+  color: #555;
+  margin-bottom: 1.2rem;
+}
+
+/* Ícone central */
+.center-icon {
+  flex: 0 0 auto;
+  z-index: 1;
+  background: var(--light);
+  border-radius: 50%;
+  padding: 1rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.center-icon img {
+  width: 48px;
+  height: 48px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .dashboard {
+    flex-direction: column;
+    text-align: center;
+  }
+  .dashboard::before { display: none; }
+  .center-icon { margin: 1rem 0; }
+  .dashboard .card { width: 100%; }
+}
+
+/* === Estilo Figma para o logo de fundo === */
+.logo-figma {
+  position: absolute;
+  width: 715px;
+  height: 370px;
+  left: 41px;
+  top: 296px;
+  background: url('EduTrack.png') no-repeat center center;
+  background-size: contain;
+  border-radius: 56px;
+}
