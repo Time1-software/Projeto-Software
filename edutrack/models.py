@@ -1,4 +1,7 @@
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
+from django.contrib.auth.models import User
+
 
 # Create your models here.
 class Education(models.Model):
@@ -31,3 +34,58 @@ class Nota(models.Model):
             return f'{self.disciplina} - Média: {self.media:.2f}'
         else:
             return f'{self.disciplina} - Média: -'
+
+# participacao/models.py
+
+
+class Aluno(models.Model):
+    nome = models.CharField('Nome', max_length=100)
+    matricula = models.CharField('Matrícula', max_length=20, unique=True)
+    turma = models.CharField('Turma', max_length=50)
+
+    pontualidade = models.PositiveIntegerField(
+        'Pontualidade (%)',
+        validators=[MinValueValidator(0), MaxValueValidator(100)],
+        default=0
+    )
+    participacao_aula = models.PositiveIntegerField(
+        'Participação em aula (%)',
+        validators=[MinValueValidator(0), MaxValueValidator(100)],
+        default=0
+    )
+    entregas_tarefas = models.PositiveIntegerField(
+        'Entregas de tarefas (%)',
+        validators=[MinValueValidator(0), MaxValueValidator(100)],
+        default=0
+    )
+    comportamento_funcionarios = models.PositiveIntegerField(
+        'Comportamento com funcionários (%)',
+        validators=[MinValueValidator(0), MaxValueValidator(100)],
+        default=0
+    )
+    participacao_oficinas = models.PositiveIntegerField(
+        'Participação em oficinas (%)',
+        validators=[MinValueValidator(0), MaxValueValidator(100)],
+        default=0
+    )
+    comportamento_sala = models.PositiveIntegerField(
+        'Comportamento em sala de aula (%)',
+        validators=[MinValueValidator(0), MaxValueValidator(100)],
+        default=0
+    )
+    participacao_plataformas = models.PositiveIntegerField(
+        'Participação em plataformas (%)',
+        validators=[MinValueValidator(0), MaxValueValidator(100)],
+        default=0
+    )
+
+    def __str__(self):
+        return f'{self.nome} ({self.matricula})'
+
+class Responsavel(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name="Usuário")
+    filhos = models.ManyToManyField(Aluno, verbose_name="Filhos")
+    telefone_contato = models.CharField(max_length=20, blank=True)
+
+    def __str__(self):
+        return self.user.get_full_name() or self.user.username

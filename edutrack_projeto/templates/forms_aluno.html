@@ -4,23 +4,23 @@
 <head>
   <meta charset="UTF-8">
   <title>Cadastro de Aluno – EduTrack</title>
-  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <link rel="stylesheet" href="{% static 'participacao.css' %}">
 </head>
 <body>
   <header class="site-header">
-    <a href="{% url 'aluno_list' %}" class="logo">
-      <img src="{% static 'images/logo.png' %}" alt="EduTrack Logo">
+    <a href="{% url 'aluno_lista' %}" class="logo">
+      <img src="{% static 'imgs/logo.png' %}" alt="EduTrack Logo">
     </a>
     <nav class="main-nav">
       <ul>
-        <li><a href="{% url 'aluno_list' %}">Início</a></li>
+        <li><a href="{% url 'aluno_lista' %}">Início</a></li>
         <li><a href="#">Resumo</a></li>
         <li><a href="#">Mensagens</a></li>
       </ul>
     </nav>
     <div class="header-right">
       <a href="#" class="profile-icon">
-        <img src="{% static 'images/user-icon.png' %}" alt="Usuário">
+        <img src="{% static 'imgs/user-icon.png' %}" alt="Usuário">
       </a>
     </div>
   </header>
@@ -32,7 +32,7 @@
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit" class="btn">Salvar</button>
-        <a href="{% url 'aluno_list' %}" class="btn secondary">Cancelar</a>
+        <a href="{% url 'aluno_lista' %}" class="btn secondary">Cancelar</a>
       </form>
     </div>
   </main>

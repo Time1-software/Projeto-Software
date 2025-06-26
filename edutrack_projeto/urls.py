@@ -16,8 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-
+from edutrack import views
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('dashboard.urls')), 
+    path('boletim/', views.Boletim, name='boletim_escolar'),
+    path("participacao/<int:pk>/", views.participacao, name="participacao"), 
+    path('formsAlunos/', views.aluno_create, name='forms_aluno'),
+    path('alunoLista/', views.aluno_list, name='aluno_lista'),  
+    path('dashboard/', views.dashboard_home, name='dashboard')
+    
 ]
