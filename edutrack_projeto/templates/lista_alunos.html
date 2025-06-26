@@ -4,23 +4,23 @@
 <head>
   <meta charset="UTF-8">
   <title>Lista de Alunos – EduTrack</title>
-  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <link rel="stylesheet" href="{% static 'participacao.css' %}">
 </head>
 <body>
   <header class="site-header">
-    <a href="{% url 'aluno_list' %}" class="logo">
-      <img src="{% static 'images/logo.png' %}" alt="EduTrack Logo">
+    <a href="{% url 'aluno_lista' %}" class="logo">
+      <img src="{% static 'imgs/logo.png' %}" alt="EduTrack Logo">
     </a>
     <nav class="main-nav">
       <ul>
-        <li><a href="{% url 'aluno_list' %}">Início</a></li>
+        <li><a href="{% url 'aluno_lista' %}">Início</a></li>
         <li><a href="#">Resumo</a></li>
         <li><a href="#">Mensagens</a></li>
       </ul>
     </nav>
     <div class="header-right">
       <a href="#" class="profile-icon">
-        <img src="{% static 'images/user-icon.png' %}" alt="Usuário">
+        <img src="{% static 'imgs/user-icon.png' %}" alt="Usuário">
       </a>
     </div>
   </header>
@@ -28,7 +28,7 @@
   <main>
     <div class="content-wrapper">
       <h1>Alunos Cadastrados</h1>
-      <p><a class="btn" href="{% url 'aluno_create' %}">+ Novo Aluno</a></p>
+      <p><a class="btn" href="{% url 'forms_aluno' %}">+ Novo Aluno</a></p>
       <ul class="student-list">
         {% for a in alunos %}
           <li>
