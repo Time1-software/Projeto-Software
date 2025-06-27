@@ -1,0 +1,219 @@
+/* --- Configurações Globais e Reset --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #FAF6ED;
+    color: #333;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* --- Cabeçalho (Header) --- */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    padding: 15px 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 700;
+    color: #4A90E2;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #555;
+    font-weight: 500;
+    font-size: 16px;
+    padding-bottom: 5px;
+    position: relative;
+}
+
+nav a.active {
+    font-weight: 700;
+    color: #333;
+    border-bottom: 2px solid #4A90E2;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.search-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-bar input {
+    width: 250px;
+    padding: 10px 35px 10px 15px;
+    border-radius: 20px;
+    border: none;
+    background-color: #F0F0F0;
+    font-size: 14px;
+}
+
+.search-bar .close-icon {
+    position: absolute;
+    right: 12px;
+    color: #888;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.user-profile {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: #D6EAF8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #4A90E2;
+}
+
+/* --- Conteúdo Principal (Main) --- */
+main {
+    padding-top: 30px;
+}
+
+.main-title {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.filters {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.filter-btn {
+    padding: 10px 25px;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.filter-btn.active {
+    background-color: #4A90E2;
+    color: #fff;
+    border-color: #4A90E2;
+}
+
+/* --- Quadro de Tarefas --- */
+.task-board {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+.task-column {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.task-group-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    border-radius: 15px;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+/* --- Estilos por Categoria de Tarefa --- */
+.task-group-title.today { background-color: #FF8A80; color: white; }
+.task-group-title.this-week { background-color: #FFD180; color: #AF640C; }
+.task-group-title.later { background-color: #A2D2FF; color: #1572A1; }
+.task-group-title.pending { background-color: #ABEBC6; color: #1E8449; justify-content: center; }
+
+.task-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.task-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.task-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.task-name {
+    font-weight: 600;
+    color: #333;
+}
+
+.task-note {
+    font-size: 14px;
+    color: #777;
+}
+
+/* --- Tags de Tarefa --- */
+.tag {
+    padding: 5px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.tag-today { background-color: #FFCFCF; color: #C0392B; }
+.tag-this-week { background-color: #FFEBCF; color: #AF640C; }
+.tag-later { background-color: #CFE8FF; color: #1572A1; }
+.tag-pending { background-color: #D4EFDF; color: #1E8449; align-self: flex-start; }
+
+/* --- Ícones --- */
+.feather {
+    width: 22px;
+    height: 22px;
+    stroke-width: 2;
+}

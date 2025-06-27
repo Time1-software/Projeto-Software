@@ -1,0 +1,140 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduTrack - Tarefas</title>
+    <link rel="stylesheet" href="{% static 'tarefas.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div class="header-left">
+                <div class="logo">EduTrack</div>
+                <nav>
+                    <ul>
+                        <li><a href="#">Página Inicial</a></li>
+                        <li><a href="#" class="active">Tarefas</a></li>
+                        <li><a href="#">Diário de Aprendizagem</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="header-right">
+                <div class="search-bar">
+                    <input type="text" placeholder="Value">
+                    <i data-feather="x" class="close-icon"></i>
+                </div>
+                <div class="user-profile">
+                    <i data-feather="user"></i>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <h1 class="main-title">Próximas Tarefas</h1>
+            <div class="filters">
+                <button class="filter-btn active">Todas</button>
+                <button class="filter-btn">Provas</button>
+                <button class="filter-btn">Trabalhos</button>
+            </div>
+
+            <div class="task-board">
+                <div class="task-column">
+                    <section class="task-group">
+                        <h2 class="task-group-title today">
+                            <i data-feather="calendar"></i>
+                            <span>Hoje</span>
+                        </h2>
+                        <div class="task-card">
+                            <div class="task-item">
+                                <div class="task-item-header">
+                                    <span class="task-name">Prova de Matemática</span>
+                                    <span class="tag tag-today">13h — Sala 02</span>
+                                </div>
+                                <p class="task-note">📌 Levar calculadora</p>
+                            </div>
+                            <div class="task-item">
+                                <div class="task-item-header">
+                                     <span class="task-name">Entregar resumo de História</span>
+                                     <span class="tag tag-today">Até 17h — via email</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="task-group">
+                        <h2 class="task-group-title this-week">
+                            <i data-feather="bell"></i>
+                            <span>Essa semana</span>
+                        </h2>
+                        <div class="task-card">
+                            <div class="task-item">
+                                <div class="task-item-header">
+                                    <span class="task-name">Atividade de Ciências</span>
+                                    <span class="tag tag-this-week">Entregar até sexta</span>
+                                </div>
+                                <p class="task-note">✓ Tema: Reações químicas</p>
+                            </div>
+                             <div class="task-item">
+                                <div class="task-item-header">
+                                    <span class="task-name">Redação de Português</span>
+                                    <span class="tag tag-this-week">Quarta-feira</span>
+                                </div>
+                                <p class="task-note">📝 Tema: Desigualdade Social</p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <div class="task-column">
+                    <section class="task-group">
+                        <h2 class="task-group-title later">
+                            <i data-feather="calendar"></i>
+                            <span>Daqui a uma ou mais semanas</span>
+                        </h2>
+                        <div class="task-card">
+                            <div class="task-item">
+                                <div class="task-item-header">
+                                    <span class="task-name">Feira de Ciências</span>
+                                    <span class="tag tag-later">25/04 — Tema livre</span>
+                                </div>
+                            </div>
+                            <div class="task-item">
+                                <div class="task-item-header">
+                                    <span class="task-name">Trabalho Física</span>
+                                    <span class="tag tag-later">30/04</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="task-group">
+                        <h2 class="task-group-title pending">
+                           <span>Pendentes</span>
+                        </h2>
+                        <div class="task-card">
+                            <div class="task-item">
+                                 <span class="task-name">Entrega atrasada — Geografia</span>
+                            </div>
+                            <div class="task-item">
+                                <span class="task-name">Entrega atrasada - Resumo de capítulo 3 de Filosofia</span>
+                                <span class="tag tag-pending">Vencimento: 09/04</span>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+      feather.replace();
+    </script>
+</body>
+</html>

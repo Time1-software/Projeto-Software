@@ -44,6 +44,7 @@ def participacao(request, pk):
         ('Participação em oficinas', aluno.participacao_oficinas),
         ('Comportamento em sala', aluno.comportamento_sala),
         ('Plataformas educacionais', aluno.participacao_plataformas),
+        
     ]
     media = sum(p for _, p in dados) // len(dados)
     return render(request, 'participacao.html', {
@@ -61,3 +62,35 @@ def dashboard_home(request):
     }
     
     return render(request, 'dashboard.html', context)
+
+def tarefas_home(request):
+
+    
+    return render(request, 'tarefas_provas.html')
+
+    # edutrack/views.py
+from django.shortcuts import render
+from .models import Atividade, Aluno
+from django.utils import timezone
+
+def pagina_de_tarefas(request):
+
+    aluno_atual = Aluno.objects.first() 
+    
+
+    atividades_pendentes = Atividade.objects.filter(aluno=aluno_atual, entregue=False)
+
+
+    filtro_tipo = request.GET.get('tipo') 
+    if filtro_tipo in ['PROVA', 'TRABALHO']:
+        atividades_pendentes = atividades_pendentes.filter(tipo=filtro_tipo)
+
+    context = {
+        'tarefas_hoje': [t for t in atividades_pendentes if t.status == 'hoje'],
+        'tarefas_semana': [t for t in atividades_pendentes if t.status == 'essa_semana'],
+        'tarefas_futuras': [t for t in atividades_pendentes if t.status == 'proximas_semanas'],
+        'tarefas_atrasadas': [t for t in atividades_pendentes if t.status == 'atrasada'],
+        'aluno': aluno_atual,
+    }
+
+    return render(request, 'tarefas_provas.html', context)
