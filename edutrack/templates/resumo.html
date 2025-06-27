@@ -1,0 +1,142 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Resumo do Dia — História</title>
+  <link rel="stylesheet" href="{% static 'edutrack/css/professor.css' %}">
+  <link rel="stylesheet" href="{% static 'edutrack/css/resumo.css' %}">
+</head>
+<body>
+  <header class="top-bar">
+    <img src="{% static 'edutrack/css/img/logoEdutrack.png' %}" alt="EduTrack Logo" class="logo">
+    <nav class="nav-links">
+      <a href="{% url 'home' %}">Turmas</a>
+      <a href="#" class="notificacoes">Notificações <span class="badge">2</span></a>
+    </nav>
+    <div class="search-bar">
+      <span class="icon icon-menu" aria-hidden="true"></span>
+      <input type="text" placeholder="Pesquisar">
+      <span class="icon icon-search" aria-hidden="true"></span>
+    </div>
+    <div class="profile-icon">
+      <span class="icon icon-user" aria-hidden="true"></span>
+    </div>
+  </header>
+
+  <main class="resumo-container">
+    <aside class="resumo-sidebar">
+      <div class="sidebar-header">
+        <h3>Resumos</h3>
+        <span class="bell-header" title="Notificações">&#128276;</span>
+        <span class="sidebar-search-toggle" title="Buscar">&#128269;</span>
+      </div>
+      <input type="text" class="sidebar-search-input" placeholder="Buscar resumo…" />
+
+      <ul class="resumo-list">
+        <li class="active">
+          <div class="item-title">
+            <span>História</span>
+            <span class="timestamp">hoje</span>
+            <span class="bell-item" title="Notificação">&#128276;</span>
+          </div>
+          <p class="snippet">Hoje fizemos uma viagem no tempo para aprender sobre criaturas…</p>
+        </li>
+        <li>
+          <div class="item-title">
+            <span>Matemática</span>
+            <span class="timestamp">hoje</span>
+            <span class="bell-item">&#128276;</span>
+          </div>
+          <p class="snippet">Hoje em Matemática, praticamos como juntar e tirar…</p>
+        </li>
+        <li>
+          <div class="item-title">
+            <span>Inglês</span>
+            <span class="timestamp">hoje</span>
+            <span class="bell-item">&#128276;</span>
+          </div>
+          <p class="snippet">Hello, everyone! Hoje, aprendemos algumas palavras…</p>
+        </li>
+        <!-- continue para os outros… -->
+      </ul>
+    </aside>
+
+    <section class="resumo-content">
+      <h2>História – A história dos dinossauros</h2>
+      <div class="resumo-body">
+        <p>Hoje fizemos uma viagem no tempo para aprender sobre criaturas incríveis que viveram na Terra há milhões e milhões de anos: os dinossauros!</p>
+        <p>Imaginamos só: muito antes de existirem carros, casas ou até mesmo os primeiros humanos, o nosso planeta foi um lugar diferente, cheio de florestas gigantes e animais enormes. Os dinossauros foram os reis dessa época!</p>
+        <p><strong>Gigantes do Passado:</strong> Existiram dinossauros de todos os tipos e tamanhos. Alguns foram gigantescos, como o Braquiossauro, que teve um pescoço tão longo que conseguia alcançar as folhas mais altas das árvores, e o temível Tiranossauro Rex, com seus dentes afiados, conhecido como um caçador poderoso. Mas nem todos foram enormes! Alguns foram pequenos, do tamanho de uma galinha.</p>
+        <p><strong>Onde Viveram:</strong> Os dinossauros viveram em todas as partes do mundo! Alguns preferiram viver em florestas densas, outros em pântanos, e houve até aqueles que viveram em regiões mais secas. Eles se adaptaram a muitos ambientes diferentes.</p>
+        <p><strong>O Que Comiam:</strong> Assim como os animais de hoje, os dinossauros tiveram dietas diferentes.</p>
+        <ul>
+          <li><strong>Herbívoros:</strong> Foram os que comiam plantas, folhas e frutas. O Braquiossauro, o Tricerátopo (com seus três chifres) e o Estegossauro (com suas placas nas costas) foram exemplos de dinossauros herbívoros. Eles passavam o dia mastigando plantas.</li>
+          <li><strong>Carnívoros:</strong> Foram os que comiam carne, ou seja, caçavam outros animais. O Tiranossauro Rex e o Velociraptor (conhecido por ser rápido e esperto) foram dinossauros carnívoros.</li>
+        </ul>
+        <p><strong>Como Sumiram?</strong> Os cientistas ainda estudam muito sobre como os dinossauros desapareceram. A teoria mais aceita foi que um grande asteroide (uma rocha enorme do espaço) caiu na Terra. Esse impacto levantou muita poeira e fumaça que cobriram o sol, mudando o clima do planeta e tornando difícil a vida para os dinossauros. Foi um evento muito, muito grande que marcou o fim da era dos dinossauros.</p>
+        <p>Mesmo tendo desaparecido há tanto tempo, os dinossauros continuam nos fascinando e nos ensinando sobre a história antiga do nosso planeta através dos fósseis que encontramos!</p>
+
+        <div class="resumo-questions">
+          <h3>Perguntas</h3>
+          <ol>
+            <li>
+              Qual o nome de um dinossauro herbívoro que tinha um pescoço muito longo?
+              <textarea placeholder="Resposta…"></textarea>
+            </li>
+            <li>
+              Qual era o nome do dinossauro carnívoro famoso por seus dentes afiados?
+              <textarea placeholder="Resposta…"></textarea>
+            </li>
+            <li>
+              Além de plantas, o que os dinossauros carnívoros comiam?
+              <textarea placeholder="Resposta…"></textarea>
+            </li>
+            <li>
+              Como os cientistas acreditam que os dinossauros desapareceram da Terra?
+              <textarea placeholder="Resposta…"></textarea>
+            </li>
+            <li>
+              Você se lembra de algum lugar onde os dinossauros viveram?
+              <textarea placeholder="Resposta…"></textarea>
+            </li>
+            <li>
+              Qual a diferença entre um dinossauro herbívoro e um carnívoro?
+              <textarea placeholder="Resposta…"></textarea>
+            </li>
+            <li>
+              Para que servem os fósseis que encontramos dos dinossauros?
+              <textarea placeholder="Resposta…"></textarea>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="rodape"></footer>
+
+  <script>
+    // JS para alternar o campo de busca e filtrar a lista
+    const toggle = document.querySelector('.sidebar-search-toggle');
+    const input = document.querySelector('.sidebar-search-input');
+    const items = document.querySelectorAll('.resumo-list li');
+
+    toggle.addEventListener('click', () => {
+      input.classList.toggle('visible');
+      input.value = '';
+      items.forEach(li => li.style.display = '');
+      input.focus();
+    });
+
+    input.addEventListener('input', () => {
+      const q = input.value.toLowerCase();
+      items.forEach(li => {
+        const title = li.querySelector('.item-title span').textContent.toLowerCase();
+        li.style.display = title.includes(q) ? '' : 'none';
+      });
+    });
+  </script>
+</body>
+</html>

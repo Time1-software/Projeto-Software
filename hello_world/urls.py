@@ -14,19 +14,29 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 
 from hello_world.core import views as core_views
+from edutrack import views as edutrack_views
 
 urlpatterns = [
-    path("", core_views.index),
+    # Página inicial do projeto (core app)
+    path("", core_views.index, name="home"),
+
+    # Admin do Django
     path("admin/", admin.site.urls),
-    path("__reload__/", include("django_browser_reload.urls")),
+
+    # Página Bem-Vindo Professor (app edutrack)
+    path("professor/", edutrack_views.professor, name="professor"),
+    path("painel-turmas/", edutrack_views.painel_turmas, name="painel_turmas"),
+    path("resumo/", edutrack_views.resumo, name="resumo"),
 ]
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += staticfiles_urlpatterns()
