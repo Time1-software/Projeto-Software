@@ -10,7 +10,7 @@ admin.site.register(Nota)
 
 @admin.register(Aluno)
 class AlunoAdmin(admin.ModelAdmin):
-    list_display = ('nome', 'matricula', 'turma')
+    list_display = ('nome', 'matricula', 'turma', 'user')
     search_fields = ('nome', 'matricula', 'turma')
 
 admin.site.register(Turma)

@@ -3,6 +3,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import User
 
 
+
 # Create your models here.
 class Education(models.Model):
     title = models.CharField(max_length=50)
@@ -39,9 +40,10 @@ class Nota(models.Model):
 
 
 class Aluno(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     nome = models.CharField('Nome', max_length=100)
     matricula = models.CharField('Matrícula', max_length=20, unique=True)
-    turma = models.CharField('Turma', max_length=50)
+    turma = models.ForeignKey('Turma', on_delete=models.SET_NULL, null=True)
 
     pontualidade = models.PositiveIntegerField(
         'Pontualidade (%)',
@@ -179,8 +181,37 @@ class Chat(models.Model):
 
 
 class GradeHorario(models.Model):
-    aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE)
-    horario = models.CharField(max_length=100)
+    DIAS_SEMANA = [
+        ('SEG', 'Segunda-feira'),
+        ('TER', 'Terça-feira'),
+        ('QUA', 'Quarta-feira'),
+        ('QUI', 'Quinta-feira'),
+        ('SEX', 'Sexta-feira'),
+    ]
+
+    HORARIOS = [
+        ('1', '08:00 - 09:00'),
+        ('2', '09:00 - 10:00'),
+        ('3', '10:00 - 11:00'),
+        ('4', '11:00 - 12:00'),
+        ('5', '13:00 - 14:00'),
+        ('6', '14:00 - 15:00'),
+        ('7', '15:00 - 16:00'),
+    ]
+
+    turma = models.ForeignKey('Turma', on_delete=models.CASCADE)
+    dia_semana = models.CharField(max_length=3, choices=DIAS_SEMANA)
+    horario = models.CharField(max_length=1, choices=HORARIOS)
+    disciplina = models.CharField(max_length=100)
+    sala = models.CharField(max_length=50, blank=True)
+
+    class Meta:
+        ordering = ['dia_semana', 'horario']
+        verbose_name = 'Grade de Horário'
+        verbose_name_plural = 'Grades de Horário'
+        constraints = [
+            models.UniqueConstraint(fields=['turma', 'dia_semana', 'horario'], name='unique_grade')
+        ]
 
     def __str__(self):
-        return f"Grade de {self.aluno}"
+        return f"{self.get_dia_semana_display()} {self.get_horario_display()} - {self.disciplina} ({self.turma})"

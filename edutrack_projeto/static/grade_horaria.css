@@ -1,0 +1,32 @@
+body {
+  background-color: #f4f4f4;
+}
+
+.logo {
+  height: 40px;
+  object-fit: contain;
+}
+
+.perfil {
+  width: 35px;
+  height: 35px;
+  object-fit: contain;
+}
+
+.custom-footer {
+  background-color: #f7b16c;
+  color: white;
+  text-align: center;
+  padding: 1rem 0;
+  height: 40px;
+}
+
+.table th,
+.table td {
+  min-width: 100px;
+  vertical-align: middle;
+}
+
+.table th.table-light {
+  background-color: #f1f1f1;
+}
