@@ -64,26 +64,28 @@ def dashboard_home(request):
     
     return render(request, 'dashboard.html', context)
 
+
 @login_required
 def grade_aluno(request):
-    # Obtém o aluno logado (assumindo que Aluno está vinculado ao User)
     aluno = get_object_or_404(Aluno, user=request.user)
+    #grade = GradeHorario.objects.filter(turma=aluno.turma).order_by('dia_semana', 'horario')
     
-    # Obtém a grade horária da TURMA do aluno
-    grade = GradeHorario.objects.filter(turma__numero=aluno.turma).order_by('dia_semana', 'horario')
-    
-    # Organiza por dia da semana
-    dias = {
-        'SEG': grade.filter(dia_semana='SEG'),
-        'TER': grade.filter(dia_semana='TER'),
-        'QUA': grade.filter(dia_semana='QUA'),
-        'QUI': grade.filter(dia_semana='QUI'),
-        'SEX': grade.filter(dia_semana='SEX'),
-    }
-    
-    context = {
+     # Busca todas as aulas da turma
+    aulas = GradeHorario.objects.filter(turma=aluno.turma)
+
+    # Organiza por [dia][horario]
+    grade_organizada = {}
+    for dia, _ in GradeHorario.DIAS_SEMANA:
+        grade_organizada[dia] = {}
+        for hora, _ in GradeHorario.HORARIOS:
+            grade_organizada[dia][hora] = None
+
+    for aula in aulas:
+        grade_organizada[aula.dia_semana][aula.horario] = aula
+
+    return render(request, 'grade.html', {
         'aluno': aluno,
-        'dias': dias,
-    }
-    
-    return render(request, 'grade_aluno.html', context)
+        'DIAS_SEMANA': GradeHorario.DIAS_SEMANA,
+        'HORARIOS': GradeHorario.HORARIOS,
+        'grade_organizada': grade_organizada,
+    })

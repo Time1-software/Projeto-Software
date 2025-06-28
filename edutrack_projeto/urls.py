@@ -24,6 +24,6 @@ urlpatterns = [
     path('formsAlunos/', views.aluno_create, name='forms_aluno'),
     path('alunoLista/', views.aluno_list, name='aluno_lista'),  
     path('dashboard/', views.dashboard_home, name='dashboard'), 
-    path('grade_horaria/', views.grade_aluno, name='grade_aluno')
+    path('gradeHoraria/', views.grade_aluno, name='grade_aluno')
     
 ]

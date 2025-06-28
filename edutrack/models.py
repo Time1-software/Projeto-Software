@@ -40,9 +40,10 @@ class Nota(models.Model):
 
 
 class Aluno(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     nome = models.CharField('Nome', max_length=100)
     matricula = models.CharField('Matrícula', max_length=20, unique=True)
-    turma = models.CharField('Turma', max_length=50)
+    turma = models.ForeignKey('Turma', on_delete=models.SET_NULL, null=True)
 
     pontualidade = models.PositiveIntegerField(
         'Pontualidade (%)',
@@ -187,7 +188,7 @@ class GradeHorario(models.Model):
         ('QUI', 'Quinta-feira'),
         ('SEX', 'Sexta-feira'),
     ]
-    
+
     HORARIOS = [
         ('1', '08:00 - 09:00'),
         ('2', '09:00 - 10:00'),
@@ -197,21 +198,20 @@ class GradeHorario(models.Model):
         ('6', '14:00 - 15:00'),
         ('7', '15:00 - 16:00'),
     ]
-    
-    turma = models.ForeignKey(Turma, on_delete=models.CASCADE, null=True, blank=True)  # Agora relacionado à turma
-    professor = models.ForeignKey(Professor, on_delete=models.SET_NULL, null=True, blank=True)
+
+    turma = models.ForeignKey('Turma', on_delete=models.CASCADE)
+    dia_semana = models.CharField(max_length=3, choices=DIAS_SEMANA)
+    horario = models.CharField(max_length=1, choices=HORARIOS)
+    disciplina = models.CharField(max_length=100)
     sala = models.CharField(max_length=50, blank=True)
-    dia_semana = models.CharField(max_length=3, choices=DIAS_SEMANA, null=True, blank=True)
-    horario = models.CharField(max_length=1, choices=HORARIOS, null=True, blank=True)
-    disciplina = models.CharField(max_length=100, blank=True, null=True)
-    
+
     class Meta:
         ordering = ['dia_semana', 'horario']
         verbose_name = 'Grade de Horário'
         verbose_name_plural = 'Grades de Horário'
         constraints = [
-            models.UniqueConstraint(fields=['turma', 'dia_semana', 'horario'], name='unique_grade_turma_dia_horario')
+            models.UniqueConstraint(fields=['turma', 'dia_semana', 'horario'], name='unique_grade')
         ]
-    
+
     def __str__(self):
         return f"{self.get_dia_semana_display()} {self.get_horario_display()} - {self.disciplina} ({self.turma})"
