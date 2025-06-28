@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import * 
 from .forms import AlunoForm
 from django.contrib.auth.decorators import login_required
+
+
 # Create your views here.
 
 # Create your views here.
@@ -61,3 +63,27 @@ def dashboard_home(request):
     }
     
     return render(request, 'dashboard.html', context)
+
+@login_required
+def grade_aluno(request):
+    # Obtém o aluno logado (assumindo que Aluno está vinculado ao User)
+    aluno = get_object_or_404(Aluno, user=request.user)
+    
+    # Obtém a grade horária da TURMA do aluno
+    grade = GradeHorario.objects.filter(turma__numero=aluno.turma).order_by('dia_semana', 'horario')
+    
+    # Organiza por dia da semana
+    dias = {
+        'SEG': grade.filter(dia_semana='SEG'),
+        'TER': grade.filter(dia_semana='TER'),
+        'QUA': grade.filter(dia_semana='QUA'),
+        'QUI': grade.filter(dia_semana='QUI'),
+        'SEX': grade.filter(dia_semana='SEX'),
+    }
+    
+    context = {
+        'aluno': aluno,
+        'dias': dias,
+    }
+    
+    return render(request, 'grade_aluno.html', context)

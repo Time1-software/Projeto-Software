@@ -3,6 +3,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import User
 
 
+
 # Create your models here.
 class Education(models.Model):
     title = models.CharField(max_length=50)
@@ -179,8 +180,38 @@ class Chat(models.Model):
 
 
 class GradeHorario(models.Model):
-    aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE)
-    horario = models.CharField(max_length=100)
-
+    DIAS_SEMANA = [
+        ('SEG', 'Segunda-feira'),
+        ('TER', 'Terça-feira'),
+        ('QUA', 'Quarta-feira'),
+        ('QUI', 'Quinta-feira'),
+        ('SEX', 'Sexta-feira'),
+    ]
+    
+    HORARIOS = [
+        ('1', '08:00 - 09:00'),
+        ('2', '09:00 - 10:00'),
+        ('3', '10:00 - 11:00'),
+        ('4', '11:00 - 12:00'),
+        ('5', '13:00 - 14:00'),
+        ('6', '14:00 - 15:00'),
+        ('7', '15:00 - 16:00'),
+    ]
+    
+    turma = models.ForeignKey(Turma, on_delete=models.CASCADE, null=True, blank=True)  # Agora relacionado à turma
+    professor = models.ForeignKey(Professor, on_delete=models.SET_NULL, null=True, blank=True)
+    sala = models.CharField(max_length=50, blank=True)
+    dia_semana = models.CharField(max_length=3, choices=DIAS_SEMANA, null=True, blank=True)
+    horario = models.CharField(max_length=1, choices=HORARIOS, null=True, blank=True)
+    disciplina = models.CharField(max_length=100, blank=True, null=True)
+    
+    class Meta:
+        ordering = ['dia_semana', 'horario']
+        verbose_name = 'Grade de Horário'
+        verbose_name_plural = 'Grades de Horário'
+        constraints = [
+            models.UniqueConstraint(fields=['turma', 'dia_semana', 'horario'], name='unique_grade_turma_dia_horario')
+        ]
+    
     def __str__(self):
-        return f"Grade de {self.aluno}"
+        return f"{self.get_dia_semana_display()} {self.get_horario_display()} - {self.disciplina} ({self.turma})"

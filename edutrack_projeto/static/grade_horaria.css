@@ -1,0 +1,105 @@
+/* Estilos gerais */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f5f7fa;
+    padding: 20px;
+    color: #333;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+}
+
+/* Cabeçalhos */
+h1 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-size: 24px;
+}
+
+h2 {
+    color: #3498db;
+    margin-bottom: 20px;
+    font-size: 20px;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 5px;
+}
+
+/* Cards de cada dia */
+.card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 25px;
+    padding: 20px;
+}
+
+.card-header {
+    margin-bottom: 15px;
+}
+
+.card-header h3 {
+    color: #2c3e50;
+    font-size: 18px;
+    border-left: 4px solid #3498db;
+    padding-left: 10px;
+}
+
+/* Tabela de horários */
+.horario-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+}
+
+.horario-table th {
+    background-color: #3498db;
+    color: white;
+    padding: 10px;
+    text-align: left;
+    font-weight: normal;
+}
+
+.horario-table td {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.horario-table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+/* Mensagem quando não há aulas */
+.sem-aulas {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    text-align: center;
+    color: #666;
+}
+
+/* Link "veja mais" */
+.veja-mais {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    display: inline-block;
+    margin-top: 5px;
+}
+
+.veja-mais:hover {
+    text-decoration: underline;
+}

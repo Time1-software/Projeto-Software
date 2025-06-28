@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Grade Horária</title>
+    <link rel="stylesheet" href="static/css/grade_horaria.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Bem vindo, {{ aluno.nome }}!</h1>
+        <h2>Grade de Horário - Turma {{ aluno.turma }}</h2>
+        
+        {% for dia, aulas in dias.items %}
+        <div class="card">
+            <div class="card-header">
+                <h3>{{ aulas.0.get_dia_semana_display }}</h3>
+            </div>
+            
+            {% if aulas %}
+            <table class="horario-table">
+                <thead>
+                    <tr>
+                        <th>Horário</th>
+                        <th>Matéria</th>
+                        <th>Professor</th>
+                        <th>Sala</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for aula in aulas %}
+                    <tr>
+                        <td>{{ aula.get_horario_display }}</td>
+                        <td>{{ aula.disciplina }}</td>
+                        <td>{{ aula.professor.nome|default:"-" }}</td>
+                        <td>{{ aula.sala|default:"-" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="sem-aulas">
+                <p>Nenhuma aula cadastrada para este dia</p>
+            </div>
+            {% endif %}
+            
+            <a href="#" class="veja-mais">veja mais</a>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
