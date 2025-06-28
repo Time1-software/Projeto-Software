@@ -1,3 +1,4 @@
+import datetime
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import * 
 from .forms import AlunoForm
@@ -88,4 +89,32 @@ def grade_aluno(request):
         'DIAS_SEMANA': GradeHorario.DIAS_SEMANA,
         'HORARIOS': GradeHorario.HORARIOS,
         'grade_organizada': grade_organizada,
+    })
+
+@login_required
+def painel_aluno(request):
+    aluno = get_object_or_404(Aluno, user=request.user)
+
+    #CARD GRADE-HORÁRIA
+    # Dia da semana atual (ex: 'SEG', 'TER'...)
+    dia_semana_hoje = datetime.datetime.today().strftime('%a').upper()
+
+    # Mapeia 'MON' para 'SEG', etc
+    tradutor_dias = {
+        'MON': 'SEG',
+        'TUE': 'TER',
+        'WED': 'QUA',
+        'THU': 'QUI',
+        'FRI': 'SEX',
+    }
+
+    dia_chave = tradutor_dias.get(dia_semana_hoje, None)
+
+    aulas_hoje = []
+    if dia_chave:
+        aulas_hoje = GradeHorario.objects.filter(turma=aluno.turma, dia_semana=dia_chave).order_by('horario')
+
+    return render(request, 'bem_vindo_aluno.html', {
+        'aluno': aluno,
+        'aulas_hoje': aulas_hoje,
     })
