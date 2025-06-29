@@ -23,6 +23,7 @@ urlpatterns = [
     path("participacao/<int:pk>/", views.participacao, name="participacao"), 
     path('formsAlunos/', views.aluno_create, name='forms_aluno'),
     path('alunoLista/', views.aluno_list, name='aluno_lista'),  
-    path('dashboard/', views.dashboard_home, name='dashboard')
+    path('dashboard/', views.dashboard_home, name='dashboard'),
+    path('tarefas/', views.tarefas_home, name='tarefas'),
     
 ]
