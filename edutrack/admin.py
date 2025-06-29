@@ -1,11 +1,15 @@
+# edutrack/admin.py
+
 from django.contrib import admin
 from .models import * 
-from .models import Aluno
 
-# Register your models here.
 
-admin.site.register(Education)
+admin.site.register(Professor)
+admin.site.register(Disciplina)
 admin.site.register(Nota)
+admin.site.register(Responsavel)
+admin.site.register(Atividade)
+admin.site.register(Education)
 
 
 @admin.register(Aluno)

@@ -62,11 +62,34 @@ def dashboard_home(request):
     }
     
     return render(request, 'dashboard.html', context)
-
 def tarefas_home(request):
 
-    
-    return render(request, 'tarefas_provas.html')
+
+    aluno_atual = Aluno.objects.first() 
+
+
+
+
+    atividades_base = Atividade.objects.filter(aluno=aluno_atual, entregue=False)
+
+
+    filtro_tipo = request.GET.get('tipo', None)
+    if filtro_tipo in ['PROVA', 'TRABALHO']:
+        atividades_filtradas = atividades_base.filter(tipo=filtro_tipo)
+    else:
+        atividades_filtradas = atividades_base
+
+    context = {
+        'tarefas_hoje': [t for t in atividades_filtradas if t.status == 'hoje'],
+        'tarefas_semana': [t for t in atividades_filtradas if t.status == 'essa_semana'],
+        'tarefas_futuras': [t for t in atividades_filtradas if t.status == 'proximas_semanas'],
+        'tarefas_atrasadas': [t for t in atividades_filtradas if t.status == 'atrasada'],
+        'aluno': aluno_atual,
+        'request': request,
+    }
+
+
+    return render(request, 'tarefas_provas.html', context)
 
     # edutrack/views.py
 from django.shortcuts import render

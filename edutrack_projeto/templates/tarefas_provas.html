@@ -38,33 +38,39 @@
 
         <main>
             <h1 class="main-title">Próximas Tarefas</h1>
+            
             <div class="filters">
-                <button class="filter-btn active">Todas</button>
-                <button class="filter-btn">Provas</button>
-                <button class="filter-btn">Trabalhos</button>
+                <a href="{% url 'tarefas' %}" class="filter-btn {% if not request.GET.tipo %}active{% endif %}">Todas</a>
+                
+                <a href="?tipo=PROVA" class="filter-btn {% if request.GET.tipo == 'PROVA' %}active{% endif %}">Provas</a>
+                
+                <a href="?tipo=TRABALHO" class="filter-btn {% if request.GET.tipo == 'TRABALHO' %}active{% endif %}">Trabalhos</a>
             </div>
 
             <div class="task-board">
                 <div class="task-column">
+
                     <section class="task-group">
                         <h2 class="task-group-title today">
                             <i data-feather="calendar"></i>
                             <span>Hoje</span>
                         </h2>
                         <div class="task-card">
-                            <div class="task-item">
-                                <div class="task-item-header">
-                                    <span class="task-name">Prova de Matemática</span>
-                                    <span class="tag tag-today">13h — Sala 02</span>
+                            {% if tarefas_hoje %}
+                                {% for tarefa in tarefas_hoje %}
+                                <div class="task-item">
+                                    <div class="task-item-header">
+                                        <span class="task-name">{{ tarefa.titulo }}</span>
+                                        <span class="tag tag-today">{{ tarefa.data_entrega|date:"H:i" }} — {{ tarefa.disciplina.nome }}</span>
+                                    </div>
+                                    {% if tarefa.descricao %}
+                                    <p class="task-note">📌 {{ tarefa.descricao }}</p>
+                                    {% endif %}
                                 </div>
-                                <p class="task-note">📌 Levar calculadora</p>
-                            </div>
-                            <div class="task-item">
-                                <div class="task-item-header">
-                                     <span class="task-name">Entregar resumo de História</span>
-                                     <span class="tag tag-today">Até 17h — via email</span>
-                                </div>
-                            </div>
+                                {% endfor %}
+                            {% else %}
+                                <p class="task-note">Nenhuma tarefa para hoje.</p>
+                            {% endif %}
                         </div>
                     </section>
 
@@ -74,20 +80,21 @@
                             <span>Essa semana</span>
                         </h2>
                         <div class="task-card">
-                            <div class="task-item">
-                                <div class="task-item-header">
-                                    <span class="task-name">Atividade de Ciências</span>
-                                    <span class="tag tag-this-week">Entregar até sexta</span>
+                            {% if tarefas_semana %}
+                                {% for tarefa in tarefas_semana %}
+                                <div class="task-item">
+                                    <div class="task-item-header">
+                                        <span class="task-name">{{ tarefa.titulo }}</span>
+                                        <span class="tag tag-this-week">{{ tarefa.data_entrega|date:"d/m" }}</span>
+                                    </div>
+                                    {% if tarefa.descricao %}
+                                    <p class="task-note">✓ {{ tarefa.descricao }}</p>
+                                    {% endif %}
                                 </div>
-                                <p class="task-note">✓ Tema: Reações químicas</p>
-                            </div>
-                             <div class="task-item">
-                                <div class="task-item-header">
-                                    <span class="task-name">Redação de Português</span>
-                                    <span class="tag tag-this-week">Quarta-feira</span>
-                                </div>
-                                <p class="task-note">📝 Tema: Desigualdade Social</p>
-                            </div>
+                                {% endfor %}
+                            {% else %}
+                                <p class="task-note">Nenhuma tarefa agendada para esta semana.</p>
+                            {% endif %}
                         </div>
                     </section>
                 </div>
@@ -99,18 +106,18 @@
                             <span>Daqui a uma ou mais semanas</span>
                         </h2>
                         <div class="task-card">
-                            <div class="task-item">
-                                <div class="task-item-header">
-                                    <span class="task-name">Feira de Ciências</span>
-                                    <span class="tag tag-later">25/04 — Tema livre</span>
+                            {% if tarefas_futuras %}
+                                {% for tarefa in tarefas_futuras %}
+                                <div class="task-item">
+                                    <div class="task-item-header">
+                                        <span class="task-name">{{ tarefa.titulo }}</span>
+                                        <span class="tag tag-later">{{ tarefa.data_entrega|date:"d/m/Y" }}</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="task-item">
-                                <div class="task-item-header">
-                                    <span class="task-name">Trabalho Física</span>
-                                    <span class="tag tag-later">30/04</span>
-                                </div>
-                            </div>
+                                {% endfor %}
+                            {% else %}
+                                <p class="task-note">Nenhuma tarefa agendada.</p>
+                            {% endif %}
                         </div>
                     </section>
 
@@ -119,13 +126,16 @@
                            <span>Pendentes</span>
                         </h2>
                         <div class="task-card">
-                            <div class="task-item">
-                                 <span class="task-name">Entrega atrasada — Geografia</span>
-                            </div>
-                            <div class="task-item">
-                                <span class="task-name">Entrega atrasada - Resumo de capítulo 3 de Filosofia</span>
-                                <span class="tag tag-pending">Vencimento: 09/04</span>
-                            </div>
+                            {% if tarefas_atrasadas %}
+                                {% for tarefa in tarefas_atrasadas %}
+                                <div class="task-item">
+                                    <span class="task-name">{{ tarefa.titulo }} — {{ tarefa.disciplina.nome }}</span>
+                                    <span class="tag tag-pending">Vencimento: {{ tarefa.data_entrega|date:"d/m/Y" }}</span>
+                                </div>
+                                {% endfor %}
+                            {% else %}
+                                <p class="task-note">Nenhuma tarefa pendente!</p>
+                            {% endif %}
                         </div>
                     </section>
                 </div>
