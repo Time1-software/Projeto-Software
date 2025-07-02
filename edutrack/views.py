@@ -1,7 +1,10 @@
+import datetime
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import * 
 from .forms import AlunoForm
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
+
 # Create your views here.
 
 # Create your views here.
@@ -62,6 +65,61 @@ def dashboard_home(request):
     }
     
     return render(request, 'dashboard.html', context)
+
+
+@login_required
+def grade_aluno(request):
+    aluno = get_object_or_404(Aluno, user=request.user)
+    #grade = GradeHorario.objects.filter(turma=aluno.turma).order_by('dia_semana', 'horario')
+    
+     # Busca todas as aulas da turma
+    aulas = GradeHorario.objects.filter(turma=aluno.turma)
+
+    # Organiza por [dia][horario]
+    grade_organizada = {}
+    for dia, _ in GradeHorario.DIAS_SEMANA:
+        grade_organizada[dia] = {}
+        for hora, _ in GradeHorario.HORARIOS:
+            grade_organizada[dia][hora] = None
+
+    for aula in aulas:
+        grade_organizada[aula.dia_semana][aula.horario] = aula
+
+    return render(request, 'grade.html', {
+        'aluno': aluno,
+        'DIAS_SEMANA': GradeHorario.DIAS_SEMANA,
+        'HORARIOS': GradeHorario.HORARIOS,
+        'grade_organizada': grade_organizada,
+    })
+
+@login_required
+def painel_aluno(request):
+    aluno = get_object_or_404(Aluno, user=request.user)
+
+    #CARD GRADE-HORÁRIA
+    # Dia da semana atual (ex: 'SEG', 'TER'...)
+    dia_semana_hoje = datetime.datetime.today().strftime('%a').upper()
+
+    # Mapeia 'MON' para 'SEG', etc
+    tradutor_dias = {
+        'MON': 'SEG',
+        'TUE': 'TER',
+        'WED': 'QUA',
+        'THU': 'QUI',
+        'FRI': 'SEX',
+    }
+
+    dia_chave = tradutor_dias.get(dia_semana_hoje, None)
+
+    aulas_hoje = []
+    if dia_chave:
+        aulas_hoje = GradeHorario.objects.filter(turma=aluno.turma, dia_semana=dia_chave).order_by('horario')
+
+    return render(request, 'bem_vindo_aluno.html', {
+        'aluno': aluno,
+        'aulas_hoje': aulas_hoje,
+    })
+
 def tarefas_home(request):
 
 
@@ -91,10 +149,6 @@ def tarefas_home(request):
 
     return render(request, 'tarefas_provas.html', context)
 
-    # edutrack/views.py
-from django.shortcuts import render
-from .models import Atividade, Aluno
-from django.utils import timezone
 
 def pagina_de_tarefas(request):
 
@@ -136,4 +190,4 @@ def dashboard_pais_view(request):
         'alunos': lista_de_alunos,
     }
     
-    return render(request, 'edutrack/dashboard_pais.html', context)
+    return render(request, 'dashboard_pais.html', context)
