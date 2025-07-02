@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import User
 from django.utils import timezone
 from datetime import timedelta
@@ -24,6 +25,13 @@ class Disciplina(models.Model):
 class Education(models.Model):
     title = models.CharField(max_length=50)
     description = models.TextField()
+
+class Turma(models.Model):
+    numero = models.CharField(max_length=20)
+    serie = models.CharField(max_length=20)
+
+    def __str__(self):
+        return f"{self.numero} - {self.serie}"
 
 class Nota(models.Model):
     disciplina = models.CharField(max_length=100)
@@ -74,9 +82,7 @@ class Aluno(models.Model):
     def __str__(self):
         return f'{self.nome} ({self.matricula})'
 
-class Education(models.Model):
-    title = models.CharField(max_length=50)
-    description = models.TextField()
+
 
 class Atividade(models.Model):
 
@@ -143,29 +149,10 @@ class Responsavel(models.Model):
     def __str__(self):
         return self.user.get_full_name() or self.user.username
 
-class Nota(models.Model):
-    """Seu modelo de Nota foi mantido e levemente melhorado."""
-    aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE, verbose_name="Aluno", null=True, blank=True)
-    disciplina = models.ForeignKey(Disciplina, on_delete=models.CASCADE, verbose_name="Disciplina", null=True, blank=True)
-    nota1 = models.FloatField(null=True, blank=True)
-    nota2 = models.FloatField(null=True, blank=True)
-    nota3 = models.FloatField(null=True, blank=True)
-    media = models.FloatField(null=True, blank=True, editable=False)
-
-    # Métodos save e outros foram mantidos como você definiu.
-    def save(self, *args, **kwargs):
-        if self.nota1 is not None and self.nota2 is not None and self.nota3 is not None:
-            self.media = (self.nota1 + self.nota2 + self.nota3) / 3
-        else:
-            self.media = None
-        super().save(*args, **kwargs)
-
-    def __str__(self):
-        return f'Notas de {self.aluno.nome} em {self.disciplina.nome}'
 
 class Mensagem(models.Model):
-    remetente = models.ForeignKey(User, related_name='mensagens_enviadas', on_delete=models.CASCADE)
-    destinatario = models.ForeignKey(User, related_name='mensagens_recebidas', on_delete=models.CASCADE)
+    remetente = models.ForeignKey(User, related_name='mensagens_enviadas_mensagem', on_delete=models.CASCADE)
+    destinatario = models.ForeignKey(User, related_name='mensagens_recebidas_mensagem', on_delete=models.CASCADE)
     assunto = models.CharField(max_length=255)
     corpo = models.TextField()
     data_envio = models.DateTimeField(auto_now_add=True)
@@ -187,7 +174,7 @@ class Resumo(models.Model):
     disciplina = models.CharField(max_length=100)
     titulo = models.CharField(max_length=200)
     links = models.URLField(blank=True)
-    turma = models.ForeignKey(Turma, on_delete=models.CASCADE)
+    turma = models.ForeignKey('Turma', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.titulo
@@ -197,7 +184,7 @@ class ConteudoDia(models.Model):
     disciplina = models.CharField(max_length=100)
     titulo = models.CharField(max_length=200)
     links = models.URLField(blank=True)
-    turma = models.ForeignKey(Turma, on_delete=models.CASCADE)
+    turma = models.ForeignKey('Turma', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.titulo
@@ -207,7 +194,7 @@ class Quiz(models.Model):
     disciplina = models.CharField(max_length=100)
     titulo = models.CharField(max_length=200)
     ranking = models.TextField(blank=True)
-    turma = models.ForeignKey(Turma, on_delete=models.CASCADE)
+    turma = models.ForeignKey('Turma', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.titulo
@@ -225,13 +212,14 @@ class Relatorio(models.Model):
 
 
 class Chat(models.Model):
-    remetente = models.ForeignKey(User, on_delete=models.CASCADE, related_name="mensagens_enviadas")
-    destinatario = models.ForeignKey(User, on_delete=models.CASCADE, related_name="mensagens_recebidas")
+    remetente = models.ForeignKey(User, on_delete=models.CASCADE, related_name="mensagens_enviadas_chat")
+    destinatario = models.ForeignKey(User, on_delete=models.CASCADE, related_name="mensagens_recebidas_chat")
     mensagem = models.TextField()
     data = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.remetente} → {self.destinatario}"
+
 
 
 class GradeHorario(models.Model):

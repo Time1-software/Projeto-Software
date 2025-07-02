@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import * 
 from .forms import AlunoForm
 from django.contrib.auth.decorators import login_required
-
+from django.utils import timezone
 
 # Create your views here.
 
@@ -149,10 +149,6 @@ def tarefas_home(request):
 
     return render(request, 'tarefas_provas.html', context)
 
-    # edutrack/views.py
-from django.shortcuts import render
-from .models import Atividade, Aluno
-from django.utils import timezone
 
 def pagina_de_tarefas(request):
 
@@ -194,4 +190,4 @@ def dashboard_pais_view(request):
         'alunos': lista_de_alunos,
     }
     
-    return render(request, 'edutrack/dashboard_pais.html', context)
+    return render(request, 'dashboard_pais.html', context)
