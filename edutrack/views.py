@@ -117,3 +117,23 @@ def pagina_de_tarefas(request):
     }
 
     return render(request, 'tarefas_provas.html', context)
+
+@login_required 
+def dashboard_pais_view(request):
+    """
+    Esta view mostra um dashboard para o pai/mãe logado,
+    exibindo os cartões para cada filho associado.
+    """
+    try:
+        responsavel = Responsavel.objects.get(user=request.user)
+
+        lista_de_alunos = responsavel.filhos.all()
+    except Responsavel.DoesNotExist:
+
+        lista_de_alunos = []
+
+    context = {
+        'alunos': lista_de_alunos,
+    }
+    
+    return render(request, 'edutrack/dashboard_pais.html', context)
