@@ -47,6 +47,7 @@ def participacao(request, pk):
         ('Participação em oficinas', aluno.participacao_oficinas),
         ('Comportamento em sala', aluno.comportamento_sala),
         ('Plataformas educacionais', aluno.participacao_plataformas),
+        
     ]
     media = sum(p for _, p in dados) // len(dados)
     return render(request, 'participacao.html', {
@@ -118,3 +119,79 @@ def painel_aluno(request):
         'aluno': aluno,
         'aulas_hoje': aulas_hoje,
     })
+
+def tarefas_home(request):
+
+
+    aluno_atual = Aluno.objects.first() 
+
+
+
+
+    atividades_base = Atividade.objects.filter(aluno=aluno_atual, entregue=False)
+
+
+    filtro_tipo = request.GET.get('tipo', None)
+    if filtro_tipo in ['PROVA', 'TRABALHO']:
+        atividades_filtradas = atividades_base.filter(tipo=filtro_tipo)
+    else:
+        atividades_filtradas = atividades_base
+
+    context = {
+        'tarefas_hoje': [t for t in atividades_filtradas if t.status == 'hoje'],
+        'tarefas_semana': [t for t in atividades_filtradas if t.status == 'essa_semana'],
+        'tarefas_futuras': [t for t in atividades_filtradas if t.status == 'proximas_semanas'],
+        'tarefas_atrasadas': [t for t in atividades_filtradas if t.status == 'atrasada'],
+        'aluno': aluno_atual,
+        'request': request,
+    }
+
+
+    return render(request, 'tarefas_provas.html', context)
+
+    # edutrack/views.py
+from django.shortcuts import render
+from .models import Atividade, Aluno
+from django.utils import timezone
+
+def pagina_de_tarefas(request):
+
+    aluno_atual = Aluno.objects.first() 
+    
+
+    atividades_pendentes = Atividade.objects.filter(aluno=aluno_atual, entregue=False)
+
+
+    filtro_tipo = request.GET.get('tipo') 
+    if filtro_tipo in ['PROVA', 'TRABALHO']:
+        atividades_pendentes = atividades_pendentes.filter(tipo=filtro_tipo)
+
+    context = {
+        'tarefas_hoje': [t for t in atividades_pendentes if t.status == 'hoje'],
+        'tarefas_semana': [t for t in atividades_pendentes if t.status == 'essa_semana'],
+        'tarefas_futuras': [t for t in atividades_pendentes if t.status == 'proximas_semanas'],
+        'tarefas_atrasadas': [t for t in atividades_pendentes if t.status == 'atrasada'],
+        'aluno': aluno_atual,
+    }
+
+    return render(request, 'tarefas_provas.html', context)
+
+@login_required 
+def dashboard_pais_view(request):
+    """
+    Esta view mostra um dashboard para o pai/mãe logado,
+    exibindo os cartões para cada filho associado.
+    """
+    try:
+        responsavel = Responsavel.objects.get(user=request.user)
+
+        lista_de_alunos = responsavel.filhos.all()
+    except Responsavel.DoesNotExist:
+
+        lista_de_alunos = []
+
+    context = {
+        'alunos': lista_de_alunos,
+    }
+    
+    return render(request, 'edutrack/dashboard_pais.html', context)
