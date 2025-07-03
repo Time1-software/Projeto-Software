@@ -93,6 +93,8 @@ def grade_aluno(request):
 
     for aula in aulas:
         grade_organizada[aula.dia_semana][aula.horario] = aula
+    
+   
 
     return render(request, 'grade.html', {
         'aluno': aluno,
