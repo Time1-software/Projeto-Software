@@ -1,5 +1,5 @@
 from django import forms
-from .models import Aluno
+from .models import Aluno,Tarefa, Turma
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
@@ -124,3 +124,18 @@ class CustomSignupForm(UserCreationForm):
                 categoria=self.cleaned_data['categoria']
             )
         return user
+
+class TarefaForm(forms.ModelForm):
+    tipo = forms.ChoiceField(choices=Tarefa.TipoTarefa.choices, label="Tipo da Tarefa")
+
+    turma = forms.ModelChoiceField(
+        queryset=Turma.objects.all(),
+        label="Turma"
+    )
+
+    class Meta:
+        model = Tarefa
+        fields = ['titulo', 'data', 'tipo', 'descricao', 'turma']
+        widgets = {
+            'data': forms.DateInput(attrs={'type': 'date'}),
+        }

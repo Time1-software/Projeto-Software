@@ -55,4 +55,7 @@ urlpatterns = [
     path('bemvindo/pai/',       BemvindoPaiView.as_view(),       name='bem_vindo_pai'),
     path('bemvindo/adm/',       BemvindoAdmView.as_view(),       name='bem_vindo_adm'),
 
+    path('painelAluno/', views.painel_aluno, name='painelAluno') ,
+    path('calendario/', views.calendario_view, name='calendario'),
+    path('criar-tarefa/', views.criar_tarefa, name='criar_tarefa')
 ]
