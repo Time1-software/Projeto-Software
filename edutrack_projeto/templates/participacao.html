@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Participação – EduTrack</title>
+  <link rel="stylesheet" href="{% static 'participacao.css' %}">
+</head>
+<body>
+  <header class="site-header">
+    <a href="{% url 'aluno_lista' %}" class="logo">
+      <img src="{% static 'imgs/logo.png' %}" alt="EduTrack Logo">
+    </a>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="{% url 'aluno_lista' %}">Início</a></li>
+        <li><a href="#">Resumo</a></li>
+        <li><a href="#">Mensagens</a></li>
+      </ul>
+    </nav>
+    <div class="header-right">
+      <a href="#" class="profile-icon">
+        <img src="{% static 'imgs/user-icon.png' %}" alt="Usuário">
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <div class="content-wrapper">
+      <section class="student-info">
+        <p class="student-name"><strong>Aluno(a):</strong> {{ aluno.nome }}</p>
+        <p class="reference">
+          <strong>Matrícula:</strong> {{ aluno.matricula }} —
+          <strong>Turma:</strong> {{ aluno.turma }}
+        </p>
+      </section>
+
+      <section class="participation">
+        <h1>Participação</h1>
+        <table>
+          <thead>
+            <tr>
+              <th>Tipos de participação</th>
+              <th>Porcentagem</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for label, pct in dados %}
+            <tr>
+              <td>{{ label }}</td>
+              {% if pct < 50 %}
+                <td class="red">{{ pct }}%</td>
+              {% elif pct < 75 %}
+                <td class="yellow">{{ pct }}%</td>
+              {% else %}
+                <td class="green">{{ pct }}%</td>
+              {% endif %}
+            </tr>
+            {% endfor %}
+          </tbody>
+          <tfoot>
+            <tr>
+              <th>Média geral</th>
+              {% if media < 50 %}
+                <td class="red"><strong>{{ media }}%</strong></td>
+              {% elif media < 75 %}
+                <td class="yellow"><strong>{{ media }}%</strong></td>
+              {% else %}
+                <td class="green"><strong>{{ media }}%</strong></td>
+              {% endif %}
+            </tr>
+          </tfoot>
+        </table>
+        <p><a href="{% url 'aluno_lista' %}" class="btn">← Voltar</a></p>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    © 2025 EduTrack. Todos os direitos reservados.
+  </footer>
+</body>
+</html>

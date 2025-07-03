@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Aluno – EduTrack</title>
+  <link rel="stylesheet" href="{% static 'participacao.css' %}">
+</head>
+<body>
+  <header class="site-header">
+    <a href="{% url 'aluno_lista' %}" class="logo">
+      <img src="{% static 'imgs/logo.png' %}" alt="EduTrack Logo">
+    </a>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="{% url 'aluno_lista' %}">Início</a></li>
+        <li><a href="#">Resumo</a></li>
+        <li><a href="#">Mensagens</a></li>
+      </ul>
+    </nav>
+    <div class="header-right">
+      <a href="#" class="profile-icon">
+        <img src="{% static 'imgs/user-icon.png' %}" alt="Usuário">
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <div class="content-wrapper">
+      <h1>Novo Aluno</h1>
+      <form method="post" class="student-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn">Salvar</button>
+        <a href="{% url 'aluno_lista' %}" class="btn secondary">Cancelar</a>
+      </form>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    © 2025 EduTrack. Todos os direitos reservados.
+  </footer>
+</body>
+</html>
