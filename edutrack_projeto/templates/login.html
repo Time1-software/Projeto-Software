@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Login | EduTrack</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'styles_login.css' %}">
+</head>
+<body>
+  <!-- Mensagens de erro/sucesso -->
+  {% if messages %}
+    <ul class="messages-list">
+      {% for msg in messages %}
+        <li class="message {{ msg.tags }}">{{ msg }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  <div class="full-screen">
+    <!-- Logo -->
+    <div class="side logo-side">
+      <img src="{% static 'imgs/logo_login.png' %}" alt="Logo_Login">
+    </div>
+
+    <!-- Formulário -->
+    <div class="side form-side">
+      <div class="form-inner">
+        <h2 class="form-header">Login</h2>
+
+        <form method="post" novalidate class="form-box">
+          {% csrf_token %}
+          {{ form.non_field_errors }}
+          <div class="form-field">
+            {{ form.username.label_tag }}
+            {{ form.username }}
+            {{ form.username.errors }}
+          </div>
+          <div class="form-field">
+            {{ form.password.label_tag }}
+            {{ form.password }}
+            {{ form.password.errors }}
+          </div>
+            <div class="form-field radio-field">
+              <span class="radio-label">Tipo de conta:</span>
+              {{ form.categoria }}
+              {{ form.categoria.errors }}
+            </div>
+          <button type="submit" class="btn-submit">Entrar</button>
+        </form>
+
+        <p class="signup-link-outside">
+          Não tem conta? <a href="{% url 'signup' %}">Crie uma aqui</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

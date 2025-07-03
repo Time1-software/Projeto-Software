@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Criar Conta | EduTrack</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'styles_login.css' %}">
+</head>
+<body>
+  <div class="full-screen">
+    <div class="side logo-side">
+      <img src="{% static 'imgs/logo_login.png' %}" alt="Logo_Login">
+    </div>
+
+    <div class="side form-side">
+      <div class="form-inner">
+        <h2 class="form-header">Criar Conta</h2>
+
+        <form method="post" novalidate class="form-box">
+          {% csrf_token %}
+
+          {# Erros não ligados a campo específico #}
+          {% if form.non_field_errors %}
+            <ul class="form-errors">
+              {% for err in form.non_field_errors %}
+                <li>{{ err }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+
+          <div class="form-field">
+            {{ form.email.label_tag }}
+            {{ form.email }}
+            {% if form.email.errors %}
+              <ul class="field-errors">
+                {% for err in form.email.errors %}
+                  <li>{{ err }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+
+          <div class="form-field radio-field">
+            <span class="radio-label">Tipo de conta:</span>
+            {{ form.categoria }}
+            {% if form.categoria.errors %}
+              <ul class="field-errors">
+                {% for err in form.categoria.errors %}
+                  <li>{{ err }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+
+          <div class="form-field">
+            {{ form.password1.label_tag }}
+            {{ form.password1 }}
+            {% if form.password1.errors %}
+              <ul class="field-errors">
+                {% for err in form.password1.errors %}
+                  <li>{{ err }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+
+          <div class="form-field">
+            {{ form.password2.label_tag }}
+            {{ form.password2 }}
+            {% if form.password2.errors %}
+              <ul class="field-errors">
+                {% for err in form.password2.errors %}
+                  <li>{{ err }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+
+          <button type="submit" class="btn-submit">Cadastrar</button>
+        </form>
+
+        <p class="signup-link-outside">
+          Já tem conta? <a href="{% url 'login' %}">Faça login</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
