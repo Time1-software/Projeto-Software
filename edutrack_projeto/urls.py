@@ -27,6 +27,7 @@ urlpatterns = [
     path('tarefas/', views.tarefas_home, name='tarefas'),
     path('desempenho/<int:aluno_pk>/', views.desempenho_geral_view, name='desempenho_aluno'),
     path('gradeAluno/', views.grade_aluno, name='grade_aluno'),
-    path('painelAluno/', views.painel_aluno, name='painelAluno') 
-
+    path('painelAluno/', views.painel_aluno, name='painelAluno') ,
+    path('calendario/', views.calendario_view, name='calendario'),
+    path('criar-tarefa/', views.criar_tarefa, name='criar_tarefa')
 ]

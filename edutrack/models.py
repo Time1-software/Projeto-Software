@@ -228,3 +228,25 @@ class Chat(models.Model):
 
     def __str__(self):
         return f"{self.remetente} → {self.destinatario}"
+    
+# Calendario
+class Tarefa(models.Model):
+    class TipoTarefa(models.TextChoices):
+        PROVA = 'Prova', 'Prova'
+        TESTE = 'Teste', 'Teste'
+        TRABALHO = 'Trabalho', 'Trabalho'
+        APRESENTACAO = 'Apresentação', 'Apresentação'
+
+    titulo = models.CharField(max_length=200)
+    descricao = models.TextField()
+    data = models.DateField()
+    tipo = models.CharField(
+        max_length=20,
+        choices=TipoTarefa.choices,
+        default=TipoTarefa.TESTE,
+    )
+    turma = models.ForeignKey(Turma, on_delete=models.CASCADE)
+    autor = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.titulo} ({self.tipo}) - {self.data}"

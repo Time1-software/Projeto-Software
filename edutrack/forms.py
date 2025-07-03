@@ -1,5 +1,5 @@
 from django import forms
-from .models import Aluno
+from .models import Aluno,Tarefa, Turma
 
 class AlunoForm(forms.ModelForm):
     class Meta:
@@ -31,4 +31,19 @@ class AlunoForm(forms.ModelForm):
             'participacao_oficinas': 'Participação em oficinas (%)',
             'comportamento_sala': 'Comportamento em sala (%)',
             'participacao_plataformas': 'Participação em plataformas (%)',
+        }
+
+class TarefaForm(forms.ModelForm):
+    tipo = forms.ChoiceField(choices=Tarefa.TipoTarefa.choices, label="Tipo da Tarefa")
+
+    turma = forms.ModelChoiceField(
+        queryset=Turma.objects.all(),
+        label="Turma"
+    )
+
+    class Meta:
+        model = Tarefa
+        fields = ['titulo', 'data', 'tipo', 'descricao', 'turma']
+        widgets = {
+            'data': forms.DateInput(attrs={'type': 'date'}),
         }

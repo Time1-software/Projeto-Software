@@ -1,0 +1,95 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Calendário de Tarefas</title>
+    <link rel="stylesheet" href="{% static 'calendario.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .modal-bg {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            font-family: 'Segoe UI', sans-serif;
+            position: relative;
+        }
+        .modal-content h3 {
+            margin-top: 0;
+        }
+        .modal-content .fechar {
+            position: absolute;
+            top: 8px;
+            right: 12px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="titulo">Calendário de Tarefas</h2>
+
+        <div class="calendario-wrapper">
+            {{ calendario|safe }}
+        </div>
+
+        <div class="navegacao-meses">
+            <a href="?mes={{ mes_anterior }}&ano={{ ano_anterior }}" class="seta">← Mês Anterior</a>
+            <a href="?mes={{ mes_proximo }}&ano={{ ano_proximo }}" class="seta">Próximo Mês →</a>
+        </div>
+
+        <div class="legenda">
+            <p><strong>* Clique sobre a tarefa para mais detalhes.</strong></p>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal-bg" id="tarefa-modal">
+        <div class="modal-content">
+            <span class="fechar" onclick="$('#tarefa-modal').hide()">×</span>
+            <h3 id="modal-titulo"></h3>
+            <p><strong>Tipo:</strong> <span id="modal-tipo"></span></p>
+            <p><strong>Data:</strong> <span id="modal-data"></span></p>
+            <p><strong>Descrição:</strong> <span id="modal-descricao"></span></p>
+            <p><strong>Turma:</strong> <span id="modal-turma"></span></p>
+            <p><strong>Autor:</strong> <span id="modal-autor"></span></p>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('.tarefa').on('click', function () {
+                $('#modal-titulo').text($(this).data('titulo'));
+                $('#modal-tipo').text($(this).data('tipo'));
+                $('#modal-data').text($(this).data('data'));
+                $('#modal-descricao').text($(this).data('descricao'));
+                $('#modal-turma').text($(this).data('turma'));
+                $('#modal-autor').text($(this).data('autor'));
+                $('#tarefa-modal').fadeIn();
+            });
+
+            // Fechar modal ao clicar fora
+            $('#tarefa-modal').on('click', function (e) {
+                if (e.target.id === 'tarefa-modal') {
+                    $(this).fadeOut();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
