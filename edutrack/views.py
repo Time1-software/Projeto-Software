@@ -1,7 +1,5 @@
 import datetime
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import * 
-from .forms import AlunoForm
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.contrib.auth.views import LoginView, LogoutView
@@ -9,9 +7,7 @@ from django.views.generic import CreateView, TemplateView
 from django.urls import reverse_lazy
 from .forms import CustomLoginForm, CustomSignupForm
 
-# Create your views here.
 
-# Create your views here.
 #Boletim
 def Boletim(request):
     notas = Nota.objects.all()
@@ -42,7 +38,7 @@ def aluno_create(request):
 
 def participacao(request, pk):
     aluno = get_object_or_404(Aluno, pk=pk)
-    # monta a lista de métricas puxando do próprio model
+
     dados = [
         ('Pontualidade', aluno.pontualidade),
         ('Participação em aula', aluno.participacao_aula),
@@ -51,7 +47,6 @@ def participacao(request, pk):
         ('Participação em oficinas', aluno.participacao_oficinas),
         ('Comportamento em sala', aluno.comportamento_sala),
         ('Plataformas educacionais', aluno.participacao_plataformas),
-        
     ]
     media = sum(p for _, p in dados) // len(dados)
     return render(request, 'participacao.html', {
@@ -60,14 +55,11 @@ def participacao(request, pk):
         'media': media,
     })
 
-
 @login_required
 def dashboard_home(request):
-
     context = {
         'nome_responsavel': request.user.first_name or request.user.username
     }
-    
     return render(request, 'dashboard.html', context)
 
 
@@ -119,22 +111,30 @@ def painel_aluno(request):
     if dia_chave:
         aulas_hoje = GradeHorario.objects.filter(turma=aluno.turma, dia_semana=dia_chave).order_by('horario')
 
-    return render(request, 'bem_vindo_aluno.html', {
+    #notificações rápidas
+    atividades_hoje = [
+        a for a in Atividade.objects.filter(aluno=aluno, entregue=False)
+        if a.status == 'hoje'
+    ]
+
+  
+    # Dados para o resumo do dia
+    tem_tarefas_hoje = len(atividades_hoje) > 0
+    qtd_tarefas_hoje = len(atividades_hoje)
+
+    context = {
         'aluno': aluno,
         'aulas_hoje': aulas_hoje,
-    })
+        'atividades_hoje': atividades_hoje,
+        'tem_tarefas_hoje': tem_tarefas_hoje,
+        'qtd_tarefas_hoje': qtd_tarefas_hoje,
+    }
+
+    return render(request, 'bem_vindo_aluno.html', context)
 
 def tarefas_home(request):
-
-
     aluno_atual = Aluno.objects.first() 
-
-
-
-
     atividades_base = Atividade.objects.filter(aluno=aluno_atual, entregue=False)
-
-
     filtro_tipo = request.GET.get('tipo', None)
     if filtro_tipo in ['PROVA', 'TRABALHO']:
         atividades_filtradas = atividades_base.filter(tipo=filtro_tipo)
@@ -149,19 +149,11 @@ def tarefas_home(request):
         'aluno': aluno_atual,
         'request': request,
     }
-
-
     return render(request, 'tarefas_provas.html', context)
 
-
 def pagina_de_tarefas(request):
-
     aluno_atual = Aluno.objects.first() 
-    
-
     atividades_pendentes = Atividade.objects.filter(aluno=aluno_atual, entregue=False)
-
-
     filtro_tipo = request.GET.get('tipo') 
     if filtro_tipo in ['PROVA', 'TRABALHO']:
         atividades_pendentes = atividades_pendentes.filter(tipo=filtro_tipo)
@@ -173,25 +165,20 @@ def pagina_de_tarefas(request):
         'tarefas_atrasadas': [t for t in atividades_pendentes if t.status == 'atrasada'],
         'aluno': aluno_atual,
     }
-
     return render(request, 'tarefas_provas.html', context)
 
-@login_required 
-def dashboard_pais_view(request):
-    """
-    Esta view mostra um dashboard para o pai/mãe logado,
-    exibindo os cartões para cada filho associado.
-    """
-    try:
-        responsavel = Responsavel.objects.get(user=request.user)
 
-        lista_de_alunos = responsavel.filhos.all()
-    except Responsavel.DoesNotExist:
 
-        lista_de_alunos = []
+
+@login_required
+def desempenho_geral_view(request, aluno_pk):
+
+    aluno = get_object_or_404(Aluno, pk=aluno_pk)
+    notas = Nota.objects.filter(aluno=aluno).order_by('disciplina__nome')
 
     context = {
-        'alunos': lista_de_alunos,
+        'aluno': aluno,
+        'notas': notas
     }
     
     return render(request, 'dashboard_pais.html', context)
