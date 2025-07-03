@@ -1,5 +1,7 @@
 import datetime
 from django.shortcuts import render, redirect, get_object_or_404
+from .models import * 
+from .forms import AlunoForm
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.contrib.auth.views import LoginView, LogoutView
@@ -194,7 +196,7 @@ class CustomLoginView(LoginView):
     def get_success_url(self):
         cat = self.request.user.profile.categoria
         mapping = {
-            'aluno':        'bem_vindo_aluno',
+            'aluno':        'painelAluno',
             'professor':    'bem_vindo_professor',
             'responsavel':  'bem_vindo_pai',
             'administrador':'bem_vindo_adm',
@@ -214,7 +216,7 @@ class SignupSuccessView(TemplateView):
     template_name = 'signup_success.html'
 
 class BemvindoAlunoView(TemplateView):
-    template_name = 'bem_vindo_aluno.html'
+    template_name = 'painel_aluno.html'
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         ctx['email'] = self.request.user.email
