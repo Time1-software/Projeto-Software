@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro Concluído</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'styles_login.css' %}">
+</head>
+<body>
+  <div class="full-screen">
+    <div class="side logo-side">
+      <img src="{% static 'imgs/logo_login.png' %}" alt="Logo_Login">
+    </div>
+    <div class="side form-side">
+      <div class="form-inner">
+        <h2 class="form-header">Cadastro Concluído!</h2>
+        <p class="success-message">Seu usuário foi criado com sucesso.</p>
+        <a href="{% url 'login' %}?next={% url 'login' %}" class="btn-submit">
+          Voltar ao Login
+        </a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -257,3 +257,18 @@ class GradeHorario(models.Model):
 
     def __str__(self):
         return f"{self.get_dia_semana_display()} {self.get_horario_display()} - {self.disciplina} ({self.turma})"
+
+#LOGIN
+
+CATEGORIAS = [
+    ('aluno', 'Aluno(a)'),
+    ('professor', 'Professor(a)'),
+    ('responsavel', 'Responsável'),
+]
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    categoria = models.CharField(max_length=20, choices=CATEGORIAS)
+
+    def __str__(self):
+        return f"{self.user.email} – {self.get_categoria_display()}"

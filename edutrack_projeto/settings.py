@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-3xdf)l1mb0^)je%pj@fp@3&cc#7vi%cpgf*&x46)1p2u8e6$=('
+SECRET_KEY = 'django-insecure-3xdf)l1mb0^)je%pj@fp@3&cc#7vi%cpgf*&x46)1p2u8e6$('
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -35,9 +35,9 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.messages',
+    'django.contrib.messages',  # habilitado para exibir mensagens
     'django.contrib.staticfiles',
-    'edutrack',
+    'edutrack',                # app da main
 ]
 
 MIDDLEWARE = [
@@ -46,7 +46,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',  # habilitado
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
@@ -55,13 +55,17 @@ ROOT_URLCONF = 'edutrack_projeto.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / "edutrack_projeto" / "templates"],
+        'DIRS': [
+            BASE_DIR / 'templates',                                # seu template global
+            BASE_DIR / 'edutrack_projeto' / 'templates'            # template da main
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.debug',             # seu projeto
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+                'django.contrib.messages.context_processors.messages',  # habilitado
             ],
         },
     },
@@ -103,25 +107,22 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
+LANGUAGE_CODE = 'pt-br'                # do seu projeto
+TIME_ZONE = 'America/Sao_Paulo'        # do seu projeto
 USE_I18N = True
-
 USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-#STATIC_URL = 'static/'
+STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / "edutrack_projeto" / "static",
+    BASE_DIR / 'static',                               # do seu projeto
+    BASE_DIR / 'edutrack_projeto' / 'static',          # da main
 ]
 
-STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "edutrack_projeto" / "staticfiles"
 
 MEDIA_URL = "media/"
@@ -131,3 +132,8 @@ MEDIA_ROOT = BASE_DIR / "edutrack_projeto" / "media"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Redirecionamentos pós-login/logout
+LOGIN_REDIRECT_URL = '/signup/success/'
+LOGOUT_REDIRECT_URL = '/login/'

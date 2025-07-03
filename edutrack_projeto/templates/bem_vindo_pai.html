@@ -1,0 +1,18 @@
+
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Bem-vindo Responsável</title>
+</head>
+<body style="display:flex;align-items:center;justify-content:center;height:100vh;flex-direction:column;font-family:Arial,sans-serif;">
+  <h2>Bem vindo responsável:</h2>
+  <p>nome: {{ email }}</p>
+  <a href="{% url 'login' %}"
+     style="margin-top:1rem;padding:0.6rem 1.2rem;background:#007acc;color:#fff;border-radius:4px;text-decoration:none;">
+    Voltar ao Login
+  </a>
+</body>
+</html>

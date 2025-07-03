@@ -17,6 +17,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from edutrack import views
+from django.views.generic import RedirectView
+from edutrack.views import (
+    CustomLoginView,
+    CustomLogoutView,
+    SignupView,
+    SignupSuccessView,
+    BemvindoAlunoView,
+    BemvindoProfessorView,
+    BemvindoPaiView,
+    BemvindoAdmView,
+)
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('boletim/', views.Boletim, name='boletim_escolar'),
@@ -28,6 +40,20 @@ urlpatterns = [
     path('dashboard-pais/', views.dashboard_pais_view, name='dashboard_pais'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('gradeHoraria/', views.grade_aluno, name='grade_aluno'), 
-    path('painelAluno/', views.painel_aluno, name='painel_aluno')
+    path('painelAluno/', views.painel_aluno, name='painel_aluno'),
+
+    #LOGIN
+    path('', RedirectView.as_view(pattern_name='login', permanent=False)),
+    
+    path('login/',  CustomLoginView.as_view(),  name='login'),
+    path('logout/', CustomLogoutView.as_view(), name='logout'),
+
+    path('signup/',         SignupView.as_view(),        name='signup'),
+    path('signup/success/', SignupSuccessView.as_view(), name='signup-success'),
+
+    path('bemvindo/aluno/',     BemvindoAlunoView.as_view(),     name='bem_vindo_aluno'),
+    path('bemvindo/professor/', BemvindoProfessorView.as_view(), name='bem_vindo_professor'),
+    path('bemvindo/pai/',       BemvindoPaiView.as_view(),       name='bem_vindo_pai'),
+    path('bemvindo/adm/',       BemvindoAdmView.as_view(),       name='bem_vindo_adm'),
     
 ]

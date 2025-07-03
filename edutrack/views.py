@@ -4,6 +4,10 @@ from .models import *
 from .forms import AlunoForm
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
+from django.contrib.auth.views import LoginView, LogoutView
+from django.views.generic import CreateView, TemplateView
+from django.urls import reverse_lazy
+from .forms import CustomLoginForm, CustomSignupForm
 
 # Create your views here.
 
@@ -191,3 +195,61 @@ def dashboard_pais_view(request):
     }
     
     return render(request, 'dashboard_pais.html', context)
+
+#LOGIN
+
+
+class CustomLoginView(LoginView):
+    template_name = 'login.html'
+    authentication_form = CustomLoginForm
+    redirect_authenticated_user = False
+
+    def get_success_url(self):
+        cat = self.request.user.profile.categoria
+        mapping = {
+            'aluno':        'bem_vindo_aluno',
+            'professor':    'bem_vindo_professor',
+            'responsavel':  'bem_vindo_pai',
+            'administrador':'bem_vindo_adm',
+        }
+        # se não achar categoria, volta para login
+        return reverse_lazy(mapping.get(cat, 'login'))
+
+class CustomLogoutView(LogoutView):
+    next_page = reverse_lazy('login')
+
+class SignupView(CreateView):
+    template_name = 'signup.html'
+    form_class = CustomSignupForm
+    success_url = reverse_lazy('signup-success')
+
+class SignupSuccessView(TemplateView):
+    template_name = 'signup_success.html'
+
+class BemvindoAlunoView(TemplateView):
+    template_name = 'bem_vindo_aluno.html'
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['email'] = self.request.user.email
+        return ctx
+
+class BemvindoProfessorView(TemplateView):
+    template_name = 'bem_vindo_professor.html'
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['email'] = self.request.user.email
+        return ctx
+
+class BemvindoPaiView(TemplateView):
+    template_name = 'bem_vindo_pai.html'
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['email'] = self.request.user.email
+        return ctx
+
+class BemvindoAdmView(TemplateView):
+    template_name = 'bem_vindo_adm.html'
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['email'] = self.request.user.email
+        return ctx
