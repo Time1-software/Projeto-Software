@@ -1,0 +1,37 @@
+body {
+  background-color: #f4f4f4;
+}
+
+.logo {
+  height: 40px;
+  object-fit: contain;
+}
+
+.perfil {
+  width: 35px;
+  height: 35px;
+  object-fit: contain;
+}
+
+.custom-footer {
+  background-color: #f7b16c;
+  color: white;
+  text-align: center;
+  padding: 1rem 0;
+  height: 40px;
+}
+
+.card {
+  border: none;
+  border-radius: 10px;
+}
+
+.card-header {
+  font-size: 1rem;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.card-body ul li {
+  padding-left: 0.5rem;
+}
