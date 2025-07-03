@@ -112,15 +112,15 @@ class Responsavel(models.Model):
         return self.user.get_full_name() or self.user.username
 
 class Nota(models.Model):
-    """Seu modelo de Nota foi mantido e levemente melhorado."""
     aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE, verbose_name="Aluno", null=True, blank=True)
     disciplina = models.ForeignKey(Disciplina, on_delete=models.CASCADE, verbose_name="Disciplina", null=True, blank=True)
     nota1 = models.FloatField(null=True, blank=True)
     nota2 = models.FloatField(null=True, blank=True)
     nota3 = models.FloatField(null=True, blank=True)
+    recuperacao = models.FloatField("Recuperação", null=True, blank=True) 
     media = models.FloatField(null=True, blank=True, editable=False)
 
-    # Métodos save e outros foram mantidos como você definiu.
+  
     def save(self, *args, **kwargs):
         if self.nota1 is not None and self.nota2 is not None and self.nota3 is not None:
             self.media = (self.nota1 + self.nota2 + self.nota3) / 3

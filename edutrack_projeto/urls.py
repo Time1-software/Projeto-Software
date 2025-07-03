@@ -25,5 +25,6 @@ urlpatterns = [
     path('alunoLista/', views.aluno_list, name='aluno_lista'),  
     path('dashboard/', views.dashboard_home, name='dashboard'),
     path('tarefas/', views.tarefas_home, name='tarefas'),
+     path('desempenho/<int:aluno_pk>/', views.desempenho_geral_view, name='desempenho_aluno'),
     
 ]
