@@ -115,18 +115,30 @@ def painel_aluno(request):
     if dia_chave:
         aulas_hoje = GradeHorario.objects.filter(turma=aluno.turma, dia_semana=dia_chave).order_by('horario')
 
-    return render(request, 'bem_vindo_aluno.html', {
+    #notificações rápidas
+    atividades_hoje = [
+        a for a in Atividade.objects.filter(aluno=aluno, entregue=False)
+        if a.status == 'hoje'
+    ]
+
+  
+    # Dados para o resumo do dia
+    tem_tarefas_hoje = len(atividades_hoje) > 0
+    qtd_tarefas_hoje = len(atividades_hoje)
+
+    context = {
         'aluno': aluno,
         'aulas_hoje': aulas_hoje,
-    })
+        'atividades_hoje': atividades_hoje,
+        'tem_tarefas_hoje': tem_tarefas_hoje,
+        'qtd_tarefas_hoje': qtd_tarefas_hoje,
+    }
+
+    return render(request, 'bem_vindo_aluno.html', context)
 
 def tarefas_home(request):
 
-
     aluno_atual = Aluno.objects.first() 
-
-
-
 
     atividades_base = Atividade.objects.filter(aluno=aluno_atual, entregue=False)
 

@@ -38,9 +38,18 @@
         <div class="card-header text-primary fw-bold">Notificações rápidas</div>
         <div class="card-body">
           <ul class="list-unstyled small mb-0">
-            <li>📌 NOVA tarefa de Artes publicada</li>
-            <li class="text-danger">⚠️ Entrega de Redação amanhã</li>
-          </ul>
+               <div class="card-body">
+ 
+              {% if atividades_hoje %}
+                {% for atividade in atividades_hoje %}
+                  <li>📌 {{ atividade.tipo }} de {{ atividade.disciplina }}: <strong>{{ atividade.titulo }}</strong></li>
+
+                {% endfor %}
+              {% else %}
+                <li class="text-muted">Nenhuma tarefa marcada para hoje.</li>
+              {% endif %}
+            </ul>
+
           <a href="#" class="text-end d-block text-decoration-none mt-2">veja mais</a>
         </div>
       </div>
@@ -50,10 +59,11 @@
         <div class="card-header text-success fw-bold">Resumo do dia</div>
         <div class="card-body">
           <ul class="list-unstyled small mb-0">
-            <li>✅ Tarefas concluídas</li>
-            <li>📘 Matéria: Ciências</li>
-            <li class="text-danger">🔔 Entrega de filosofia atrasada</li>
-          </ul>
+            {% if tem_tarefas_hoje %}
+              <li class="text-danger">🔔 {{ qtd_tarefas_hoje }} tarefa(s) pendente(s) para hoje</li>
+            {% else %}
+              <li class="text-success">✅ Todas as tarefas de hoje foram concluídas!</li>
+            {% endif %}
           <a href="#" class="text-end d-block text-decoration-none mt-2">veja mais</a>
         </div>
       </div>
