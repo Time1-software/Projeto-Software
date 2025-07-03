@@ -82,6 +82,8 @@ def grade_aluno(request):
 
     for aula in aulas:
         grade_organizada[aula.dia_semana][aula.horario] = aula
+    
+   
 
     return render(request, 'grade.html', {
         'aluno': aluno,
@@ -242,3 +244,5 @@ class BemvindoAdmView(TemplateView):
         ctx = super().get_context_data(**kwargs)
         ctx['email'] = self.request.user.email
         return ctx
+
+
