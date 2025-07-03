@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desempenho de {{ aluno.nome }}</title>
+    <link rel="stylesheet" href="{% static 'desempenho_aluno.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="{% static 'imgs/EduTrack.png' %}" alt="EduTrack Logo">
+                
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="#">Início</a></li>
+                <li><a href="#">Resumo</a></li>
+                <li><a href="#">Mensagens</a></li>
+            </ul>
+            
+            <div class="search-bar">
+                <input type="search" placeholder="">
+                <i class="search-icon"></i>
+            </div>
+            
+            <div class="profile-icon">
+                <img src="{% static 'imgs/usuario-de-perfil.png' %}" alt="Ícone de Perfil"/>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1>Desempenho Geral</h1>
+        <h2>Aluno: {{ aluno.nome }}</h2>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Disciplina</th>
+                        <th>AV1</th>
+                        <th>AV2</th>
+                        <th>AV3</th>
+                        <th>Recuperação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for nota in notas %}
+                    <tr>
+                        <td>{{ nota.disciplina.nome }}</td>
+                        <td>{{ nota.nota1|default:"-" }}</td>  
+                        <td>{{ nota.nota2|default:"-" }}</td> 
+                        <td>{{ nota.nota3|default:"-" }}</td>  
+                        <td>{{ nota.recuperacao|default:"-" }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" style="text-align: center;">Nenhuma nota cadastrada para este aluno.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+    
+    <footer class="footer-bar">
+    </footer>
+</body>
+</html>
