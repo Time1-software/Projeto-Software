@@ -17,6 +17,7 @@ admin.site.register(ConteudoDia)
 admin.site.register(Quiz)
 admin.site.register(Relatorio)
 admin.site.register(GradeHorario)
+admin.site.register(Profile)
 
 @admin.register(Aluno)
 class AlunoAdmin(admin.ModelAdmin):
