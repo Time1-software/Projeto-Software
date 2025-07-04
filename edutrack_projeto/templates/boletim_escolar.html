@@ -4,56 +4,50 @@
 {% block title %}Painel do Aluno{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'boletim.css' %}">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'boletim.css' %}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 {% endblock %}
-
 
 {% block content %}
-
-  <!-- Conteúdo principal -->
-  <main class="flex-fill container my-4">
-    <h3>Desempenho Geral</h3>
-    <div class="table-responsive bg-white shadow-sm rounded p-3">
-      <table class="table table-bordered text-center align-middle">
-        <thead class="table-primary">
-          <tr>
-            <th>Disciplina</th>
-            <th>Nota 1</th>
-            <th>Nota 2</th>
-            <th>Nota 3</th>
-            <th>Média</th>
-            <th>Recuperação</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for nota in notas %}
-            <tr class="{% cycle 'table-light' '' %}">
-              <td>{{ nota.disciplina }}</td>
-              <td>{% if nota.nota1 is None %}{% else %}{{ nota.nota1 }}{% endif %}</td>
-              <td>{% if nota.nota2 is None %}{% else %}{{ nota.nota2 }}{% endif %}</td>
-              <td>{% if nota.nota3 is None %}{% else %}{{ nota.nota3 }}{% endif %}</td>
-              <td>{% if nota.media is not None %}{{ nota.media|floatformat:2 }}{% else %}-{% endif %}</td>
-              <td>
-                {% if nota.tem_todas_notas %}
-                  {% if nota.recuperacao %}
-                    <strong style="color:red;">Sim</strong>
-                  {% else %}
-                    <span style="color:green;">Não</span>
-                  {% endif %}
+<main class="flex-fill container my-4">
+  <h3>Desempenho Geral</h3>
+  <div class="table-responsive p-3">
+    <table class="table table-bordered text-center align-middle">
+      <thead class="table-primary">
+        <tr>
+          <th>Disciplina</th>
+          <th>Nota 1</th>
+          <th>Nota 2</th>
+          <th>Nota 3</th>
+          <th>Média</th>
+          <th>Recuperação</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for nota in notas %}
+          <tr class="{% cycle 'table-light' '' %}">
+            <td>{{ nota.disciplina }}</td>
+            <td>{% if nota.nota1 is None %}{% else %}{{ nota.nota1 }}{% endif %}</td>
+            <td>{% if nota.nota2 is None %}{% else %}{{ nota.nota2 }}{% endif %}</td>
+            <td>{% if nota.nota3 is None %}{% else %}{{ nota.nota3 }}{% endif %}</td>
+            <td>{% if nota.media is not None %}{{ nota.media|floatformat:2 }}{% else %}-{% endif %}</td>
+            <td>
+              {% if nota.tem_todas_notas %}
+                {% if nota.recuperacao %}
+                  <strong class="text-red">Sim</strong>
                 {% else %}
-                  -
+                  <span class="text-green">Não</span>
                 {% endif %}
-              </td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-  </main>
-
+              {% else %}
+                -
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</main>
 {% endblock %}
-
-
