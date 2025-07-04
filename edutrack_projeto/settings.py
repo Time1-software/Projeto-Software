@@ -118,7 +118,7 @@ USE_TZ = True
 #STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / "edutrack_projeto" / "static",
+    BASE_DIR / 'edutrack_projeto' / 'static',
 ]
 
 STATIC_URL = 'static/'

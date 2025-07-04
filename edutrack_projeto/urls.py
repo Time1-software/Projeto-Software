@@ -1,24 +1,17 @@
-"""
-URL configuration for edutrack_projeto project.
+# edutrack_projeto/urls.py (VERSÃO FINAL E CORRIGIDA)
 
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path, include
 from edutrack import views
+
+# --- Imports adicionais para servir arquivos estáticos em desenvolvimento ---
+from django.conf import settings
+from django.conf.urls.static import static
+
 urlpatterns = [
+    # Suas rotas existentes
     path('admin/', admin.site.urls),
+    path('accounts/', include('django.contrib.auth.urls')),
     path('boletim/', views.Boletim, name='boletim_escolar'),
     path("participacao/<int:pk>/", views.participacao, name="participacao"), 
     path('formsAlunos/', views.aluno_create, name='forms_aluno'),
@@ -26,7 +19,9 @@ urlpatterns = [
     path('dashboard/', views.dashboard_home, name='dashboard'),
     path('tarefas/', views.tarefas_home, name='tarefas'),
     path('desempenho/<int:aluno_pk>/', views.desempenho_geral_view, name='desempenho_aluno'),
-    path('gradeAluno/', views.grade_aluno, name='grade_aluno'),
-    path('painelAluno/', views.painel_aluno, name='painelAluno') 
-
+    path('turmas-overview/', views.turmas_overview_view, name='turmas_overview'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

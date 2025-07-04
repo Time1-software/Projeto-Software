@@ -18,13 +18,19 @@ nav {
 }
 
 .logo img {
-    width: 150px; 
-    height: auto;  
+    width: 32px; /* Ajuste o tamanho conforme necessário */
+    height: 32px;
     margin-right: 12px;
-    max-width: 500px; 
 }
 
+.logo span {
+    color: #007bff; /* Azul primário */
+}
 
+.logo span::after { /* Adiciona o texto 'Track' em verde */
+    content: 'Track';   
+    color: #28a745; /* Verde */
+}
 
 .nav-links {
     list-style: none;
