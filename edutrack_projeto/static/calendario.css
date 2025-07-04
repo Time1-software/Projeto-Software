@@ -1,0 +1,187 @@
+body {
+    background-color: #f5f5f5;
+    font-family: "Segoe UI", sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+}
+
+.titulo {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+.calendario-wrapper {
+    overflow-x: auto;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 4px;
+    margin: 0 auto;
+    font-size: 1rem;
+    border-radius: 12px;
+}
+
+th, td {
+    padding: 1rem;
+    text-align: center;
+    min-width: 80px;
+    border-radius: 10px;
+}
+
+th {
+    background-color: #005bbb;
+    color: white;
+    font-weight: 600;
+}
+
+td {
+    background-color: #e6f2ff;
+    transition: background-color 0.3s ease;
+}
+
+td:hover {
+    background-color: #cde0f5;
+    cursor: pointer;
+}
+
+.legenda {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 0.95rem;
+    color: #444;
+}
+
+.dia {
+    position: relative;
+    min-height: 100px;
+    height: 100px;
+    padding: 6px 4px 4px 4px;
+    box-sizing: border-box;
+    overflow: hidden;
+    border-radius: 12px;
+    background-color: #e6f2ff;
+}
+
+.dia-num {
+    font-size: 0.8rem;
+    color: #444;
+    font-weight: 800;
+    position: absolute;
+    top: 6px;
+    left: 8px;
+}
+
+.tarefa {
+    display: block;
+    margin-top: 18px;
+    padding: 4px 6px;
+    border-radius: 8px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    color: white;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Cores */
+.vermelho { background-color: #e74c3c; }
+.amarelo { background-color: #f1c40f; color: black; }
+.laranja { background-color: #e67e22; }
+.azul    { background-color: #3498db; }
+
+/* Garante que todas as células tenham altura igual */
+table td {
+    height: 100px;
+    vertical-align: top;
+}
+
+/* Evita que uma linha fique maior por causa de uma célula */
+table {
+    table-layout: fixed;
+}
+
+.hoje {
+    background-color: #ffefc1 !important;
+    border: 2px solid #ffaa00;
+}
+
+.navegacao {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.navegacao a {
+    margin: 0 1rem;
+    text-decoration: none;
+    font-weight: bold;
+    color: #005bbb;
+}
+
+.navegacao-meses {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+.seta {
+    background-color: #005bbb;
+    color: white;
+    padding: 10px 20px;
+    margin: 0 12px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.95rem;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.seta:hover {
+    background-color: #004899;
+    transform: scale(1.03);
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.6);
+}
+
+.modal-content {
+  background-color: white;
+  margin: 10% auto;
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 500px;
+  position: relative;
+  box-shadow: 0 0 12px rgba(0,0,0,0.2);
+}
+
+.fechar {
+  position: absolute;
+  top: 12px; right: 16px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #888;
+}
+
+.fechar:hover {
+  color: #000;
+}

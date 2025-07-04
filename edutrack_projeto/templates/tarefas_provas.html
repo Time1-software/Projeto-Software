@@ -1,150 +1,118 @@
+{% extends 'template_base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduTrack - Tarefas</title>
-    <link rel="stylesheet" href="{% static 'tarefas.css' %}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/feather-icons"></script>
-</head>
-<body>
 
-    <div class="container">
-        <header>
-            <div class="header-left">
-                <div class="logo">EduTrack</div>
-                <nav>
-                    <ul>
-                        <li><a href="#">Página Inicial</a></li>
-                        <li><a href="#" class="active">Tarefas</a></li>
-                        <li><a href="#">Diário de Aprendizagem</a></li>
-                    </ul>
-                </nav>
-            </div>
-            <div class="header-right">
-                <div class="search-bar">
-                    <input type="text" placeholder="Value">
-                    <i data-feather="x" class="close-icon"></i>
-                </div>
-                <div class="user-profile">
-                    <i data-feather="user"></i>
-                </div>
-            </div>
-        </header>
+{% block title %}EduTrack - Tarefas{% endblock %}
 
-        <main>
-            <h1 class="main-title">Próximas Tarefas</h1>
-            
-            <div class="filters">
-                <a href="{% url 'tarefas' %}" class="filter-btn {% if not request.GET.tipo %}active{% endif %}">Todas</a>
-                
-                <a href="?tipo=PROVA" class="filter-btn {% if request.GET.tipo == 'PROVA' %}active{% endif %}">Provas</a>
-                
-                <a href="?tipo=TRABALHO" class="filter-btn {% if request.GET.tipo == 'TRABALHO' %}active{% endif %}">Trabalhos</a>
-            </div>
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'tarefas.css' %}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+{% endblock %}
 
-            <div class="task-board">
-                <div class="task-column">
+{% block content %}
+<div class="tarefas-wrapper">
+    <h1 class="main-title">Próximas Tarefas</h1>
 
-                    <section class="task-group">
-                        <h2 class="task-group-title today">
-                            <i data-feather="calendar"></i>
-                            <span>Hoje</span>
-                        </h2>
-                        <div class="task-card">
-                            {% if tarefas_hoje %}
-                                {% for tarefa in tarefas_hoje %}
-                                <div class="task-item">
-                                    <div class="task-item-header">
-                                        <span class="task-name">{{ tarefa.titulo }}</span>
-                                        <span class="tag tag-today">{{ tarefa.data_entrega|date:"H:i" }} — {{ tarefa.disciplina.nome }}</span>
-                                    </div>
-                                    {% if tarefa.descricao %}
-                                    <p class="task-note">📌 {{ tarefa.descricao }}</p>
-                                    {% endif %}
-                                </div>
-                                {% endfor %}
-                            {% else %}
-                                <p class="task-note">Nenhuma tarefa para hoje.</p>
-                            {% endif %}
-                        </div>
-                    </section>
-
-                    <section class="task-group">
-                        <h2 class="task-group-title this-week">
-                            <i data-feather="bell"></i>
-                            <span>Essa semana</span>
-                        </h2>
-                        <div class="task-card">
-                            {% if tarefas_semana %}
-                                {% for tarefa in tarefas_semana %}
-                                <div class="task-item">
-                                    <div class="task-item-header">
-                                        <span class="task-name">{{ tarefa.titulo }}</span>
-                                        <span class="tag tag-this-week">{{ tarefa.data_entrega|date:"d/m" }}</span>
-                                    </div>
-                                    {% if tarefa.descricao %}
-                                    <p class="task-note">✓ {{ tarefa.descricao }}</p>
-                                    {% endif %}
-                                </div>
-                                {% endfor %}
-                            {% else %}
-                                <p class="task-note">Nenhuma tarefa agendada para esta semana.</p>
-                            {% endif %}
-                        </div>
-                    </section>
-                </div>
-
-                <div class="task-column">
-                    <section class="task-group">
-                        <h2 class="task-group-title later">
-                            <i data-feather="calendar"></i>
-                            <span>Daqui a uma ou mais semanas</span>
-                        </h2>
-                        <div class="task-card">
-                            {% if tarefas_futuras %}
-                                {% for tarefa in tarefas_futuras %}
-                                <div class="task-item">
-                                    <div class="task-item-header">
-                                        <span class="task-name">{{ tarefa.titulo }}</span>
-                                        <span class="tag tag-later">{{ tarefa.data_entrega|date:"d/m/Y" }}</span>
-                                    </div>
-                                </div>
-                                {% endfor %}
-                            {% else %}
-                                <p class="task-note">Nenhuma tarefa agendada.</p>
-                            {% endif %}
-                        </div>
-                    </section>
-
-                    <section class="task-group">
-                        <h2 class="task-group-title pending">
-                           <span>Pendentes</span>
-                        </h2>
-                        <div class="task-card">
-                            {% if tarefas_atrasadas %}
-                                {% for tarefa in tarefas_atrasadas %}
-                                <div class="task-item">
-                                    <span class="task-name">{{ tarefa.titulo }} — {{ tarefa.disciplina.nome }}</span>
-                                    <span class="tag tag-pending">Vencimento: {{ tarefa.data_entrega|date:"d/m/Y" }}</span>
-                                </div>
-                                {% endfor %}
-                            {% else %}
-                                <p class="task-note">Nenhuma tarefa pendente!</p>
-                            {% endif %}
-                        </div>
-                    </section>
-                </div>
-            </div>
-        </main>
+    <div class="filters">
+        <a href="{% url 'tarefas' %}" class="filter-btn {% if not request.GET.tipo %}active{% endif %}">Todas</a>
+        <a href="?tipo=PROVA" class="filter-btn {% if request.GET.tipo == 'PROVA' %}active{% endif %}">Provas</a>
+        <a href="?tipo=TRABALHO" class="filter-btn {% if request.GET.tipo == 'TRABALHO' %}active{% endif %}">Trabalhos</a>
     </div>
 
-    <script>
-      feather.replace();
-    </script>
-</body>
-</html>
+    <div class="task-board">
+        <div class="task-column">
+            <section class="task-group">
+                <h2 class="task-group-title today">
+                    <i data-feather="calendar"></i> <span>Hoje</span>
+                </h2>
+                <div class="task-card">
+                    {% if tarefas_hoje %}
+                        {% for tarefa in tarefas_hoje %}
+                        <div class="task-item">
+                            <div class="task-item-header">
+                                <span class="task-name">{{ tarefa.titulo }}</span>
+                                <span class="tag tag-today">{{ tarefa.data_entrega|date:"H:i" }} — {{ tarefa.disciplina.nome }}</span>
+                            </div>
+                            {% if tarefa.descricao %}
+                            <p class="task-note">📌 {{ tarefa.descricao }}</p>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="task-note">Nenhuma tarefa para hoje.</p>
+                    {% endif %}
+                </div>
+            </section>
+
+            <section class="task-group">
+                <h2 class="task-group-title this-week">
+                    <i data-feather="bell"></i> <span>Essa semana</span>
+                </h2>
+                <div class="task-card">
+                    {% if tarefas_semana %}
+                        {% for tarefa in tarefas_semana %}
+                        <div class="task-item">
+                            <div class="task-item-header">
+                                <span class="task-name">{{ tarefa.titulo }}</span>
+                                <span class="tag tag-this-week">{{ tarefa.data_entrega|date:"d/m" }}</span>
+                            </div>
+                            {% if tarefa.descricao %}
+                            <p class="task-note">✓ {{ tarefa.descricao }}</p>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="task-note">Nenhuma tarefa agendada para esta semana.</p>
+                    {% endif %}
+                </div>
+            </section>
+        </div>
+
+        <div class="task-column">
+            <section class="task-group">
+                <h2 class="task-group-title later">
+                    <i data-feather="calendar"></i> <span>Daqui a uma ou mais semanas</span>
+                </h2>
+                <div class="task-card">
+                    {% if tarefas_futuras %}
+                        {% for tarefa in tarefas_futuras %}
+                        <div class="task-item">
+                            <div class="task-item-header">
+                                <span class="task-name">{{ tarefa.titulo }}</span>
+                                <span class="tag tag-later">{{ tarefa.data_entrega|date:"d/m/Y" }}</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="task-note">Nenhuma tarefa agendada.</p>
+                    {% endif %}
+                </div>
+            </section>
+
+            <section class="task-group">
+                <h2 class="task-group-title pending">
+                    <span>Pendentes</span>
+                </h2>
+                <div class="task-card">
+                    {% if tarefas_atrasadas %}
+                        {% for tarefa in tarefas_atrasadas %}
+                        <div class="task-item">
+                            <span class="task-name">{{ tarefa.titulo }} — {{ tarefa.disciplina.nome }}</span>
+                            <span class="tag tag-pending">Vencimento: {{ tarefa.data_entrega|date:"d/m/Y" }}</span>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="task-note">Nenhuma tarefa pendente!</p>
+                    {% endif %}
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://unpkg.com/feather-icons"></script>
+<script>feather.replace();</script>
+{% endblock %}

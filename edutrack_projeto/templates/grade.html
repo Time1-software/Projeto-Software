@@ -1,32 +1,14 @@
+{% extends 'template_base.html' %}
 {% load static %}
 {% load custom_tags %}
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Grade Horária - {{ aluno.turma }}</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="{% static 'grade_horaria.css' %}">
-</head>
+{% block title %}Painel do Aluno{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'grade_horaria.css' %}">
+{% endblock %}
+
+{% block content %}
+
 <body class="d-flex flex-column min-vh-100">
-
-  <!-- Navbar estilo EduTrack -->
-  <nav class="navbar navbar-expand-lg bg-white shadow-sm px-4">
-    <a class="navbar-brand d-flex align-items-center" href="#">
-      <img src="{% static 'imgs/EduTrack.png' %}" alt="Logo EduTrack" class="logo me-2">
-    </a>
-    <ul class="navbar-nav ms-4">
-      <li class="nav-item"><a class="nav-link" href="#">Início</a></li>
-      <li class="nav-item"><a class="nav-link" href="#">Tarefas</a></li>
-      <li class="nav-item"><a class="nav-link" href="#">Diário</a></li>
-    </ul>
-    <div class="ms-auto d-flex align-items-center">
-      <input class="form-control me-2" type="search" placeholder="Buscar">
-      <img src="{% static 'imgs/usuario-de-perfil.png' %}" class="perfil">
-    </div>
-  </nav>
-
   <!-- Conteúdo principal -->
   <main class="container flex-fill my-4">
     <h3 class="mb-4">Grade Horária - Turma {{ aluno.turma }}</h3>
@@ -64,11 +46,4 @@
     </div>
   </main>
 
-  <!-- Rodapé -->
-  <footer class="footer-bar custom-footer mt-auto">
-    &copy; 2025 EduTrack. Todos os direitos reservados.
-  </footer>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+{% endblock %}
