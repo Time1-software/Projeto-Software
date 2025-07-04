@@ -1,18 +1,32 @@
-
-
+{% extends 'template_base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <title>Bem-vindo Responsável</title>
-</head>
-<body style="display:flex;align-items:center;justify-content:center;height:100vh;flex-direction:column;font-family:Arial,sans-serif;">
-  <h2>Bem vindo responsável:</h2>
-  <p>nome: {{ email }}</p>
-  <a href="{% url 'login' %}"
-     style="margin-top:1rem;padding:0.6rem 1.2rem;background:#007acc;color:#fff;border-radius:4px;text-decoration:none;">
-    Voltar ao Login
-  </a>
-</body>
-</html>
+
+{% block title %}Bem-vindo | EduTrack{% endblock %}
+
+{% block content %}
+<div class="d-flex align-items-center justify-content-center vh-100 flex-column" style="font-family:Arial,sans-serif;">
+  {% if request.user.profile.categoria == 'responsavel' %}
+    <h2>Bem-vindo responsável:</h2>
+    <p>nome: {{ email }}</p>
+  {% elif request.user.profile.categoria == 'professor' %}
+    <h2>Bem-vindo professor:</h2>
+    <p>nome: {{ email }}</p>
+  {% else %}
+    <h2>Bem-vindo!</h2>
+    <p>nome: {{ email }}</p>
+  {% endif %}
+  <a href="{% url 'login' %}" class="btn btn-primary mt-3">Voltar ao Login</a>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  document.querySelectorAll('.nav-link').forEach(link => {
+    const href = link.getAttribute('href');
+    if (!href || href.trim() === '#' || href.includes('{')) {
+      link.removeAttribute('href');
+      link.classList.add('disabled');
+    }
+  });
+</script>
+{% endblock %}
