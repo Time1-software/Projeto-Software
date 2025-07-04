@@ -241,7 +241,18 @@ CATEGORIAS = [
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    categoria = models.CharField(max_length=20, choices=CATEGORIAS)
+    categoria = models.CharField(max_length=20, choices=[
+        ('aluno', 'Aluno(a)'),
+        ('responsavel', 'Responsável'),
+    ])
+    
+    responsavel = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='dependentes'
+    )
 
     def __str__(self):
         return f"{self.user.email} – {self.get_categoria_display()}"
@@ -268,3 +279,5 @@ class Tarefa(models.Model):
 
     def __str__(self):
         return f"{self.titulo} ({self.tipo}) - {self.data}"
+    
+

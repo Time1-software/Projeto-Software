@@ -57,5 +57,12 @@ urlpatterns = [
 
     path('painelAluno/', views.painel_aluno, name='painelAluno') ,
     path('calendario/', views.calendario_view, name='calendario'),
-    path('criar-tarefa/', views.criar_tarefa, name='criar_tarefa')
+    path('criar-tarefa/', views.criar_tarefa, name='criar_tarefa'),
+
+    #Area Usuario
+    path('perfil/', views.perfil_usuario, name='perfil_usuario'),
+    path('vincular-responsavel/', views.vincular_responsavel, name='vincular_responsavel'),
+    path('editar_aluno_responsavel_inline/', views.editar_aluno_por_responsavel, name='editar_aluno_responsavel_inline'),
+
+
 ]

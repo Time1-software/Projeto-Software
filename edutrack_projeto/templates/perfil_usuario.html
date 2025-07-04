@@ -1,0 +1,210 @@
+{% extends 'template_base.html' %}
+{% load static %}
+
+{% block title %}Área do Usuário | EduTrack{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'perfil_usuario.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="perfil-esquerda">
+    <div class="avatar"></div>
+    <p class="bem-vindo">Bem-vindo, {{ nome }}!</p>
+  </div>
+
+  <div class="perfil-direita">
+    <div class="campo">
+      <label>Nome</label>
+      <input type="text" id="nome" value="{{ nome }}" readonly data-campo="nome">
+      {% if categoria in 'responsavel professor' %}<button type="button" class="botao-azul editar-responsavel">Editar</button>{% endif %}
+    </div>
+
+    <div class="campo">
+      <label>E-mail</label>
+      <input type="text" value="{{ email }}" readonly class="imutavel">
+    </div>
+
+    <div class="campo">
+      <label>Tipo de conta</label>
+      <input type="text" value="{{ categoria }}" readonly class="imutavel">
+    </div>
+
+    {% if categoria == 'aluno' %}
+    <div class="campo">
+      <label>Responsável</label>
+      <input type="text" value="{% if responsavel %}{{ responsavel.email }}{% endif %}" readonly class="imutavel">
+    </div>
+    {% endif %}
+
+    <div class="campo" id="senha-campo">
+      <label>Senha</label>
+      <input type="password" id="senha" value="********" readonly data-campo="senha">
+      {% if categoria in 'responsavel professor' %}<button type="button" class="botao-azul editar-responsavel">Editar</button>{% endif %}
+    </div>
+
+    <div class="campo" id="confirmacao-campo" style="display: none;">
+      <label>Confirmar</label>
+      <input type="password" id="confirmar-senha" placeholder="Repita a nova senha">
+    </div>
+
+    {% if categoria == 'aluno' and not responsavel %}
+    <div style="margin-top: 15px;">
+      <a href="{% url 'vincular_responsavel' %}">
+        <button class="vincular-btn">Vincular Responsável</button>
+      </a>
+    </div>
+    {% endif %}
+
+    {% if categoria == 'responsavel' %}
+      <h2 style="margin-top: 30px;">Alunos Vinculados</h2>
+      {% for aluno in alunos %}
+        <div class="bloco-aluno">
+          <div class="campo">
+            <label>Nome do Aluno</label>
+            <input type="text" value="{{ aluno.user.first_name|default:aluno.user.email }}" readonly data-campo="nome" data-id="{{ aluno.id }}">
+            <button type="button" class="botao-azul editar-aluno">Editar</button>
+          </div>
+          <div class="campo">
+            <label>E-mail</label>
+            <input type="text" value="{{ aluno.user.email }}" readonly class="imutavel">
+          </div>
+          <div class="campo">
+            <label>Tipo de conta</label>
+            <input type="text" value="aluno" readonly class="imutavel">
+          </div>
+          <div class="campo">
+            <label>Responsável</label>
+            <input type="text" value="{% if aluno.responsavel %}{{ aluno.responsavel.email }}{% endif %}" readonly class="imutavel">
+          </div>
+          <div class="campo">
+            <label>Senha</label>
+            <input type="password" value="********" readonly data-campo="senha" data-id="{{ aluno.id }}">
+            <button type="button" class="botao-azul editar-aluno">Editar</button>
+          </div>
+          <div class="campo" style="display: none;" id="confirmar-senha-{{ aluno.id }}">
+            <label>Confirmar</label>
+            <input type="password" placeholder="Repita a nova senha">
+          </div>
+          <hr>
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+</div>
+
+<script>
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+
+  document.querySelectorAll('.editar-responsavel').forEach(botao => {
+    botao.addEventListener('click', function () {
+      const input = this.previousElementSibling;
+      const campo = input.dataset.campo;
+      const isSenha = campo === 'senha';
+      const confirmarCampo = document.getElementById('confirmacao-campo');
+
+      if (input.hasAttribute('readonly')) {
+        input.removeAttribute('readonly');
+        input.value = '';
+        input.focus();
+        this.textContent = 'Salvar';
+
+        if (isSenha) {
+          confirmarCampo.style.display = 'flex';
+          document.getElementById('confirmar-senha').value = '';
+        }
+      } else {
+        if (isSenha) {
+          const novaSenha = input.value;
+          const confirmacao = document.getElementById('confirmar-senha').value;
+          if (novaSenha !== confirmacao) {
+            alert('As senhas não coincidem.');
+            return;
+          }
+          confirmarCampo.style.display = 'none';
+        }
+
+        input.setAttribute('readonly', true);
+        this.textContent = 'Editar';
+
+        fetch("{% url 'perfil_usuario' %}", {
+          method: 'POST',
+          headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: `campo=${campo}&valor=${encodeURIComponent(input.value)}`
+        }).then(response => {
+          if (!response.ok) {
+            alert('Erro ao salvar');
+          } else {
+            location.reload();
+          }
+        });
+      }
+    });
+  });
+
+  document.querySelectorAll('.editar-aluno').forEach(botao => {
+    botao.addEventListener('click', function () {
+      const input = this.previousElementSibling;
+      const campo = input.dataset.campo;
+      const id = input.dataset.id;
+      const confirmarCampo = document.getElementById(`confirmar-senha-${id}`);
+
+      if (input.hasAttribute('readonly')) {
+        input.removeAttribute('readonly');
+        input.focus();
+        this.textContent = 'Salvar';
+
+        if (campo === 'senha') {
+          confirmarCampo.style.display = 'flex';
+          confirmarCampo.querySelector('input').value = '';
+        }
+      } else {
+        if (campo === 'senha') {
+          const novaSenha = input.value;
+          const confirmacao = confirmarCampo.querySelector('input').value;
+          if (novaSenha !== confirmacao) {
+            alert('As senhas não coincidem.');
+            return;
+          }
+          confirmarCampo.style.display = 'none';
+        }
+
+        input.setAttribute('readonly', true);
+        this.textContent = 'Editar';
+
+        fetch("{% url 'perfil_usuario' %}", {
+          method: 'POST',
+          headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: `id=${id}&campo=${campo}&valor=${encodeURIComponent(input.value)}`
+        }).then(response => {
+          if (!response.ok) {
+            alert('Erro ao salvar');
+          } else {
+            location.reload();
+          }
+        });
+      }
+    });
+  });
+</script>
+{% endblock %}

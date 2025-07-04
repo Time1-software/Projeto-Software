@@ -17,6 +17,7 @@
     width: 36px;
     border-radius: 50%;
     object-fit: cover;
+    cursor: pointer;
   }
   </style> 
   {% block extra_css %}{% endblock %}
@@ -32,7 +33,12 @@
       {% if menu_items %}
         {% for item in menu_items %}
           <li class="nav-item">
-            <a class="nav-link" href="{% url item.url %}">{{ item.nome }}</a>
+            {% if item.url != '#' %}
+                <a class="nav-link" href="{% url item.url %}">{{ item.nome }}</a>
+              {% else %}
+                <a class="nav-link disabled" href="#">{{ item.nome }}</a>
+              {% endif %}
+
           </li>
         {% endfor %}
       {% endif %}
@@ -40,7 +46,9 @@
 
     <div class="ms-auto d-flex align-items-center">
       <input class="form-control me-2" type="search" placeholder="Buscar">
-      <img src="{% static 'imgs/usuario-de-perfil.png' %}" class="perfil">
+      <a href="{% url 'perfil_usuario' %}">
+        <img src="{% static 'imgs/usuario-de-perfil.png' %}" class="perfil" alt="Perfil">
+      </a>
     </div>
   </nav>
 
