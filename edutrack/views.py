@@ -9,7 +9,20 @@ import datetime
 import json
 from .models import * # Importa todos os modelos: Aluno, Turma, Nota, etc.
 from .forms import AlunoForm
-
+from django.utils import timezone
+from django.contrib.auth.views import LoginView, LogoutView
+from django.views.generic import CreateView, TemplateView
+from django.urls import reverse_lazy
+from .forms import CustomLoginForm, CustomSignupForm
+import calendar
+import unicodedata
+from datetime import date
+from django.shortcuts import render
+from .models import Tarefa
+from datetime import date
+from .forms import TarefaForm
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 # --- Suas Views Existentes (Mantidas e Melhoradas) ---
 
 def Boletim(request):
@@ -135,3 +148,182 @@ def tarefas_home(request):
     # ... (o resto da sua lógica de filtro continua aqui) ...
     context = { 'aluno': aluno_atual, 'atividades': atividades_base } # Contexto simplificado
     return render(request, 'tarefas_provas.html', context)
+
+
+class CustomLoginView(LoginView):
+    template_name = 'login.html'
+    authentication_form = CustomLoginForm
+    redirect_authenticated_user = False
+
+    def get_success_url(self):
+        cat = self.request.user.profile.categoria
+        mapping = {
+            'aluno':        'painelAluno',
+            'professor':    'bem_vindo_professor',
+            'responsavel':  'bem_vindo_pai',
+            'administrador':'bem_vindo_adm',
+        }
+        # se não achar categoria, volta para login
+        return reverse_lazy(mapping.get(cat, 'login'))
+
+class CustomLogoutView(LogoutView):
+    next_page = reverse_lazy('login')
+
+class SignupView(CreateView):
+    template_name = 'signup.html'
+    form_class = CustomSignupForm
+    success_url = reverse_lazy('signup-success')
+
+class SignupSuccessView(TemplateView):
+    template_name = 'signup_success.html'
+
+class BemvindoAlunoView(TemplateView):
+    template_name = 'painel_aluno.html'
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['email'] = self.request.user.email
+        return ctx
+
+class BemvindoProfessorView(TemplateView):
+    template_name = 'bem_vindo_professor.html'
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['email'] = self.request.user.email
+        return ctx
+
+class BemvindoPaiView(TemplateView):
+    template_name = 'bem_vindo_pai.html'
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['email'] = self.request.user.email
+        return ctx
+
+class BemvindoAdmView(TemplateView):
+    template_name = 'bem_vindo_adm.html'
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['email'] = self.request.user.email
+        return ctx
+
+
+#Calendario
+def remove_acentos(texto):
+    return ''.join(c for c in unicodedata.normalize('NFD', texto) if unicodedata.category(c) != 'Mn')
+
+class CalendarioPT(calendar.HTMLCalendar):
+    def __init__(self, tarefas, ano, mes):
+        super().__init__(firstweekday=0)
+        self.tarefas_por_dia = self._organiza_tarefas(tarefas)
+        self.ano = ano
+        self.mes = mes
+
+    def _organiza_tarefas(self, tarefas):
+        tarefas_por_dia = {}
+        for tarefa in tarefas:
+            dia = tarefa.data.day
+            if dia not in tarefas_por_dia:
+                tarefas_por_dia[dia] = []
+            tarefas_por_dia[dia].append(tarefa)
+        return tarefas_por_dia
+
+
+
+    # Dentro da classe CalendarioPT
+    def formatday(self, day, weekday):
+        if day == 0:
+            return '<td></td>'
+
+        hoje = date.today()
+        classe_extra = "hoje" if (self.ano == hoje.year and self.mes == hoje.month and day == hoje.day) else ""
+
+        tarefas = self.tarefas_por_dia.get(day, [])
+        html = f'<div class="dia-num">{day}</div>'
+
+        for t in tarefas:
+            tipo_original = t.tipo or ''
+            tipo = remove_acentos(tipo_original.strip().upper())
+
+            if tipo == 'PROVA':
+                cor = 'vermelho'
+            elif tipo == 'TRABALHO':
+                cor = 'amarelo'
+            elif tipo == 'TESTE':
+                cor = 'laranja'
+            elif tipo == 'APRESENTACAO':
+                cor = 'azul'
+            else:
+                cor = 'azul'
+
+            turma = f'{t.turma.serie} - {t.turma.numero}'
+            html += f'''
+                <div class="tarefa {cor}" 
+                    data-titulo="{t.titulo}"
+                    data-tipo="{t.tipo}"
+                    data-data="{t.data.strftime('%d/%m/%Y')}"
+                    data-descricao="{t.descricao}"
+                    data-autor="{t.autor.get_full_name() if t.autor else 'Desconhecido'}"
+                    data-turma="{turma}">
+                    {t.titulo}
+                </div>
+            '''
+
+        return f'<td class="dia {classe_extra}">{html}</td>'
+
+    def formatmonthname(self, theyear, themonth, withyear=True):
+        meses_pt = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+                    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
+        nome = meses_pt[themonth - 1]
+        return f'<tr><th colspan="7" class="mes">{nome} {theyear}</th></tr>'
+
+    def formatweekday(self, day):
+        dias_pt = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom']
+        return f'<th>{dias_pt[day]}</th>'
+
+
+def calendario_view(request):
+    hoje = date.today()
+    ano = int(request.GET.get('ano', hoje.year))
+    mes = int(request.GET.get('mes', hoje.month))
+
+    tarefas = Tarefa.objects.filter(data__year=ano, data__month=mes)
+    cal = CalendarioPT(tarefas, ano, mes).formatmonth(ano, mes)
+
+    if mes == 1:
+        mes_anterior = 12
+        ano_anterior = ano - 1
+    else:
+        mes_anterior = mes - 1
+        ano_anterior = ano
+
+    if mes == 12:
+        mes_proximo = 1
+        ano_proximo = ano + 1
+    else:
+        mes_proximo = mes + 1
+        ano_proximo = ano
+
+    return render(request, 'calendario.html', {
+        'calendario': cal,
+        'ano': ano,
+        'mes': mes,
+        'mes_anterior': mes_anterior,
+        'ano_anterior': ano_anterior,
+        'mes_proximo': mes_proximo,
+        'ano_proximo': ano_proximo,
+    })
+
+
+@login_required
+def criar_tarefa(request):
+    if request.method == 'POST':
+        form = TarefaForm(request.POST)
+        if form.is_valid():
+            tarefa = form.save(commit=False)
+            tarefa.autor = request.user
+            tarefa.save()
+            messages.success(request, 'Tarefa criada com sucesso!')
+            return redirect('criar_tarefa')
+    else:
+        form = TarefaForm()
+
+    return render(request, 'criar_tarefa.html', {'form': form})

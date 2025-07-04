@@ -95,32 +95,6 @@ class Atividade(models.Model):
             return 'essa_semana'
         return 'proximas_semanas'
 
-class GradeHorario(models.Model):
-    DIAS_SEMANA = [
-        ('SEG', 'Segunda-feira'), ('TER', 'Terça-feira'), ('QUA', 'Quarta-feira'),
-        ('QUI', 'Quinta-feira'), ('SEX', 'Sexta-feira'),
-    ]
-    HORARIOS = [
-        ('1', '08:00 - 09:00'), ('2', '09:00 - 10:00'), ('3', '10:00 - 11:00'),
-        ('4', '11:00 - 12:00'), ('5', '13:00 - 14:00'), ('6', '14:00 - 15:00'),
-        ('7', '15:00 - 16:00'),
-    ]
-    turma = models.ForeignKey('Turma', on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Turma")
-    dia_semana = models.CharField(max_length=3, choices=DIAS_SEMANA)
-    horario = models.CharField(max_length=1, choices=HORARIOS)
-    disciplina = models.CharField(max_length=100)
-    sala = models.CharField(max_length=50, blank=True)
-
-    class Meta:
-        ordering = ['dia_semana', 'horario']
-        verbose_name = 'Grade de Horário'
-        verbose_name_plural = 'Grades de Horário'
-        constraints = [
-            models.UniqueConstraint(fields=['turma', 'dia_semana', 'horario'], name='unique_grade')
-        ]
-
-    def __str__(self):
-        return f"{self.get_dia_semana_display()} {self.get_horario_display()} - {self.disciplina} ({self.turma})"
 
 class Responsavel(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name="Usuário")
@@ -201,3 +175,78 @@ class Chat(models.Model):
 
     def __str__(self):
         return f"{self.remetente} → {self.destinatario}"
+
+
+class GradeHorario(models.Model):
+    DIAS_SEMANA = [
+        ('SEG', 'Segunda-feira'),
+        ('TER', 'Terça-feira'),
+        ('QUA', 'Quarta-feira'),
+        ('QUI', 'Quinta-feira'),
+        ('SEX', 'Sexta-feira'),
+    ]
+
+    HORARIOS = [
+        ('1', '08:00 - 09:00'),
+        ('2', '09:00 - 10:00'),
+        ('3', '10:00 - 11:00'),
+        ('4', '11:00 - 12:00'),
+        ('5', '13:00 - 14:00'),
+        ('6', '14:00 - 15:00'),
+        ('7', '15:00 - 16:00'),
+    ]
+
+    turma = models.ForeignKey('Turma', on_delete=models.CASCADE)
+    dia_semana = models.CharField(max_length=3, choices=DIAS_SEMANA)
+    horario = models.CharField(max_length=1, choices=HORARIOS)
+    disciplina = models.CharField(max_length=100)
+    sala = models.CharField(max_length=50, blank=True)
+
+    class Meta:
+        ordering = ['dia_semana', 'horario']
+        verbose_name = 'Grade de Horário'
+        verbose_name_plural = 'Grades de Horário'
+        constraints = [
+            models.UniqueConstraint(fields=['turma', 'dia_semana', 'horario'], name='unique_grade')
+        ]
+
+    def __str__(self):
+        return f"{self.get_dia_semana_display()} {self.get_horario_display()} - {self.disciplina} ({self.turma})"
+
+#LOGIN
+
+CATEGORIAS = [
+    ('aluno', 'Aluno(a)'),
+    ('professor', 'Professor(a)'),
+    ('responsavel', 'Responsável'),
+]
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    categoria = models.CharField(max_length=20, choices=CATEGORIAS)
+
+    def __str__(self):
+        return f"{self.user.email} – {self.get_categoria_display()}"
+
+    
+# Calendario
+class Tarefa(models.Model):
+    class TipoTarefa(models.TextChoices):
+        PROVA = 'Prova', 'Prova'
+        TESTE = 'Teste', 'Teste'
+        TRABALHO = 'Trabalho', 'Trabalho'
+        APRESENTACAO = 'Apresentação', 'Apresentação'
+
+    titulo = models.CharField(max_length=200)
+    descricao = models.TextField()
+    data = models.DateField()
+    tipo = models.CharField(
+        max_length=20,
+        choices=TipoTarefa.choices,
+        default=TipoTarefa.TESTE,
+    )
+    turma = models.ForeignKey(Turma, on_delete=models.CASCADE)
+    autor = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.titulo} ({self.tipo}) - {self.data}"
