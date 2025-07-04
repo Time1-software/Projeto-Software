@@ -14,6 +14,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic import CreateView, TemplateView
 from django.urls import reverse_lazy
 from .forms import CustomLoginForm, CustomSignupForm
+from django.http import JsonResponse, HttpResponseBadRequest
 import calendar
 import unicodedata
 from datetime import date
@@ -23,7 +24,11 @@ from datetime import date
 from .forms import TarefaForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-# --- Suas Views Existentes (Mantidas e Melhoradas) ---
+from django.contrib.auth.models import User
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 def Boletim(request):
     # Idealmente, esta view também deveria filtrar as notas para um aluno específico
@@ -131,8 +136,45 @@ def grade_aluno(request):
 @login_required
 def painel_aluno(request):
     aluno = get_object_or_404(Aluno, user=request.user)
-    # Lógica para o painel do aluno...
-    context = { 'aluno': aluno, }
+
+    #CARD GRADE-HORÁRIA
+    # Dia da semana atual (ex: 'SEG', 'TER'...)
+    dia_semana_hoje = datetime.datetime.today().strftime('%a').upper()
+
+    # Mapeia 'MON' para 'SEG', etc
+    tradutor_dias = {
+        'MON': 'SEG',
+        'TUE': 'TER',
+        'WED': 'QUA',
+        'THU': 'QUI',
+        'FRI': 'SEX',
+    }
+
+    dia_chave = tradutor_dias.get(dia_semana_hoje, None)
+
+    aulas_hoje = []
+    if dia_chave:
+        aulas_hoje = GradeHorario.objects.filter(turma=aluno.turma, dia_semana=dia_chave).order_by('horario')
+
+    #notificações rápidas
+    atividades_hoje = [
+        a for a in Atividade.objects.filter(aluno=aluno, entregue=False)
+        if a.status == 'hoje'
+    ]
+
+  
+    # Dados para o resumo do dia
+    tem_tarefas_hoje = len(atividades_hoje) > 0
+    qtd_tarefas_hoje = len(atividades_hoje)
+
+    context = {
+        'aluno': aluno,
+        'aulas_hoje': aulas_hoje,
+        'atividades_hoje': atividades_hoje,
+        'tem_tarefas_hoje': tem_tarefas_hoje,
+        'qtd_tarefas_hoje': qtd_tarefas_hoje,
+    }
+
     return render(request, 'bem_vindo_aluno.html', context)
 
 @login_required
@@ -327,3 +369,125 @@ def criar_tarefa(request):
         form = TarefaForm()
 
     return render(request, 'criar_tarefa.html', {'form': form})
+
+# Area Usuario
+@login_required
+def perfil_usuario(request):
+    try:
+        profile = request.user.profile
+    except Profile.DoesNotExist:
+        messages.error(request, "Perfil não encontrado. Entre em contato com o administrador.")
+        return redirect('logout')
+
+    if request.method == 'POST':
+        campo = request.POST.get('campo')
+        valor = request.POST.get('valor')
+        aluno_id = request.POST.get('id')
+
+        # Se for edição de aluno por responsável
+        if aluno_id and profile.categoria == 'responsavel':
+            try:
+                aluno_profile = Profile.objects.get(id=aluno_id, responsavel=request.user)
+                user = aluno_profile.user
+
+                if campo == 'nome':
+                    user.first_name = valor
+                    user.save()
+                elif campo == 'senha':
+                    user.set_password(valor)
+                    user.save()
+                else:
+                    return JsonResponse({'erro': 'Campo inválido'}, status=400)
+
+                return JsonResponse({'sucesso': True})
+            except Exception as e:
+                return JsonResponse({'erro': str(e)}, status=500)
+
+        # Edição do próprio usuário
+        if campo == 'nome':
+            request.user.first_name = valor
+            request.user.save()
+            return JsonResponse({'sucesso': True})
+        elif campo == 'senha':
+            request.user.set_password(valor)
+            request.user.save()
+            return JsonResponse({'sucesso': True})
+        else:
+            return JsonResponse({'erro': 'Campo inválido'}, status=400)
+
+    # GET normal
+    responsavel = getattr(profile, 'responsavel', None)
+    dependentes = Profile.objects.filter(responsavel=request.user) if profile.categoria == 'responsavel' else []
+
+    context = {
+        'profile': profile,
+        'responsavel': responsavel,
+        'categoria': profile.categoria,
+        'email': request.user.email,
+        'nome': request.user.first_name or request.user.email,
+        'alunos': dependentes,
+    }
+
+    return render(request, 'perfil_usuario.html', context)
+
+
+@csrf_exempt
+def editar_aluno_por_responsavel(request):
+    if request.method == 'POST':
+        aluno_id = request.POST.get('id')
+        campo = request.POST.get('campo')
+        valor = request.POST.get('valor')
+
+        try:
+            aluno = Profile.objects.get(id=aluno_id)
+            user = aluno.user
+
+            if campo == 'nome':
+                user.first_name = valor
+                user.save()
+            elif campo == 'senha':
+                user.set_password(valor)
+                user.save()
+            else:
+                return JsonResponse({'erro': 'Campo inválido'}, status=400)
+
+            return JsonResponse({'sucesso': True})
+        except Exception as e:
+            return JsonResponse({'erro': str(e)}, status=500)
+
+    return HttpResponse(status=405)
+
+@login_required
+def vincular_responsavel(request):
+    aluno_profile = getattr(request.user, 'profile', None)
+
+    if not aluno_profile or aluno_profile.categoria != 'aluno':
+        return render(request, 'vincular_responsavel.html', {
+            'erro': 'Apenas alunos podem vincular um responsável.'
+        })
+
+    if request.method == 'POST':
+        email = request.POST.get('email_responsavel')
+
+        try:
+            responsavel_user = User.objects.get(email=email)
+            responsavel_profile = getattr(responsavel_user, 'profile', None)
+
+            if not responsavel_profile or responsavel_profile.categoria != 'responsavel':
+                return render(request, 'vincular_responsavel.html', {
+                    'erro': 'O usuário informado não é um responsável válido.'
+                })
+
+            aluno_profile.responsavel = responsavel_user
+            aluno_profile.save()
+
+            return render(request, 'vincular_responsavel.html', {
+                'sucesso': 'Responsável vinculado com sucesso!'
+            })
+
+        except User.DoesNotExist:
+            return render(request, 'vincular_responsavel.html', {
+                'erro': 'Nenhum usuário encontrado com esse e-mail.'
+            })
+
+    return render(request, 'vincular_responsavel.html')
