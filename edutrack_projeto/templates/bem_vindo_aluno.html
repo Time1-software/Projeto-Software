@@ -2,43 +2,42 @@
 {% load static %}
 
 {% block title %}Painel do Aluno{% endblock %}
+
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'bem_vindo_aluno.css' %}">
+  <link rel="stylesheet" href="{% static 'bem_vindo_aluno.css' %}">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/feather-icons"></script>
 {% endblock %}
 
 {% block content %}
-  <!-- Conteúdo -->
 <main class="container flex-fill my-4">
-  <h3>Bem-vindo, {{ aluno.nome }}!</h3>
+  <h3 class="mb-1">Bem-vindo, {{ aluno.nome }}!</h3>
   <h5 class="text-muted">Painel</h5>
 
   <div class="row mt-4 g-4">
-    <!-- Coluna menor: esquerda -->
+    <!-- Coluna esquerda -->
     <div class="col-md-4 d-flex flex-column gap-4">
-      <!-- Card: Notificações -->
-      <div class="card shadow-sm">
-        <div class="card-header text-primary fw-bold">Notificações rápidas</div>
+      
+      <!-- Notificações -->
+      <div class="card">
+        <div class="card-header text-primary">Notificações rápidas</div>
         <div class="card-body">
           <ul class="list-unstyled small mb-0">
-               <div class="card-body">
- 
-              {% if atividades_hoje %}
-                {% for atividade in atividades_hoje %}
-                  <li>📌 {{ atividade.tipo }} de {{ atividade.disciplina }}: <strong>{{ atividade.titulo }}</strong></li>
-
-                {% endfor %}
-              {% else %}
-                <li class="text-muted">Nenhuma tarefa marcada para hoje.</li>
-              {% endif %}
-            </ul>
-
+            {% if atividades_hoje %}
+              {% for atividade in atividades_hoje %}
+                <li>📌 {{ atividade.tipo }} de {{ atividade.disciplina }}: <strong>{{ atividade.titulo }}</strong></li>
+              {% endfor %}
+            {% else %}
+              <li class="text-muted">Nenhuma tarefa marcada para hoje.</li>
+            {% endif %}
+          </ul>
           <a href="{% url 'tarefas' %}" class="text-end d-block text-decoration-none mt-2">veja mais</a>
         </div>
       </div>
 
-      <!-- Card: Resumo do dia -->
-      <div class="card shadow-sm">
-        <div class="card-header text-success fw-bold">Resumo do dia</div>
+      <!-- Resumo do dia -->
+      <div class="card">
+        <div class="card-header text-success">Resumo do dia</div>
         <div class="card-body">
           <ul class="list-unstyled small mb-0">
             {% if tem_tarefas_hoje %}
@@ -46,15 +45,16 @@
             {% else %}
               <li class="text-success">✅ Todas as tarefas de hoje foram concluídas!</li>
             {% endif %}
-          <a href="#" class="text-end d-block text-decoration-none mt-2">veja mais</a>
+          </ul>
+          <a href="{% url 'tarefas' %}" class="text-end d-block text-decoration-none mt-2">veja mais</a>
         </div>
       </div>
     </div>
 
-    <!-- Coluna maior: direita -->
+    <!-- Coluna direita -->
     <div class="col-md-8">
-      <div class="card shadow-sm h-100">
-        <div class="card-header text-info fw-bold">Grade de horário</div>
+      <div class="card h-100">
+        <div class="card-header text-info">Grade de horário</div>
         <div class="card-body">
           {% if aulas_hoje %}
             <ul class="list-unstyled small">
@@ -75,6 +75,5 @@
     </div>
   </div>
 </main>
-
-
+<script>feather.replace();</script>
 {% endblock %}

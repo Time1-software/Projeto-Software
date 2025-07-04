@@ -40,6 +40,7 @@ urlpatterns = [
     path('desempenho/<int:aluno_pk>/', views.desempenho_geral_view, name='desempenho_aluno'),
     path('gradeAluno/', views.grade_aluno, name='grade_aluno'),
     path('painelAluno/', views.painel_aluno, name='painelAluno') ,
+    path('dashboard-pais/', views.desempenho_geral_view, name='dashboard_pais'),
 
     #LOGIN
     path('', RedirectView.as_view(pattern_name='login', permanent=False)),
