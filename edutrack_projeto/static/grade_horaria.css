@@ -55,3 +55,11 @@ h3 {
 .text-muted {
   color: #777 !important;
 }
+
+.custom-footer {
+  background-color: #f7b16c;
+  color: white;
+  text-align: center;
+  padding: 1rem 0;
+  height: 40px;
+}

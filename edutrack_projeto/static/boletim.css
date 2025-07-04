@@ -1,23 +1,56 @@
-/* Css Boletim Escolar */
 body {
-  background-color: #f4f4f4;
+  background-color: #fef8ef;
+  font-family: 'Poppins', sans-serif;
+}
+
+h3 {
+  font-weight: 600;
+  color: #333;
+}
+
+.table-responsive {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.table {
+  border: none;
+}
+
+.table th,
+.table td {
+  padding: 0.75rem;
+  font-size: 0.95rem;
+  vertical-align: middle;
+}
+
+.table-primary {
+  background-color: #a8d1ff;
+  color: #1a3c60;
+}
+
+.table-light {
+  background-color: #f1f1f1;
+}
+
+strong {
+  font-weight: 600;
+}
+
+.text-green {
+  color: #2e7d32;
+}
+
+.text-red {
+  color: #c62828;
 }
 
 .custom-footer {
-  background-color: #f7b16c; 
+  background-color: #f7b16c;
   color: white;
   text-align: center;
   padding: 1rem 0;
   height: 40px;
-}
-.logo {
-  height: 40px; 
-  width: auto;
-  object-fit: contain; 
-}
-.perfil {
-  width: 35px;
-  height: 35px;
-  object-fit: contain; 
-
 }
