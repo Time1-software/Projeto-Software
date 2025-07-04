@@ -1,13 +1,13 @@
-{# turma_tarefas.html #}
+{# templates/turma_tarefas.html #}
 {% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Turma A — Tarefas</title>
+  <title>Turma {{ turma.numero }} — Tarefas</title>
   <link rel="stylesheet" href="{% static 'professor.css' %}">
-  <link rel="stylesheet" href="{% static 'turma.css' %}">
+  <link rel="stylesheet" href="{% static 'turmas.css' %}">
 </head>
 <body>
   <!-- HEADER -->
@@ -15,56 +15,78 @@
     <img src="{% static 'imgs/logo.png' %}" alt="EduTrack Logo" class="logo">
     <nav class="nav-links">
       <a href="{% url 'painel_turmas' %}">Turmas</a>
-      <a href="#" class="notificacoes">Notificações <span class="badge">2</span></a>
+      <a href="#" class="notificacoes">
+        Notificações <span class="badge">2</span>
+      </a>
     </nav>
     <div class="search-bar">
       <span class="icon icon-menu"></span>
       <input type="text" placeholder="Pesquisar">
       <span class="icon icon-search"></span>
     </div>
-    <div class="profile-icon">
-      <span class="icon icon-user"></span>
-    </div>
+    <div class="profile-icon"><span class="icon icon-user"></span></div>
   </header>
 
-  <!-- CONTEÚDO PRINCIPAL -->
-  <main class="turma-container">
-    <h1>Turma A:</h1>
-    <div class="turma-body">
+  <!-- TÍTULO -->
+  <div class="turma-wrapper">
+    <h1 class="turma-title">Turma {{ turma.numero }}</h1>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <div class="turma-container">
+
       <!-- SIDEBAR -->
       <aside class="turma-sidebar">
         <h3>Minhas Abas</h3>
         <ul>
-          <li><a href="{% url 'turma_presenca' turma_id=1 %}">Presença dos Alunos</a></li>
-          <li><a href="{% url 'turma_tarefas' turma_id=1 %}" class="active">Tarefas</a></li>
-          <li><a href="{% url 'turma_diario' turma_id=1 %}">Diário de Aprendizagem</a></li>
-          <li><a href="{% url 'turma_criar_aluno' turma_id=1 %}">Criar aluno</a></li>
+          <li>
+            <a href="{% url 'turma_presenca' turma_id=turma.id %}">
+              Presença dos Alunos
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'turma_tarefas' turma_id=turma.id %}" class="active">
+              Tarefas
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'turma_diario' turma_id=turma.id %}">
+              Diário de Aprendizagem
+            </a>
+          </li>
         </ul>
       </aside>
 
-      <!-- CONTEÚDO: TAREFAS -->
+      <!-- CARD: TAREFAS -->
       <section class="turma-content">
-        <div class="card tarefas-overview">
-          <h2>Tarefas cadastradas</h2>
+        <!-- Visão Geral das Tarefas -->
+        <div class="tarefas-overview">
+          <h2>Tarefas Cadastradas</h2>
           <ul>
-            <li>02/06 – Exercícios 1 e 2</li>
-            <li>04/06 – Exercícios 3 e 4</li>
-            <li>06/06 – Exercícios 5 e 6</li>
+            {% for t in tarefas %}
+              <li>{{ t.prazo|date:"d/m/Y" }} – {{ t.descricao }}</li>
+            {% empty %}
+              <li>Não há tarefas cadastradas.</li>
+            {% endfor %}
           </ul>
         </div>
 
-        <div class="card tarefas-new">
-          <h2>Cadastrar nova Tarefa</h2>
-          <form>
+        <!-- Formulário de Nova Tarefa -->
+        <div class="tarefas-new">
+          <h2>Cadastrar Nova Tarefa</h2>
+          <form method="post" action="{% url 'turma_tarefas' turma_id=turma.id %}">
+            {% csrf_token %}
             <label for="prazo">Prazo</label>
-            <input id="prazo" type="date" />
+            <input id="prazo" name="prazo" type="date" required>
+
             <label for="descricao">Descrição</label>
-            <input id="descricao" type="text" placeholder="Digite aqui…" />
-            <button type="submit">Salvar</button>
+            <input id="descricao" name="descricao" type="text" placeholder="Digite a tarefa…" required>
+
+            <button type="submit" class="btn">Salvar Tarefa</button>
           </form>
         </div>
 
-        <div class="card tarefas-week">
+        <!-- Calendário Semanal de Tarefas -->
+        <div class="tarefas-week">
           <h2>Semana</h2>
           <table class="semana-table">
             <thead>
@@ -78,18 +100,23 @@
             </thead>
             <tbody>
               <tr>
-                <td>Exercícios 1 e 2</td>
-                <td></td>
-                <td>Exercícios 3 e 4</td>
-                <td></td>
-                <td>Exercícios 5 e 6</td>
+                {% for dow in days %}
+                  <td>
+                    {% for t in tarefas %}
+                      {% if t.prazo|date:"w" == dow|stringformat:"s" %}
+                        {{ t.descricao }}<br>
+                      {% endif %}
+                    {% endfor %}
+                  </td>
+                {% endfor %}
               </tr>
             </tbody>
           </table>
         </div>
       </section>
+
     </div>
-  </main>
+  </div>
 
   <!-- FOOTER -->
   <footer class="rodape"></footer>

@@ -1,82 +1,103 @@
 /* turma.css */
 
-/* Container principal e espaço para o header */
+/* ===== Global ===== */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  background-color: #FCF8F5;   /* página levemente rosada */
+  color: #343A40;              /* texto escuro */
+}
+
+/* ===== Header ===== */
+.top-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 64px;
+  background: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  padding: 0 32px;
+  z-index: 100;
+}
+
+/* ===== Layout principal ===== */
 .turma-container {
   display: flex;
-  margin-top: 60px; /* altura do header */
-  min-height: calc(100vh - 60px - 40px); /* desconta header e footer */
+  margin-top: 64px;                       /* afasta do header */
+  padding: 0 32px 32px;                   /* espaçamento lateral e embaixo */
+  min-height: calc(100vh - 64px - 50px);  /* descarta header e footer */
 }
 
-/* Corpo com sidebar e conteúdo */
 .turma-body {
   display: flex;
+  gap: 32px;
   width: 100%;
-  gap: 24px;
-  padding: 24px;
 }
 
-/* ===== SIDEBAR ===== */
+/* ===== Sidebar ===== */
 .turma-sidebar {
-  width: 240px;
-  background: #EFEFEF;
-  border-radius: 16px;
-  padding: 16px;
+  background: #F5F5F7;  /* cinza bem claro */
+  border-radius: 24px;
+  padding: 24px;
+  width: 260px;
   flex-shrink: 0;
 }
 .turma-sidebar h3 {
-  margin-bottom: 16px;
   font-size: 1rem;
-  font-weight: bold;
-  text-decoration: underline;
+  font-weight: 600;
+  color: #343A40;
+  margin-bottom: 16px;
+  border-bottom: 2px solid #343A40;
+  display: inline-block;
 }
 .turma-sidebar ul {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
-.turma-sidebar li + li {
+.turma-sidebar ul li + li {
   margin-top: 12px;
 }
 .turma-sidebar a {
   display: block;
   text-decoration: none;
-  color: #666;
+  font-size: 0.95rem;
+  color: #A1AFC1;                     /* cinza médio */
   background: transparent;
-  padding: 10px 16px;
+  padding: 10px 20px;
   border-radius: 20px;
-  text-align: center;
-  font-weight: normal;
-  transition: background 0.2s;
+  transition: background 0.2s, color 0.2s;
 }
-.turma-sidebar a:hover {
-  background: #DDD;
+.turma-sidebar a:hover:not(.active) {
+  background: rgba(82,137,255,0.1);
+  color: #343A40;
 }
 .turma-sidebar a.active {
-  background: #5A9CF4;
-  color: #FFF;
-  font-weight: bold;
+  background: #5289FF;   /* azul Figma */
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(82,137,255,0.3);
 }
 
-/* ===== CONTEÚDO PRINCIPAL ===== */
+/* ===== Conteúdo principal ===== */
 .turma-content {
   flex: 1;
-  display: flex;
-  flex-direction: column;
+  background: #FFFFFF;
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
 }
 
-/* ===== CARDS ===== */
-.card {
-  background: #FFF;
-  border-radius: 16px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  padding: 16px;
-  margin-bottom: 24px;
+/* ===== Página: Presença ===== */
+.presenca-card {
+  width: 100%;
 }
-
-/* --- Presença dos Alunos --- */
 .presenca-card h2 {
-  margin-bottom: 16px;
-  text-align: center;
-  font-size: 1.1rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #343A40;
+  margin-bottom: 24px;
 }
 .presenca-table {
   width: 100%;
@@ -84,19 +105,35 @@
 }
 .presenca-table th,
 .presenca-table td {
-  border: 1px solid #DDD;
-  padding: 8px 12px;
+  border: 1px solid #E3E6EB;
+  padding: 16px;
   text-align: center;
 }
 .presenca-table th {
-  background: #F5F5F5;
-  font-weight: bold;
+  background-color: #F8F9FA;
+  color: #495057;
+  font-weight: 600;
+}
+.presenca-table tr:nth-child(even) td {
+  background-color: #FAFBFC;
 }
 
-/* --- Tarefas cadastradas --- */
-.tarefas-overview h2 {
-  color: #007AFF;
-  margin-bottom: 12px;
+/* ===== Página: Tarefas ===== */
+.tarefas-overview,
+.tarefas-new,
+.tarefas-week {
+  background: #FFFFFF;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  padding: 24px;
+  margin-bottom: 24px;
+}
+.tarefas-overview h2,
+.tarefas-new h2,
+.tarefas-week h2 {
+  font-size: 1.15rem;
+  color: #5289FF;
+  margin-bottom: 16px;
 }
 .tarefas-overview ul {
   list-style: none;
@@ -104,78 +141,130 @@
 }
 .tarefas-overview li {
   position: relative;
-  padding-left: 16px;
+  padding-left: 20px;
   margin-bottom: 8px;
+  color: #495057;
 }
 .tarefas-overview li::before {
   content: '•';
   position: absolute;
   left: 0;
   top: 0;
-  font-size: 1.2rem;
-  color: #007AFF;
+  font-size: 1rem;
+  color: #5289FF;
 }
 
-/* --- Cadastrar nova Tarefa --- */
-.tarefas-new h2 {
-  color: #007AFF;
-  margin-bottom: 12px;
-}
 .tarefas-new form {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 16px;
 }
 .tarefas-new label {
-  font-weight: bold;
+  font-weight: 600;
+  color: #343A40;
 }
 .tarefas-new input {
-  padding: 8px 12px;
-  border: 1px solid #CCC;
+  padding: 12px;
+  border: 1px solid #D1D5DB;
   border-radius: 8px;
+  font-size: 0.95rem;
 }
 .tarefas-new button {
   align-self: flex-start;
-  padding: 8px 16px;
+  padding: 12px 24px;
+  background: #5289FF;
+  color: #FFFFFF;
   border: none;
-  background: #5A9CF4;
-  color: #FFF;
   border-radius: 8px;
   cursor: pointer;
 }
 
-/* --- Semana --- */
-.tarefas-week h2 {
-  color: #007AFF;
-  margin-bottom: 12px;
-}
 .semana-table {
   width: 100%;
   border-collapse: collapse;
 }
 .semana-table th,
 .semana-table td {
-  border: 1px solid #DDD;
-  padding: 8px;
+  border: 1px solid #E3E6EB;
+  padding: 12px;
   text-align: left;
 }
 .semana-table th {
-  background: #F5F5F5;
-  font-weight: bold;
+  background-color: #F8F9FA;
+  color: #495057;
+  font-weight: 600;
 }
 
-/* ===== LAYOUT FLEX PARA TAREFAS ===== */
-.turma-content .tarefas-overview,
-.turma-content .tarefas-new {
-  flex: 1 1 calc(50% - 12px);
-}
-.turma-content .tarefas-week {
-  flex: 1 1 100%;
-}
-
-/* ===== RODAPÉ ===== */
+/* ===== Footer ===== */
 .rodape {
-  height: 40px;
-  background: #FFCC99;
+  height: 50px;
+  background: #FFCC80;
 }
-``
+/* ===== Diário de Aprendizagem ===== */
+.turma-content h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #343A40;
+  margin-bottom: 24px;
+}
+
+/* entradas existentes */
+.diario-entry {
+  background: #FFFFFF;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  padding: 24px;
+  margin-bottom: 24px;
+}
+.diario-entry .entry-date {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #5289FF;
+  margin-bottom: 8px;
+}
+.diario-entry .entry-text {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #343A40;
+}
+
+/* formulário de nova entrada */
+.diario-new {
+  background: #FFFFFF;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  padding: 24px;
+  margin-top: 32px;
+}
+.diario-new h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #5289FF;
+  margin-bottom: 16px;
+}
+.diario-new form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.diario-new label {
+  font-weight: 600;
+  color: #343A40;
+}
+.diario-new input,
+.diario-new textarea {
+  padding: 12px;
+  border: 1px solid #D1D5DB;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  resize: vertical;
+}
+.diario-new button {
+  align-self: flex-start;
+  padding: 12px 24px;
+  background: #5289FF;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
