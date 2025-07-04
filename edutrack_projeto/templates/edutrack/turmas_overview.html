@@ -1,0 +1,106 @@
+{% extends "template_base.html" %}
+{% load static %}
+
+{% block title %}Visão Geral de Turmas - EduTrack{% endblock %}
+
+{% block head_extra %}
+    {# Este bloco insere o CSS específico desta página no <head> do template pai #}
+    <link rel="stylesheet" href="{% static 'turmas_overview.css' %}">
+{% endblock %}
+
+
+{% block content %}
+    {# Este bloco insere o conteúdo principal da página #}
+    <div class="container">
+        <div class="header-section">
+            <h1>Turmas</h1>
+            <div class="total-alunos">
+                Total:
+                <span>{{ total_alunos }}</span>
+                alunos
+            </div>
+        </div>
+
+        <div class="chart-wrapper">
+            <div class="chart-container">
+                <canvas id="turmasChart"></canvas>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block scripts %}
+    {# Este bloco insere os scripts no final do <body> do template pai #}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    {{ turmas_labels_json|json_script:"turmas-labels" }}
+    {{ turmas_data_json|json_script:"turmas-data" }}
+
+    <script>
+        // Espera o documento HTML inteiro carregar antes de executar o código do gráfico.
+        // Isso corrige o erro 'Cannot read properties of null'.
+        window.addEventListener('DOMContentLoaded', (event) => {
+            try {
+                const labels = JSON.parse(document.getElementById('turmas-labels').textContent);
+                const data = JSON.parse(document.getElementById('turmas-data').textContent);
+
+                const ctx = document.getElementById('turmasChart').getContext('2d');
+                const turmasChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Número de Alunos',
+                            data: data,
+                            backgroundColor: [
+                                '#FF6384', '#36A2EB', '#003366', '#4BC0C0', 
+                                '#339933', '#FF9F40', '#9966FF'
+                            ],
+                            borderColor: '#fff',
+                            borderWidth: 2,
+                        }]
+                    },
+                    options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    cutout: '70%',
+    plugins: {
+        legend: {
+            display: false
+        },
+        // --- INÍCIO DA MUDANÇA ---
+        tooltip: {
+            // Aumenta um pouco a fonte do tooltip
+            bodyFont: {
+                size: 14
+            },
+            // Adiciona um pequeno preenchimento interno
+            padding: 10,
+            // Customiza o que é exibido
+            callbacks: {
+                label: function(context) {
+                    // Pega o nome da turma (ex: "1º ano")
+                    let label = context.label || '';
+                    
+                    // Pega o número de alunos
+                    let value = context.raw || 0;
+                    
+                    if (label) {
+                        label += ': ';
+                    }
+                    // Monta o texto final
+                    label += value + (value === 1 ? ' aluno' : ' alunos');
+                    return label;
+                }
+            }
+        }
+    }
+}
+                });
+            } catch (e) {
+                console.error("Erro ao renderizar o gráfico:", e);
+            }
+        });
+    </script>
+{% endblock %}

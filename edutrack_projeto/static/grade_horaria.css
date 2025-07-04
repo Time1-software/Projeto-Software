@@ -1,5 +1,11 @@
 body {
-  background-color: #f4f4f4;
+  background-color: #fef8ef;
+  font-family: 'Poppins', sans-serif;
+}
+
+h3 {
+  font-weight: 600;
+  color: #333;
 }
 
 .logo {
@@ -13,20 +19,39 @@ body {
   object-fit: contain;
 }
 
-.custom-footer {
-  background-color: #f7b16c;
-  color: white;
-  text-align: center;
-  padding: 1rem 0;
-  height: 40px;
+.table-responsive {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.table {
+  border: none;
 }
 
 .table th,
 .table td {
   min-width: 100px;
   vertical-align: middle;
+  font-size: 0.95rem;
+  padding: 0.75rem;
 }
 
 .table th.table-light {
   background-color: #f1f1f1;
+}
+
+.table-primary {
+  background-color: #a8d1ff;
+  color: #1a3c60;
+}
+
+.fw-bold {
+  font-weight: 600;
+  color: #333;
+}
+
+.text-muted {
+  color: #777 !important;
 }
