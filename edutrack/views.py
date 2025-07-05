@@ -234,7 +234,7 @@ class BemvindoProfessorView(TemplateView):
         return ctx
 
 class BemvindoPaiView(TemplateView):
-    template_name = 'bem_vindo_pai.html'
+    template_name = 'dashboard_pais.html'
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         ctx['email'] = self.request.user.email
