@@ -1,0 +1,48 @@
+{% extends 'template_base.html' %}
+{% load static %}
+{% load custom_tags %}
+
+{% block title %}Grade Horária{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'grade_horaria.css' %}">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<main class="container flex-fill my-4">
+  <h3 class="mb-4">Grade Horária - Turma {{ aluno.turma }}</h3>
+
+  <div class="table-responsive">
+    <table class="table table-bordered text-center align-middle">
+      <thead class="table-primary">
+        <tr>
+          <th>Horário</th>
+          {% for dia in DIAS_SEMANA %}
+            <th>{{ dia.1 }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for horario in HORARIOS %}
+          <tr>
+            <th class="table-light">{{ horario.1 }}</th>
+            {% for dia in DIAS_SEMANA %}
+              {% with aula=grade_organizada|dict_get:dia.0|dict_get:horario.0 %}
+                <td>
+                  {% if aula %}
+                    <div class="fw-bold">{{ aula.disciplina }}</div>
+                    <small class="text-muted">Sala: {{ aula.sala }}</small>
+                  {% else %}
+                    <span class="text-muted"> - </span>
+                  {% endif %}
+                </td>
+              {% endwith %}
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</main>
+{% endblock %}

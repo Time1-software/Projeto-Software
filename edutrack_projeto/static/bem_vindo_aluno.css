@@ -1,0 +1,65 @@
+body {
+  background-color: #fef8ef;
+  font-family: 'Poppins', sans-serif;
+}
+
+h3, h5 {
+  font-weight: 600;
+  color: #333;
+}
+
+.card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.card-header {
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Cores específicas de cabeçalho */
+.card-header.azul {
+  background-color: #a8d1ff;
+  color: #ffffff;
+}
+
+.card-header.verde {
+  background-color: #b5ead7;
+  color: #165a4f;
+}
+
+.card-header.amarelo {
+  background-color: #ffd966;
+  color: #8a6d00;
+}
+
+.card-body ul li {
+  padding: 0.3rem 0;
+  font-size: 0.95rem;
+}
+
+a.text-end {
+  font-weight: 500;
+  color: #007bff;
+}
+a.text-end:hover {
+  text-decoration: underline;
+}
+
+.custom-footer {
+  background-color: #f7b16c;
+  color: white;
+  text-align: center;
+  padding: 1rem 0;
+  height: 40px;
+}
+
+

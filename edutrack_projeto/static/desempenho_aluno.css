@@ -1,0 +1,172 @@
+header {
+    background-color: #fff;
+    padding: 1rem 5%;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.logo img {
+    width: 32px; /* Ajuste o tamanho conforme necessário */
+    height: 32px;
+    margin-right: 12px;
+}
+
+.logo span {
+    color: #007bff; /* Azul primário */
+}
+
+.logo span::after { /* Adiciona o texto 'Track' em verde */
+    content: 'Track';   
+    color: #28a745; /* Verde */
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 2.5rem; /* Espaçamento entre os links */
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: #007bff;
+}
+
+.search-bar {
+    position: relative;
+}
+
+.search-bar input {
+    padding: 0.75rem 2.5rem 0.75rem 1.5rem; /* Espaço para o ícone */
+    border: none;
+    border-radius: 25px; /* Bordas bem arredondadas */
+    background-color: #007bff;
+    color: white;
+    width: 350px; /* Largura da barra */
+    outline: none; /* Remove a borda azul ao clicar */
+}
+
+/* Estilo do placeholder do input */
+.search-bar input::placeholder {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.search-bar .search-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    background-image: url('https://api.iconify.design/material-symbols/search.svg?color=white');
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+
+.profile-icon img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    background-color: #FFFFFF;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+h1 {
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+h2 {
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: #555;
+    margin-bottom: 2.5rem;
+}
+
+.table-container {
+    background-color: #fff;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    overflow: hidden;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+th, td {
+    padding: 1rem 1.5rem;
+}
+
+thead {
+    background-color: #F9FAFB;
+    color: #6B7280;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+tbody tr {
+    border-bottom: 1px solid #E5E7EB;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #F9FAFB;
+}
+
+tbody tr:last-child {
+    border-bottom: none;
+}
+
+td {
+    color: #374151;
+    font-weight: 500;
+}
+
+.footer-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background-color: #FFEAD1;
+    z-index: -1;
+}

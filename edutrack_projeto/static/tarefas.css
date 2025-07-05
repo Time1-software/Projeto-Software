@@ -1,0 +1,179 @@
+/* --- Reset e base --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #FAF6ED;
+    color: #333;
+}
+
+/* --- Escopo da página de tarefas --- */
+.tarefas-wrapper {
+    padding-top: 20px;
+}
+
+/* Conteúdo */
+.tarefas-wrapper .main-title {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.tarefas-wrapper .filters {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.tarefas-wrapper .filter-btn {
+    padding: 10px 25px;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.tarefas-wrapper .filter-btn.active {
+    background-color: #4A90E2;
+    color: #fff;
+    border-color: #4A90E2;
+}
+
+.tarefas-wrapper .task-board {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+.tarefas-wrapper .task-column {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.tarefas-wrapper .task-group-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    border-radius: 15px;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.tarefas-wrapper .task-group-title.today {
+    background-color: #FF8A80;
+    color: white;
+}
+
+.tarefas-wrapper .task-group-title.this-week {
+    background-color: #FFD180;
+    color: #AF640C;
+}
+
+.tarefas-wrapper .task-group-title.later {
+    background-color: #A2D2FF;
+    color: #1572A1;
+}
+
+.tarefas-wrapper .task-group-title.pending {
+    background-color: #ABEBC6;
+    color: #1E8449;
+    justify-content: center;
+}
+
+.tarefas-wrapper .task-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.tarefas-wrapper .task-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.tarefas-wrapper .task-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tarefas-wrapper .task-name {
+    font-weight: 600;
+    color: #333;
+}
+
+.tarefas-wrapper .task-note {
+    font-size: 14px;
+    color: #777;
+}
+
+/* Tags */
+.tarefas-wrapper .tag {
+    padding: 5px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.tarefas-wrapper .tag-today {
+    background-color: #FFCFCF;
+    color: #C0392B;
+}
+
+.tarefas-wrapper .tag-this-week {
+    background-color: #FFEBCF;
+    color: #AF640C;
+}
+
+.tarefas-wrapper .tag-later {
+    background-color: #CFE8FF;
+    color: #1572A1;
+}
+
+.tarefas-wrapper .tag-pending {
+    background-color: #D4EFDF;
+    color: #1E8449;
+    align-self: flex-start;
+}
+
+/* Feather icons */
+.feather {
+    width: 22px;
+    height: 22px;
+    stroke-width: 2;
+}
+
+.logo {
+    height: 40px;
+    width: auto;
+  }
+
+.perfil {
+    height: 36px;
+    width: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .custom-footer {
+  background-color: #f7b16c;
+  color: white;
+  text-align: center;
+  padding: 1rem 0;
+  height: 40px;
+}

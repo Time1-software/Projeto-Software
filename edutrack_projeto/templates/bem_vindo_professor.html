@@ -1,0 +1,24 @@
+{% extends 'template_base.html' %}
+{% load static %}
+
+{% block title %}Bem-vindo | EduTrack{% endblock %}
+
+{% block content %}
+<div class="d-flex align-items-center justify-content-center vh-100 flex-column" style="font-family:Arial,sans-serif;">
+  <h2>Bem-vindo professor:</h2>
+  <p>nome: {{ email }}</p>
+  <a href="{% url 'login' %}" class="btn btn-primary mt-3">Voltar ao Login</a>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  document.querySelectorAll('.nav-link').forEach(link => {
+    const href = link.getAttribute('href');
+    if (!href || href.trim() === '#' || href.includes('{')) {
+      link.removeAttribute('href');
+      link.classList.add('disabled');
+    }
+  });
+</script>
+{% endblock %}

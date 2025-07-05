@@ -1,5 +1,9 @@
-db.sqlite3
+# Arquivos de Cache do Python
 __pycache__/
-staticfiles/
-.env
+*.pyc
+
+# Banco de Dados
+db.sqlite3
+
+# Ambiente Virtual
 venv/

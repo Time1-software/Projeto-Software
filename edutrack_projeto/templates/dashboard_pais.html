@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - EduTrack</title>
+    <link rel="stylesheet" href="{% static 'dashboard_pais.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="https://img.icons8.com/plasticine/100/book.png" alt="EduTrack Logo">
+                <span>EduTrack</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#">Início</a></li>
+                <li><a href="#">Resumo</a></li>
+                <li><a href="#">Mensagens</a></li>
+            </ul>
+            <div class="search-bar">
+                <input type="search" placeholder="Pesquisar">
+            </div>
+            <div class="profile-icon">
+                <img src="https://img.icons8.com/ios-glyphs/90/user-male-circle.png" alt="Ícone de Perfil"/>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Bem-vindo(a), {{ user.first_name|default:user.username }}!</h1>
+
+        <div class="cards-container">
+            {% for aluno in alunos %}
+                <a href="#" class="card">
+                    <div class="card-content">
+                        <h2>Resumo de {{ aluno.nome }}</h2>
+                        <p>Acompanhe o desempenho acadêmico do seu filho.</p>
+                    </div>
+                    <span>Veja mais</span>
+                </a>
+            {% empty %}
+                <div class="card disabled">
+                    <div class="card-content">
+                        <h2>Resumo do aluno</h2>
+                        <p>Nenhum aluno associado a esta conta. Entre em contato com a escola.</p>
+                    </div>
+                </div>
+            {% endfor %}
+
+            <a href="#" class="card">
+                <div class="card-content">
+                    <h2>Chat de comunicação</h2>
+                    <p>Envie e receba mensagens da escola em tempo real.</p>
+                </div>
+                <span>Veja mais</span>
+            </a>
+        </div>
+    </main>
+
+    <footer>
+        </footer>
+
+</body>
+</html>
