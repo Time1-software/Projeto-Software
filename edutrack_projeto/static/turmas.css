@@ -1,0 +1,270 @@
+/* turma.css */
+
+/* ===== Global ===== */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  background-color: #FCF8F5;   /* página levemente rosada */
+  color: #343A40;              /* texto escuro */
+}
+
+/* ===== Header ===== */
+.top-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 64px;
+  background: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  padding: 0 32px;
+  z-index: 100;
+}
+
+/* ===== Layout principal ===== */
+.turma-container {
+  display: flex;
+  margin-top: 64px;                       /* afasta do header */
+  padding: 0 32px 32px;                   /* espaçamento lateral e embaixo */
+  min-height: calc(100vh - 64px - 50px);  /* descarta header e footer */
+}
+
+.turma-body {
+  display: flex;
+  gap: 32px;
+  width: 100%;
+}
+
+/* ===== Sidebar ===== */
+.turma-sidebar {
+  background: #F5F5F7;  /* cinza bem claro */
+  border-radius: 24px;
+  padding: 24px;
+  width: 260px;
+  flex-shrink: 0;
+}
+.turma-sidebar h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #343A40;
+  margin-bottom: 16px;
+  border-bottom: 2px solid #343A40;
+  display: inline-block;
+}
+.turma-sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.turma-sidebar ul li + li {
+  margin-top: 12px;
+}
+.turma-sidebar a {
+  display: block;
+  text-decoration: none;
+  font-size: 0.95rem;
+  color: #A1AFC1;                     /* cinza médio */
+  background: transparent;
+  padding: 10px 20px;
+  border-radius: 20px;
+  transition: background 0.2s, color 0.2s;
+}
+.turma-sidebar a:hover:not(.active) {
+  background: rgba(82,137,255,0.1);
+  color: #343A40;
+}
+.turma-sidebar a.active {
+  background: #5289FF;   /* azul Figma */
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(82,137,255,0.3);
+}
+
+/* ===== Conteúdo principal ===== */
+.turma-content {
+  flex: 1;
+  background: #FFFFFF;
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+
+/* ===== Página: Presença ===== */
+.presenca-card {
+  width: 100%;
+}
+.presenca-card h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #343A40;
+  margin-bottom: 24px;
+}
+.presenca-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.presenca-table th,
+.presenca-table td {
+  border: 1px solid #E3E6EB;
+  padding: 16px;
+  text-align: center;
+}
+.presenca-table th {
+  background-color: #F8F9FA;
+  color: #495057;
+  font-weight: 600;
+}
+.presenca-table tr:nth-child(even) td {
+  background-color: #FAFBFC;
+}
+
+/* ===== Página: Tarefas ===== */
+.tarefas-overview,
+.tarefas-new,
+.tarefas-week {
+  background: #FFFFFF;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  padding: 24px;
+  margin-bottom: 24px;
+}
+.tarefas-overview h2,
+.tarefas-new h2,
+.tarefas-week h2 {
+  font-size: 1.15rem;
+  color: #5289FF;
+  margin-bottom: 16px;
+}
+.tarefas-overview ul {
+  list-style: none;
+  padding: 0;
+}
+.tarefas-overview li {
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 8px;
+  color: #495057;
+}
+.tarefas-overview li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 1rem;
+  color: #5289FF;
+}
+
+.tarefas-new form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.tarefas-new label {
+  font-weight: 600;
+  color: #343A40;
+}
+.tarefas-new input {
+  padding: 12px;
+  border: 1px solid #D1D5DB;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+.tarefas-new button {
+  align-self: flex-start;
+  padding: 12px 24px;
+  background: #5289FF;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.semana-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.semana-table th,
+.semana-table td {
+  border: 1px solid #E3E6EB;
+  padding: 12px;
+  text-align: left;
+}
+.semana-table th {
+  background-color: #F8F9FA;
+  color: #495057;
+  font-weight: 600;
+}
+
+/* ===== Footer ===== */
+.rodape {
+  height: 50px;
+  background: #FFCC80;
+}
+/* ===== Diário de Aprendizagem ===== */
+.turma-content h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #343A40;
+  margin-bottom: 24px;
+}
+
+/* entradas existentes */
+.diario-entry {
+  background: #FFFFFF;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  padding: 24px;
+  margin-bottom: 24px;
+}
+.diario-entry .entry-date {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #5289FF;
+  margin-bottom: 8px;
+}
+.diario-entry .entry-text {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #343A40;
+}
+
+/* formulário de nova entrada */
+.diario-new {
+  background: #FFFFFF;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  padding: 24px;
+  margin-top: 32px;
+}
+.diario-new h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #5289FF;
+  margin-bottom: 16px;
+}
+.diario-new form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.diario-new label {
+  font-weight: 600;
+  color: #343A40;
+}
+.diario-new input,
+.diario-new textarea {
+  padding: 12px;
+  border: 1px solid #D1D5DB;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  resize: vertical;
+}
+.diario-new button {
+  align-self: flex-start;
+  padding: 12px 24px;
+  background: #5289FF;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}

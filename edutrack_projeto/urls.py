@@ -1,10 +1,6 @@
+
 # edutrack_projeto/urls.py (VERSÃO FINAL E CORRIGIDA)
 
-from django.contrib import admin
-from django.urls import path, include
-from edutrack import views
-
-# --- Imports adicionais para servir arquivos estáticos em desenvolvimento ---
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -22,16 +18,23 @@ from edutrack.views import (
     BemvindoAdmView,
 )
 
-
 urlpatterns = [
     # Suas rotas existentes
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('boletim/', views.Boletim, name='boletim_escolar'),
-    path("participacao/<int:pk>/", views.participacao, name="participacao"), 
+    path('participacao/<int:pk>/', views.participacao, name='participacao'),
     path('formsAlunos/', views.aluno_create, name='forms_aluno'),
     path('alunoLista/', views.aluno_list, name='aluno_lista'),  
     path('dashboard/', views.dashboard_home, name='dashboard'),
+    path('professor/', views.professor, name='professor'),
+    path('', views.professor, name='home'),
+    path('painel-turmas/', views.painel_turmas, name='painel_turmas'),
+    path('resumo/', views.resumo, name='resumo'),
+    # rotas para “Turma”
+    path('turmas/<int:turma_id>/presenca/', views.turma_presenca, name='turma_presenca'),
+    path('turmas/<int:turma_id>/tarefas/', views.turma_tarefas, name='turma_tarefas'),
+    path('turmas/<int:turma_id>/diario/',    views.turma_diario,   name='turma_diario'),
     path('tarefas/', views.tarefas_home, name='tarefas'),
     path('desempenho/<int:aluno_pk>/', views.desempenho_geral_view, name='desempenho_aluno'),
     path('gradeAluno/', views.grade_aluno, name='grade_aluno'),
@@ -70,3 +73,5 @@ if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    
+

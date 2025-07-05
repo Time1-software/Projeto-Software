@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Página do Professor</title>
+  <!-- Aponta para o CSS global (header, search, footer) -->
+  <link rel="stylesheet" href="{% static 'professor.css' %}">
+</head>
+<body>
+  <header class="top-bar">
+    <!-- Logo -->
+    <img
+      src="{% static 'imgs/logo.png' %}"
+      alt="EduTrack Logo"
+      class="logo"
+    >
+
+    <!-- Navegação -->
+    <nav class="nav-links">
+      <a href="{% url 'painel_turmas' %}">Turmas</a>
+      <a href="#" class="notificacoes">
+        Notificações <span class="badge">2</span>
+      </a>
+    </nav>
+
+    <!-- Barra de pesquisa -->
+    <div class="search-bar">
+      <span class="icon icon-menu" aria-hidden="true"></span>
+      <input type="text" placeholder="Pesquisar">
+      <span class="icon icon-search" aria-hidden="true"></span>
+    </div>
+
+    <!-- Ícone de perfil -->
+    <div class="profile-icon">
+      <span class="icon icon-user" aria-hidden="true"></span>
+    </div>
+  </header>
+
+  <main>
+    <h1>Bem-Vindo(a), Professor(a) Luís Bicalho!</h1>
+
+    <section class="paineis-container">
+      <!-- Painel de Turmas -->
+      <div class="painel">
+        <h2>Painéis de Turma</h2>
+        <div class="turma-card">
+          <h3>Turma A</h3>
+          <ul>
+            <li>📊 Hoje: 90% dos alunos entregaram as atividades.</li>
+            <li>⚠️ 1 aluno ausente esta semana.</li>
+          </ul>
+        </div>
+        <div class="turma-card">
+          <h3>Turma B</h3>
+          <ul>
+            <li>📄 Prova amanhã – matemática.</li>
+            <li>⏰ Próxima aula: 14h00</li>
+            <li>✅ Todos os alunos com acesso ao conteúdo.</li>
+          </ul>
+        </div>
+        <a href="{% url 'painel_turmas' %}" class="veja-mais">veja mais</a>
+      </div>
+
+      <!-- Chat de Comunicação -->
+      <div class="painel">
+        <h2>Chat de Comunicação</h2>
+        <div class="turma-card">
+          <h3>Chat Turma A</h3>
+          <p>
+            Envie recados, atualizações ou mensagens individuais para os pais e alunos.
+            Uma forma rápida de manter todos informados sobre o desempenho e atividades escolares.
+            Clique em “veja mais”.
+          </p>
+        </div>
+        <a href="#" class="veja-mais">veja mais</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="rodape"></footer>
+</body>
+</html>
