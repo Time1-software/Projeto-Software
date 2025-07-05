@@ -1,13 +1,23 @@
 
 # edutrack_projeto/urls.py (VERSÃO FINAL E CORRIGIDA)
 
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from edutrack import views
-# edutrack_projeto/urls.py
-# --- Imports adicionais para servir arquivos estáticos em desenvolvimento ---
-from django.conf import settings
-from django.conf.urls.static import static
+from django.views.generic import RedirectView
+from edutrack.views import (
+    CustomLoginView,
+    CustomLogoutView,
+    SignupView,
+    SignupSuccessView,
+    BemvindoAlunoView,
+    BemvindoProfessorView,
+    BemvindoPaiView,
+    BemvindoAdmView,
+)
+
 urlpatterns = [
     # Suas rotas existentes
     path('admin/', admin.site.urls),
