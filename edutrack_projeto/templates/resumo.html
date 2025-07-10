@@ -1,0 +1,180 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Resumo do Dia — História</title>
+  <link rel="stylesheet" href="{% static 'professor.css' %}">
+  <link rel="stylesheet" href="{% static 'resumo.css' %}">
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="top-bar">
+    <img src="{% static 'imgs/logo.png' %}" alt="EduTrack Logo" class="logo">
+    <nav class="nav-links">
+      <a href="{% url 'painel_turmas' %}">Turmas</a>
+      <a href="#" class="notificacoes">Notificações <span class="badge">2</span></a>
+    </nav>
+    <div class="search-bar">
+      <span class="icon icon-menu"></span>
+      <input type="text" placeholder="Pesquisar">
+      <span class="icon icon-search"></span>
+    </div>
+    <div class="profile-icon">
+      <span class="icon icon-user"></span>
+    </div>
+  </header>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main class="resumo-container">
+    <!-- 1) SIDEBAR COM SCROLL PRÓPRIO -->
+    <aside class="resumo-sidebar">
+      <div class="sidebar-header">
+        <h3>Resumos</h3>
+        <span class="bell-header">🔔</span>
+        <span class="sidebar-search-toggle">🔍</span>
+      </div>
+      <input type="text" class="sidebar-search-input" placeholder="Buscar resumo…" />
+      <ul class="resumo-list">
+        <li class="active">
+          <div class="item-title">
+            <span>História</span>
+            <span class="timestamp">hoje</span>
+            <span class="bell-item">🔔</span>
+          </div>
+          <p class="snippet">Hoje fizemos uma viagem no tempo para aprender sobre criaturas incríveis que viveram na Terra há milhões e milhões de anos: os dinossauros!</p>
+        </li>
+        <li>
+          <div class="item-title">
+            <span>Matemática</span>
+            <span class="timestamp">hoje</span>
+            <span class="bell-item">🔔</span>
+          </div>
+          <p class="snippet">Hoje em Matemática, praticamos como juntar e tirar quantidades de um jeito divertido!</p>
+        </li>
+        <li>
+          <div class="item-title">
+            <span>Inglês</span>
+            <span class="timestamp">hoje</span>
+            <span class="bell-item">🔔</span>
+          </div>
+          <p class="snippet">Hello, everyone! Hoje, aprendemos algumas palavras em inglês para apresentar as…</p>
+        </li>
+        <li>
+          <div class="item-title">
+            <span>Língua Portuguesa</span>
+            <span class="timestamp">ontem</span>
+            <span class="bell-item">🔔</span>
+          </div>
+          <p class="snippet">Em Língua Portuguesa, exploramos o incrível mundo das palavras…</p>
+        </li>
+        <li>
+          <div class="item-title">
+            <span>Geografia</span>
+            <span class="timestamp">ontem</span>
+            <span class="bell-item">🔔</span>
+          </div>
+          <p class="snippet">Hoje, em Geografia, exploramos os lugares que conhecíamos muito bem: a nossa cidade!</p>
+        </li>
+        <li>
+          <div class="item-title">
+            <span>Redação</span>
+            <span class="timestamp">terça-feira</span>
+            <span class="bell-item">🔔</span>
+          </div>
+          <p class="snippet">Preparados para soltar a imaginação? Em Redação, pensamos sobre a nossa história!</p>
+        </li>
+        <li>
+          <div class="item-title">
+            <span>Ciências</span>
+            <span class="timestamp">terça-feira</span>
+            <span class="bell-item">🔔</span>
+          </div>
+          <p class="snippet">Em Ciências, descobrimos a mágica por trás da fotossíntese!</p>
+        </li>
+        <li>
+          <div class="item-title">
+            <span>Educação Física</span>
+            <span class="timestamp">hoje</span>
+            <span class="bell-item">🔔</span>
+          </div>
+          <p class="snippet">No campo hoje, jogamos futebol e nos alongamos sob o sol!</p>
+        </li>
+        <li>
+          <div class="item-title">
+            <span>Arte</span>
+            <span class="timestamp">ontem</span>
+            <span class="bell-item">🔔</span>
+          </div>
+          <p class="snippet">Pintamos paisagens coloridas usando aquarela e giz de cera!</p>
+        </li>
+        <li>
+          <div class="item-title">
+            <span>Música</span>
+            <span class="timestamp">hoje</span>
+            <span class="bell-item">🔔</span>
+          </div>
+          <p class="snippet">Aprendemos a batida do tambor...</p>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- 2) ÁREA DE RESUMO E PERGUNTAS -->
+    <section class="resumo-content">
+      <!-- RESUMO -->
+      <h2>História – A história dos dinossauros</h2>
+      <div class="resumo-body">
+        <p>Hoje fizemos uma viagem no tempo para aprender sobre criaturas incríveis que viveram na Terra há milhões e milhões de anos: os dinossauros!</p>
+        <p>Imaginamos só: muito antes de existirem carros, casas ou até mesmo os primeiros humanos, o nosso planeta foi um lugar diferente, cheio de florestas gigantes e animais enormes. Os dinossauros foram os reis dessa época!</p>
+        <p><strong>Gigantes do Passado:</strong> Existiram dinossauros de todos os tipos e tamanhos. Alguns foram gigantescos, como o Braquiossauro, que teve um pescoço tão longo que conseguia alcançar as folhas mais altas das árvores, e o temível Tiranossauro Rex. Mas nem todos foram enormes! Alguns foram pequenos, do tamanho de uma galinha.</p>
+        <p><strong>Onde Viveram:</strong> Os dinossauros viveram em todas as partes do mundo! Alguns preferiram florestas densas, outros pântanos, e houve até regiões mais secas.</p>
+        <p><strong>O Que Comiam:</strong> Assim como os animais de hoje, os dinossauros tiveram dietas distintas.</p>
+        <ul>
+          <li><strong>Herbívoros:</strong> Comiam plantas, folhas e frutas. Ex.: Braquiossauro, Tricerátopo, Estegossauro.</li>
+          <li><strong>Carnívoros:</strong> Caçavam outros animais. Ex.: Tiranossauro Rex, Velociraptor.</li>
+        </ul>
+        <p><strong>Como Sumiram?</strong> A teoria mais aceita é que um asteroide gigante caiu na Terra, levantou tanta poeira que escureceu o sol e mudou o clima.</p>
+        <p>Mesmo desaparecidos, continuam nos fascinando por meio dos fósseis que encontramos!</p>
+      </div>
+
+      <!-- PERGUNTAS -->
+      <div class="resumo-questions">
+        <h3>Perguntas</h3>
+        <ol>
+          <li>
+            Qual o nome de um dinossauro herbívoro que tinha um pescoço muito longo?
+            <textarea placeholder="Resposta…"></textarea>
+          </li>
+          <li>
+            Qual era o nome do dinossauro carnívoro famoso por seus dentes afiados?
+            <textarea placeholder="Resposta…"></textarea>
+          </li>
+          <li>
+            Além de plantas, o que os dinossauros carnívoros comiam?
+            <textarea placeholder="Resposta…"></textarea>
+          </li>
+          <li>
+            Como acreditam que os dinossauros desapareceram da Terra?
+            <textarea placeholder="Resposta…"></textarea>
+          </li>
+          <li>
+            Você lembra de algum lugar onde viveram?
+            <textarea placeholder="Resposta…"></textarea>
+          </li>
+          <li>
+            Qual a diferença entre herbívoro e carnívoro?
+            <textarea placeholder="Resposta…"></textarea>
+          </li>
+          <li>
+            Para que servem os fósseis?
+            <textarea placeholder="Resposta…"></textarea>
+          </li>
+        </ol>
+      </div>
+    </section>
+  </main>
+
+  <footer class="rodape"></footer>
+</body>
+</html>

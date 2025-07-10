@@ -1,0 +1,101 @@
+{# templates/turma_presenca.html #}
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Turma {{ turma.numero }} — Presença dos Alunos</title>
+  <link rel="stylesheet" href="{% static 'professor.css' %}">
+  <link rel="stylesheet" href="{% static 'turmas.css' %}">
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="top-bar">
+    <img src="{% static 'imgs/logo.png' %}" alt="EduTrack Logo" class="logo">
+    <nav class="nav-links">
+      <a href="{% url 'painel_turmas' %}">Turmas</a>
+      <a href="#" class="notificacoes">
+        Notificações <span class="badge">2</span>
+      </a>
+    </nav>
+    <div class="search-bar">
+      <span class="icon icon-menu"></span>
+      <input type="text" placeholder="Pesquisar">
+      <span class="icon icon-search"></span>
+    </div>
+    <div class="profile-icon"><span class="icon icon-user"></span></div>
+  </header>
+
+  <!-- TÍTULO -->
+  <div class="turma-wrapper">
+    <h1 class="turma-title">Turma {{ turma.numero }}</h1>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <div class="turma-container">
+
+      <!-- SIDEBAR -->
+      <aside class="turma-sidebar">
+        <h3>Minhas Abas</h3>
+        <ul>
+          <li>
+            <a href="{% url 'turma_presenca' turma_id=turma.id %}" class="active">
+              Presença dos Alunos
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'turma_tarefas' turma_id=turma.id %}">
+              Tarefas
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'turma_diario' turma_id=turma.id %}">
+              Diário de Aprendizagem
+            </a>
+          </li>
+        </ul>
+      </aside>
+
+      <!-- CARD: PRESENÇA DOS ALUNOS -->
+      <section class="turma-content presenca-card">
+        <h2>Presença dos Alunos</h2>
+        <form method="post" action="{% url 'turma_presenca' turma_id=turma.id %}">
+          {% csrf_token %}
+          <table class="presenca-table">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Nota A1</th>
+                <th>Nota A2</th>
+                <th>Média</th>
+                <th>Faltas</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for aluno in alunos %}
+                <tr>
+                  <td>{{ aluno.nome }}</td>
+                  <td>{{ aluno.nota_set.first.nota1|default:"—" }}</td>
+                  <td>{{ aluno.nota_set.first.nota2|default:"—" }}</td>
+                  <td>{{ aluno.nota_set.first.media|floatformat:1|default:"—" }}</td>
+                  <td>{{ aluno.faltas|default:"—" }}</td>
+                </tr>
+              {% empty %}
+                <tr>
+                  <td colspan="5">Não há alunos cadastrados nesta turma.</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <div style="text-align:right; margin-top:16px;">
+            <button type="submit" class="btn">Salvar Presenças</button>
+          </div>
+        </form>
+      </section>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="rodape"></footer>
+</body>
+</html>

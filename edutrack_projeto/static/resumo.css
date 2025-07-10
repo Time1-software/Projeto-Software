@@ -1,0 +1,220 @@
+/* static/turma.css */
+
+/* ===== Global ===== */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  background-color: #FCF8F5;
+  color: #343A40;
+}
+
+/* ===== Header ===== */
+.top-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 64px;
+  background: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  padding: 0 32px;
+  z-index: 100;
+}
+
+/* ===== Wrapper & título ===== */
+.turma-wrapper { }
+.turma-title {
+  margin: 64px 0 24px 32px; /* 64px = altura do header */
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #343A40;
+}
+
+/* ===== Layout interno ===== */
+.turma-container {
+  display: flex;
+  gap: 32px;
+  padding: 0 32px 32px; /* sides + bottom */
+}
+
+/* ===== Sidebar ===== */
+.turma-sidebar {
+  background: #F5F5F7;
+  border-radius: 24px;
+  padding: 24px;
+  width: 260px;
+  flex-shrink: 0;
+}
+.turma-sidebar h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #343A40;
+  border-bottom: 2px solid #343A40;
+  display: inline-block;
+}
+.turma-sidebar ul {
+  margin-top: 40px; /* alinha com topo do card */
+  list-style: none;
+  padding: 0;
+}
+.turma-sidebar ul li + li {
+  margin-top: 12px;
+}
+.turma-sidebar a {
+  display: block;
+  text-decoration: none;
+  font-size: 0.95rem;
+  color: #A1AFC1;
+  padding: 10px 20px;
+  border-radius: 20px;
+  transition: background 0.2s, color 0.2s;
+}
+.turma-sidebar a:hover:not(.active) {
+  background: rgba(82,137,255,0.1);
+  color: #343A40;
+}
+.turma-sidebar a.active {
+  background: #5289FF;
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(82,137,255,0.3);
+}
+
+/* ===== Card de Presença ===== */
+.presenca-card {
+  flex: 1;
+  background: #FFFFFF;
+  border-radius: 24px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  padding: 32px;
+}
+.presenca-card h2 {
+  margin: 0 0 24px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #343A40;
+}
+.presenca-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.presenca-table th,
+.presenca-table td {
+  border: 1px solid #E3E6EB;
+  padding: 16px;
+  text-align: center;
+}
+.presenca-table th {
+  background: #F8F9FA;
+  color: #495057;
+  font-weight: 600;
+}
+.presenca-table tr:nth-child(even) td {
+  background: #FAFBFC;
+}
+
+/* ===== Página de Tarefas ===== */
+.turma-content {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+/* Cards internos de tarefas */
+.tarefas-overview,
+.tarefas-new,
+.tarefas-week {
+  background: #FFFFFF;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  padding: 24px;
+}
+.tarefas-overview h2,
+.tarefas-new h2,
+.tarefas-week h2 {
+  margin: 0 0 16px;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #5289FF;
+}
+
+/* Lista de tarefas cadastradas */
+.tarefas-overview ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.tarefas-overview li {
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 8px;
+  color: #495057;
+}
+.tarefas-overview li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 1rem;
+  color: #5289FF;
+}
+
+/* Formulário de nova tarefa */
+.tarefas-new form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.tarefas-new label {
+  font-weight: 600;
+  color: #343A40;
+}
+.tarefas-new input {
+  padding: 12px;
+  border: 1px solid #D1D5DB;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+.tarefas-new button {
+  align-self: flex-start;
+  padding: 12px 24px;
+  background: #5289FF;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* Tabela semanal */
+.semana-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.semana-table th,
+.semana-table td {
+  border: 1px solid #E3E6EB;
+  padding: 12px;
+  text-align: left;
+}
+.semana-table th {
+  background: #F8F9FA;
+  color: #495057;
+  font-weight: 600;
+}
+
+/* Distribuição flex dos cards (tarefas) */
+.turma-content .tarefas-overview,
+.turma-content .tarefas-new {
+  flex: 1 1 calc(50% - 12px);
+}
+.turma-content .tarefas-week {
+  flex: 1 1 100%;
+}
+
+/* ===== Footer ===== */
+.rodape {
+  height: 50px;
+  background: #FFCC80;
+}

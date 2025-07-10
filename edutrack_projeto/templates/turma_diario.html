@@ -1,0 +1,93 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Turma {{ turma.numero }} — Diário de Aprendizagem</title>
+  <link rel="stylesheet" href="{% static 'professor.css' %}">
+  <link rel="stylesheet" href="{% static 'turmas.css' %}">
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="top-bar">
+    <img src="{% static 'imgs/logo.png' %}" alt="EduTrack Logo" class="logo">
+    <nav class="nav-links">
+      <a href="{% url 'painel_turmas' %}">Turmas</a>
+      <a href="#" class="notificacoes">Notificações <span class="badge">2</span></a>
+    </nav>
+    <div class="search-bar">
+      <span class="icon icon-menu"></span>
+      <input type="text" placeholder="Pesquisar">
+      <span class="icon icon-search"></span>
+    </div>
+    <div class="profile-icon">
+      <span class="icon icon-user"></span>
+    </div>
+  </header>
+
+  <!-- TÍTULO -->
+  <div class="turma-wrapper">
+    <h1 class="turma-title">Turma {{ turma.numero }}</h1>
+
+    <!-- SIDEBAR + CONTEÚDO -->
+    <div class="turma-container">
+      <!-- SIDEBAR -->
+      <aside class="turma-sidebar">
+        <h3>Minhas Abas</h3>
+        <ul>
+          <li>
+            <a href="{% url 'turma_presenca' turma_id=turma.id %}">
+              Presença dos Alunos
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'turma_tarefas' turma_id=turma.id %}">
+              Tarefas
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'turma_diario' turma_id=turma.id %}" class="active">
+              Diário de Aprendizagem
+            </a>
+          </li>
+        </ul>
+      </aside>
+
+      <!-- CONTEÚDO: DIÁRIO DE APRENDIZAGEM -->
+      <section class="turma-content">
+        <h2>Diário de Aprendizagem</h2>
+
+        {% for entrada in entradas %}
+          <div class="diario-entry">
+            <div class="entry-date">{{ entrada.data|date:"d/m/Y" }}</div>
+            <p class="entry-text">{{ entrada.titulo }}</p>
+          </div>
+        {% empty %}
+          <div class="diario-entry">
+            <p class="entry-text">Nenhuma entrada cadastrada ainda.</p>
+          </div>
+        {% endfor %}
+
+        <!-- Formulário para nova entrada -->
+        <div class="diario-new">
+          <h3>Adicionar Nova Entrada</h3>
+          <form method="post" action="{% url 'turma_diario' turma_id=turma.id %}">
+            {% csrf_token %}
+            <label for="data">Data</label>
+            <input type="date" id="data" name="data" required>
+
+            <label for="conteudo">Conteúdo</label>
+            <textarea id="conteudo" name="conteudo" rows="4" placeholder="Descreva o que foi estudado…" required></textarea>
+
+            <button type="submit">Salvar Entrada</button>
+          </form>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="rodape"></footer>
+</body>
+</html>
