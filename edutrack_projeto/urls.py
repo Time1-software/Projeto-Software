@@ -28,7 +28,7 @@ urlpatterns = [
     path('alunoLista/', views.aluno_list, name='aluno_lista'),  
     path('dashboard/', views.dashboard_home, name='dashboard'),
     path('professor/', views.professor, name='professor'),
-    path('', views.professor, name='home'),
+    path('home', views.professor, name='home'),
     path('painel-turmas/', views.painel_turmas, name='painel_turmas'),
     path('resumo/', views.resumo, name='resumo'),
     # rotas para “Turma”

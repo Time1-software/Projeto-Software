@@ -177,19 +177,38 @@ def painel_aluno(request):
 
     return render(request, 'bem_vindo_aluno.html', context)
 
+
 @login_required
 def tarefas_home(request):
-    # Melhoria: busca as tarefas do aluno logado, não apenas do primeiro
     try:
         aluno_atual = Aluno.objects.get(user=request.user)
     except Aluno.DoesNotExist:
-        # Lida com o caso de o usuário logado não ser um aluno
-        return redirect('dashboard') # Redireciona para o dashboard geral
+        return redirect('dashboard')
+
+    tipo = request.GET.get('tipo')
 
     atividades_base = Atividade.objects.filter(aluno=aluno_atual, entregue=False)
-    # ... (o resto da sua lógica de filtro continua aqui) ...
-    context = { 'aluno': aluno_atual, 'atividades': atividades_base } # Contexto simplificado
+
+    if tipo:
+        atividades_base = atividades_base.filter(tipo=tipo)
+
+    hoje = timezone.now().date()
+    semana_fim = hoje + timedelta(days=6 - hoje.weekday())
+
+    tarefas_hoje = atividades_base.filter(data_entrega__date=hoje)
+    tarefas_semana = atividades_base.filter(data_entrega__date__gt=hoje, data_entrega__date__lte=semana_fim)
+    tarefas_futuras = atividades_base.filter(data_entrega__date__gt=semana_fim)
+    tarefas_atrasadas = atividades_base.filter(data_entrega__date__lt=hoje)
+
+    context = {
+        'aluno': aluno_atual,
+        'tarefas_hoje': tarefas_hoje,
+        'tarefas_semana': tarefas_semana,
+        'tarefas_futuras': tarefas_futuras,
+        'tarefas_atrasadas': tarefas_atrasadas,
+    }
     return render(request, 'tarefas_provas.html', context)
+
 
 
 class CustomLoginView(LoginView):
@@ -234,7 +253,7 @@ class BemvindoProfessorView(TemplateView):
         return ctx
 
 class BemvindoPaiView(TemplateView):
-    template_name = 'bem_vindo_pai.html'
+    template_name = 'dashboard_pais.html'
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         ctx['email'] = self.request.user.email
