@@ -14,7 +14,7 @@
 <main class="flex-fill container my-4">
   <h3>Desempenho Geral</h3>
   <div class="table-responsive p-3">
-    <table class="table table-bordered text-center align-middle">
+    <table class="table text-center align-middle">
       <thead class="table-primary">
         <tr>
           <th>Disciplina</th>
@@ -34,15 +34,20 @@
             <td>{% if nota.nota3 is None %}{% else %}{{ nota.nota3 }}{% endif %}</td>
             <td>{% if nota.media is not None %}{{ nota.media|floatformat:2 }}{% else %}-{% endif %}</td>
             <td>
-              {% if nota.tem_todas_notas %}
-                {% if nota.recuperacao %}
-                  <strong class="text-red">Sim</strong>
+              {% if nota.media is not None %}
+                {% if nota.media < 6.0 %}
+                  {% if nota.recuperacao %}
+                    <strong class="text-red">Fez</strong>
+                  {% else %}
+                    <strong class="text-red">Precisa</strong>
+                  {% endif %}
                 {% else %}
                   <span class="text-green">Não</span>
                 {% endif %}
               {% else %}
                 -
               {% endif %}
+
             </td>
           </tr>
         {% endfor %}

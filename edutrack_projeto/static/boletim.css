@@ -15,16 +15,7 @@ h3 {
   overflow: hidden;
 }
 
-.table {
-  border: none;
-}
 
-.table th,
-.table td {
-  padding: 0.75rem;
-  font-size: 0.95rem;
-  vertical-align: middle;
-}
 
 .table-primary {
   background-color: #a8d1ff;
@@ -32,7 +23,7 @@ h3 {
 }
 
 .table-light {
-  background-color: #f1f1f1;
+  background-color: #f8f9fa;
 }
 
 strong {
@@ -53,4 +44,47 @@ strong {
   text-align: center;
   padding: 1rem 0;
   height: 40px;
+}
+
+@media (max-width: 768px) {
+  .table th, .table td {
+    font-size: 0.85rem;
+    padding: 0.5rem;
+  }
+}
+
+.table {
+  border-collapse: collapse !important;
+  width: 100%;
+  border: none !important;
+}
+
+.table th,
+.table td {
+  border-style: none !important;
+  border-width: 0 !important;
+  border-color: transparent !important;
+  box-shadow: inset 0 -1px 0 #eeeeee; /* linha inferior suave */
+  padding: 0.75rem;
+  font-size: 0.95rem;
+  vertical-align: middle;
+  background-color: transparent !important;
+}
+
+
+/* Remove qualquer borda extra do último tr */
+.table tbody tr:last-child td {
+  border-bottom: none !important;
+}
+
+/* Remove linhas pretas de fora da tabela */
+.table-responsive {
+  border: none !important;
+}
+
+/* Remove espaçamento entre as células (pra não deixar linha "marcada") */
+.table tr,
+.table th,
+.table td {
+  background-clip: padding-box !important;
 }

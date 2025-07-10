@@ -15,7 +15,8 @@ def menu_context(request):
             {'nome': 'Grade Horária', 'url': 'grade_aluno'},
             {'nome': 'Próximas Tarefas', 'url': 'tarefas'},
             {'nome': 'Boletim', 'url': 'boletim_escolar'},
-            {'nome': 'Calendário', 'url': 'calendario'}
+            {'nome': 'Calendário', 'url': 'calendario'}, 
+            {'nome': 'Resumo', 'url': 'resumo'}
            
         ]
     elif categoria == 'professor':
